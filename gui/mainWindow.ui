@@ -15,14 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
-    <string notr="true">QWidget#centralwidget{
-background:#e9eaed;
-border-bottom:1px solid gray;
-border-right:1px solid gray;
-border-left:1px solid gray;
-border-bottom-left-radius:10px;
-border-bottom-right-radius:10px;
-}</string>
+    <string notr="true"/>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,10">
     <property name="spacing">
@@ -99,7 +92,17 @@ border-top-right-radius:10px;
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="widget_2" native="true">
+     <widget class="QWidget" name="mainWidget" native="true">
+      <property name="styleSheet">
+       <string notr="true">QWidget#mainWidget{
+background:#e9eaed;
+border-bottom:1px solid gray;
+border-right:1px solid gray;
+border-left:1px solid gray;
+border-bottom-left-radius:10px;
+border-bottom-right-radius:10px;
+}</string>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,9">
        <property name="spacing">
         <number>2</number>
@@ -111,7 +114,44 @@ border-top-right-radius:10px;
         <layout class="QHBoxLayout" name="horizontalLayout_2"/>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,9">
+         <item>
+          <widget class="QToolBox" name="toolBox">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="page">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>91</width>
+              <height>481</height>
+             </rect>
+            </property>
+            <attribute name="label">
+             <string>Page 1</string>
+            </attribute>
+           </widget>
+           <widget class="QWidget" name="page_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>91</width>
+              <height>481</height>
+             </rect>
+            </property>
+            <attribute name="label">
+             <string>Page 2</string>
+            </attribute>
+           </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="appWidget" native="true"/>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
