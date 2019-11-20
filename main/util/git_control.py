@@ -18,13 +18,16 @@ class gitControl:
             print("cloned")
         else:
             self.repo = git.Repo(self.dataPath)
-            print("pulled")
-        print(self.repo.is_dirty())
-        remote = self.repo.remote()
-        remote.pull()
+            print("finded")
 
-    def commitAndPush:
+    def commitAndPush(self):
         print("pushed")
+
+    def pull(self):
+        print("pulled")
+
+    def merge(self):
+        print("merge")
 
 if __name__ == '__main__':
     con = gitControl()
