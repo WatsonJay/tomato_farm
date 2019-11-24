@@ -5,9 +5,12 @@ import configparser
 import os
 from Crypto.Cipher import AES
 from binascii import b2a_hex, a2b_hex
+from util.logger import logger
 
 class config:
     def __init__(self, key=')_9-+klo@c4t$k$w'):
+        log = logger()
+        self.conflog = log.getlogger('conf')
         self.key = key.encode('utf-8')
         self.mode = AES.MODE_CBC
         self.dirs = os.path.abspath('.')+"/config/"
@@ -21,12 +24,19 @@ class config:
         if not os.path.exists(self.dirs+self.fileName):
             f = open(self.dirs+self.fileName, 'w')
             f.close()
-        config.read(self.dirs+self.fileName, encoding="utf-8")
-        return config
+        try:
+            config.read(self.dirs+self.fileName, encoding="utf-8")
+        except Exception as e:
+            self.conflog.error(e)
+        else:
+            return config
 
     # 写入配置文件
     def writeConfig(self,config):
-        config.write(open(self.dirs+self.fileName, "w", encoding='utf-8'))
+        try:
+            config.write(open(self.dirs+self.fileName, "w", encoding='utf-8'))
+        except Exception as e:
+            self.conflog.error(e)
 
     # 新增section
     def addSection(self, section):
@@ -93,14 +103,19 @@ class config:
             text_new = (text + ('\0' * add)).encode('utf-8')
             self.ciphertext = cryptor.encrypt(text_new)
             return bytes.decode(b2a_hex(self.ciphertext), encoding='utf8')
-        except Exception:
+        except Exception as e:
+            self.conflog.error(e)
             return ''
 
     # aes解密
     def decrypt(self,text):
-        cryptor = AES.new(self.key, self.mode, self.key)
-        plain_text = bytes.decode(cryptor.decrypt(a2b_hex(bytes(text, encoding='utf8'))), encoding='utf8')
-        return plain_text.rstrip('\0')
+        try:
+            cryptor = AES.new(self.key, self.mode, self.key)
+            plain_text = bytes.decode(cryptor.decrypt(a2b_hex(bytes(text, encoding='utf8'))), encoding='utf8')
+            return plain_text.rstrip('\0')
+        except Exception as e:
+            self.conflog.error(e)
+            return ''
 
 
 if __name__ == '__main__':

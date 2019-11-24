@@ -1,15 +1,14 @@
 import os
 
 from util.load_conf import config
-from util.log.logger import logger
+from util.logger import logger
 
 if __name__ == '__main__':
+    if not os.path.exists("log"):
+        os.makedirs("log")
     log = logger()
-    log.init()
-    if not os.path.exists("./log"):
-        os.makedirs("./log")
-    log.getlogger('main')
-    log.debug("hahhahahahahhahahahah")
+    mainlog = log.getlogger('root')
+    mainlog.warning("xxxxxxxxxxxxxxxxxxxxx")
     con = config()
     con.readConfig()
     print("readed")
