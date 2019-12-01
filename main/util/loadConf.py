@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Jaywatson'
-
+# @Time    : 2019/12/1 22:43
+# @Author  : Jaywatson
+# @File    : loadConf.py
+# @Soft    : tomato_farm
 import configparser
 import os
 from Crypto.Cipher import AES
