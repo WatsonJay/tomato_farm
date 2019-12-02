@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1102</width>
-    <height>677</height>
+    <width>1097</width>
+    <height>718</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -110,7 +110,17 @@ border-radius:10px
           <string notr="true">background:#FEE66E;</string>
          </property>
          <property name="text">
-          <string>-</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../icon/icons.qrc">
+           <normaloff>:/icon/miniShow_16.png</normaloff>:/icon/miniShow_16.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>10</width>
+           <height>10</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -144,7 +154,17 @@ border-radius:10px
           <string notr="true">background:#F95D5C;</string>
          </property>
          <property name="text">
-          <string>X</string>
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../icon/icons.qrc">
+           <normaloff>:/icon/close_16.png</normaloff>:/icon/close_16.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>10</width>
+           <height>10</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -181,6 +201,9 @@ border-bottom-right-radius:7px;
        </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,9">
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QWidget" name="toolWidget" native="true">
            <property name="font">
@@ -199,10 +222,12 @@ border-bottom-right-radius:7px;
 }
 #toolWidget&gt;QPushButton:hover{
 	background:#c0d5d6;
+	border-right:1px solid #6d6d6d;
 }
 #toolWidget&gt;QPushButton:checked{
     border-left:2px solid red;
 	background:#c0d5d6;
+	border-right:1px solid #6d6d6d;
 }</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0">
@@ -222,7 +247,7 @@ border-bottom-right-radius:7px;
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="firstPageButton">
@@ -277,7 +302,7 @@ border-bottom-right-radius:7px;
                </font>
               </property>
               <property name="text">
-               <string>用户统计</string>
+               <string>农场统计</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -362,6 +387,43 @@ border-bottom-right-radius:7px;
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QPushButton" name="pushButton_3">
+                <property name="minimumSize">
+                 <size>
+                  <width>25</width>
+                  <height>25</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>25</width>
+                  <height>25</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>用户</string>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton{
+	border:none;
+}
+QPushButton:hover{
+	background:#c2c2c2;
+}</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../icon/icons.qrc">
+                  <normaloff>:/icon/user.png</normaloff>:/icon/user.png</iconset>
+                </property>
+               </widget>
+              </item>
               <item>
                <spacer name="horizontalSpacer_2">
                 <property name="orientation">
@@ -379,21 +441,33 @@ border-bottom-right-radius:7px;
                <widget class="QPushButton" name="pushButton_7">
                 <property name="minimumSize">
                  <size>
-                  <width>30</width>
-                  <height>30</height>
+                  <width>25</width>
+                  <height>25</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>30</width>
-                  <height>30</height>
+                  <width>25</width>
+                  <height>25</height>
                  </size>
                 </property>
+                <property name="toolTip">
+                 <string>软件介绍</string>
+                </property>
                 <property name="styleSheet">
-                 <string notr="true">border:none;</string>
+                 <string notr="true">QPushButton{
+	border:none;
+}
+QPushButton:hover{
+	background:#c2c2c2;
+}</string>
                 </property>
                 <property name="text">
                  <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../icon/icons.qrc">
+                  <normaloff>:/icon/info.png</normaloff>:/icon/info.png</iconset>
                 </property>
                </widget>
               </item>
@@ -401,21 +475,33 @@ border-bottom-right-radius:7px;
                <widget class="QPushButton" name="pushButton_8">
                 <property name="minimumSize">
                  <size>
-                  <width>30</width>
-                  <height>30</height>
+                  <width>25</width>
+                  <height>25</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>30</width>
-                  <height>30</height>
+                  <width>25</width>
+                  <height>25</height>
                  </size>
                 </property>
+                <property name="toolTip">
+                 <string>设置</string>
+                </property>
                 <property name="styleSheet">
-                 <string notr="true">border:none;</string>
+                 <string notr="true">QPushButton{
+	border:none;
+}
+QPushButton:hover{
+	background:#c2c2c2;
+}</string>
                 </property>
                 <property name="text">
                  <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="../icon/icons.qrc">
+                  <normaloff>:/icon/setting.png</normaloff>:/icon/setting.png</iconset>
                 </property>
                </widget>
               </item>
@@ -451,7 +537,9 @@ border-bottom-right-radius:7px;
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icon/icons.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton</sender>

@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>stati.png</file>
+    <file>home_16.png</file>
+    <file>info.png</file>
+    <file>mession.png</file>
+    <file>setting.png</file>
+    <file>user.png</file>
+    <file>close_16.png</file>
+    <file>miniShow_16.png</file>
+  </qresource>
+</RCC>
