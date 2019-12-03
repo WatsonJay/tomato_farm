@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1097</width>
-    <height>718</height>
+    <width>1098</width>
+    <height>754</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -56,16 +56,16 @@ border-radius:10px
         <number>5</number>
        </property>
        <property name="leftMargin">
-        <number>8</number>
+        <number>7</number>
        </property>
        <property name="topMargin">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="rightMargin">
-        <number>8</number>
+        <number>7</number>
        </property>
        <property name="bottomMargin">
-        <number>0</number>
+        <number>2</number>
        </property>
        <item>
         <spacer name="horizontalSpacer">
@@ -81,7 +81,7 @@ border-radius:10px
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="miniPushButton">
          <property name="minimumSize">
           <size>
            <width>20</width>
@@ -125,7 +125,7 @@ border-radius:10px
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="closePushButton">
          <property name="minimumSize">
           <size>
            <width>20</width>
@@ -188,16 +188,16 @@ border-bottom-right-radius:7px;
         <number>0</number>
        </property>
        <property name="leftMargin">
-        <number>0</number>
+        <number>1</number>
        </property>
        <property name="topMargin">
         <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>0</number>
+        <number>1</number>
        </property>
        <property name="bottomMargin">
-        <number>0</number>
+        <number>1</number>
        </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,9">
@@ -238,13 +238,13 @@ border-bottom-right-radius:7px;
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
             <property name="leftMargin">
-             <number>0</number>
+             <number>1</number>
             </property>
             <property name="topMargin">
              <number>5</number>
             </property>
             <property name="rightMargin">
-             <number>0</number>
+             <number>1</number>
             </property>
             <property name="bottomMargin">
              <number>0</number>
@@ -542,7 +542,7 @@ QPushButton:hover{
  </resources>
  <connections>
   <connection>
-   <sender>pushButton</sender>
+   <sender>miniPushButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>showMinimized()</slot>
@@ -558,7 +558,7 @@ QPushButton:hover{
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_2</sender>
+   <sender>closePushButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
