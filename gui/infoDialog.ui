@@ -337,11 +337,11 @@ border-bottom-right-radius:7px;
    <sender>closePushButton</sender>
    <signal>clicked()</signal>
    <receiver>InfoDialog</receiver>
-   <slot>close()</slot>
+   <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>560</x>
-     <y>12</y>
+     <x>326</x>
+     <y>14</y>
     </hint>
     <hint type="destinationlabel">
      <x>520</x>

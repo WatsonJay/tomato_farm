@@ -6,12 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>536</width>
-    <height>372</height>
+    <width>466</width>
+    <height>335</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QTabWidget QStackedWidget{   // 这里QStackedWidget背景设置成透明/其它颜色  
+    background: transparent;    
+}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,9">
    <property name="spacing">
@@ -140,30 +145,187 @@ border-radius:10px
     <widget class="QWidget" name="mainWidget" native="true">
      <property name="styleSheet">
       <string notr="true">QWidget#mainWidget{
-background:#e9eaed;
-border-bottom:1px solid gray;
-border-right:1px solid gray;
-border-left:1px solid gray;
-border-bottom-left-radius:7px;
-border-bottom-right-radius:7px;
+	background:#e9eaed;
+	border-bottom:1px solid gray;
+	border-right:1px solid gray;
+	border-left:1px solid gray;
+	border-bottom-left-radius:7px;
+	border-bottom-right-radius:7px;
 }
 </string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="leftMargin">
+       <number>1</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>1</number>
+      </property>
       <item>
        <widget class="QTabWidget" name="tabWidget">
+        <property name="styleSheet">
+         <string notr="true">
+QTabWidget::tab-bar {
+	border: none;
+}
+QTabBar::tab {
+	border: none;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	color: white;
+	border: 1px solid #656565;
+    background:#656565;
+	height: 18px;
+	min-width: 65px;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+QTabBar::tab:hover {
+		background: #E9EAED;
+}
+QTabBar::tab:selected {
+	color: #656565;
+	height: 25px;
+	background: #E9EAED;
+	border-bottom: 1px solid #E9EAED;
+}
+QTabBar::tab:!selected{
+    margin-top:5px;
+}
+
+QTabWidget::pane{
+	border-top: 1px solid #656565;
+	margin-top: -2px;
+}
+#tab,#tab_2,#tab_3,#tab_4{
+    background:#E9EAED;
+}</string>
+        </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="tab">
          <attribute name="title">
-          <string>Tab 1</string>
+          <string>github信息</string>
          </attribute>
-        </widget>
-        <widget class="QWidget" name="tab_2">
-         <attribute name="title">
-          <string>Tab 2</string>
-         </attribute>
+         <layout class="QFormLayout" name="formLayout">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+          </property>
+          <property name="horizontalSpacing">
+           <number>3</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>15</number>
+          </property>
+          <property name="leftMargin">
+           <number>15</number>
+          </property>
+          <property name="rightMargin">
+           <number>15</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="gitNameLabel">
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>github用户名：</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="gitPasswordLabel">
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>github密码：</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="gitProgramLabel">
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>创建项目名：</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="gitNameEdit"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="gitPasswordEdit"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="gitProgramEdit"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="linkLabel">
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>生成的链接串：</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLabel" name="linkShowLabel">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>340</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="textFormat">
+             <enum>Qt::PlainText</enum>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </widget>
       </item>
@@ -179,13 +341,18 @@ border-bottom-right-radius:7px;
 	background:#656565;
 	color:#FEFEFE;
 	font: 9pt &quot;Microsoft YaHei UI&quot;;
-	border-radius:2px;
+	border-radius:4px;
 	width:60px;
-	height:20px;
+	height:24px;
+	margin-top:3px;
+	margin-right:8px;
 }
 #buttonBox&gt;QPushButton:checked{
 	background:#FEFEFE;
 	color:#656565;
+}
+#buttonBox{
+	
 }</string>
         </property>
         <property name="orientation">
@@ -193,6 +360,9 @@ border-bottom-right-radius:7px;
         </property>
         <property name="standardButtons">
          <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+        </property>
+        <property name="centerButtons">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -212,8 +382,8 @@ border-bottom-right-radius:7px;
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>428</x>
-     <y>338</y>
+     <x>438</x>
+     <y>325</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -228,12 +398,28 @@ border-bottom-right-radius:7px;
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>440</x>
-     <y>338</y>
+     <x>450</x>
+     <y>325</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>closePushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>450</x>
+     <y>12</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>332</x>
+     <y>-7</y>
     </hint>
    </hints>
   </connection>
