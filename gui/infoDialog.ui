@@ -116,7 +116,9 @@ border-radius:10px
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background:#F95D5C;</string>
+         <string notr="true">#closePushButton{
+	background:#F95D5C;
+}</string>
         </property>
         <property name="text">
          <string/>

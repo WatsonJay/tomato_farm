@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icon">
+    <file>normalWindow.png</file>
     <file>market.png</file>
     <file>miniBar.png</file>
     <file>pause.png</file>

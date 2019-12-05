@@ -107,7 +107,16 @@ border-radius:10px
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">background:#FEE66E;</string>
+          <string notr="true">QPushButton{
+	background:#FEE66E;
+}
+QPushButton::hover{
+	background:#c5b355;
+}
+QPushButton::pressed{
+	background:#c5b355;
+}
+</string>
          </property>
          <property name="text">
           <string/>
@@ -151,7 +160,16 @@ border-radius:10px
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">background:#F95D5C;</string>
+          <string notr="true">QPushButton{
+	background:#F95D5C;
+}
+QPushButton::hover{
+	background:#aa3e3e;
+}
+QPushButton::pressed{
+	background:#aa3e3e;
+}
+</string>
          </property>
          <property name="text">
           <string/>
@@ -222,12 +240,10 @@ border-bottom-right-radius:7px;
 }
 #toolWidget&gt;QPushButton:hover{
 	background:#c0d5d6;
-	border-right:1px solid #6d6d6d;
 }
 #toolWidget&gt;QPushButton:checked{
     border-left:2px solid red;
 	background:#c0d5d6;
-	border-right:1px solid #6d6d6d;
 }</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0">
@@ -427,8 +443,9 @@ border-bottom-right-radius:7px;
                  <string notr="true">QPushButton{
 	border:none;
 }
-QPushButton:hover{
-	background:#c2c2c2;
+QPushButton:pressed{
+	border:1px solid white;
+	background:#c0d5d6;
 }</string>
                 </property>
                 <property name="text">
@@ -461,8 +478,9 @@ QPushButton:hover{
                  <string notr="true">QPushButton{
 	border:none;
 }
-QPushButton:hover{
-	background:#c2c2c2;
+QPushButton:pressed{
+	border:1px solid white;
+	background:#c0d5d6;
 }</string>
                 </property>
                 <property name="text">
@@ -594,7 +612,7 @@ QPushButton:hover{
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="messionTitleLabel">
+               <widget class="nameLabel" name="messionTitleLabel">
                 <property name="minimumSize">
                  <size>
                   <width>300</width>
@@ -617,7 +635,7 @@ QPushButton:hover{
                  <string/>
                 </property>
                 <property name="wordWrap">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -774,14 +792,14 @@ QPushButton:hover{
                <number>0</number>
               </property>
               <item>
-               <widget class="QProgressBar" name="TimeBar">
+               <widget class="QProgressBar" name="timeBar">
                 <property name="styleSheet">
-                 <string notr="true">#TimeBar{
+                 <string notr="true">#timeBar{
 	color: rgb(244, 98, 98);
 	border-radius:6px;
 	border: 1px solid #808080;
 }
-#TimeBar::chunk{
+#timeBar::chunk{
 	border-radius:3px;
    	width:10px;
 	background-color:#F95D5C;
@@ -801,7 +819,7 @@ QPushButton:hover{
                </widget>
               </item>
               <item>
-               <widget class="QLCDNumber" name="TimeLcd">
+               <widget class="QLCDNumber" name="timeLcd">
                 <property name="font">
                  <font>
                   <family>Agency FB</family>
@@ -810,7 +828,7 @@ QPushButton:hover{
                  </font>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">#TimeLcd{
+                 <string notr="true">#timeLcd{
 	border:none;
 }</string>
                 </property>
@@ -850,9 +868,14 @@ QPushButton:hover{
              <string>重置番茄钟</string>
             </property>
             <property name="styleSheet">
-             <string notr="true">border-radius:18px;
-border:none;
-background:#F95D5C;</string>
+             <string notr="true">QPushButton{
+	border-radius:18px;
+	border:none;
+	background:#F95D5C;
+}
+QPushButton::pressed{
+	background:#aa3e3e;
+}</string>
             </property>
             <property name="text">
              <string/>
@@ -881,9 +904,14 @@ background:#F95D5C;</string>
              <string>开始任务番茄钟</string>
             </property>
             <property name="styleSheet">
-             <string notr="true">border-radius:23px;
-border:none;
-background:#F95D5C;</string>
+             <string notr="true">QPushButton{
+	border-radius:23px;
+	border:none;
+	background:#F95D5C;
+}
+QPushButton::pressed{
+	background:#aa3e3e;
+}</string>
             </property>
             <property name="text">
              <string/>
@@ -918,9 +946,14 @@ background:#F95D5C;</string>
              <string>暂停番茄钟</string>
             </property>
             <property name="styleSheet">
-             <string notr="true">border-radius:18px;
-border:none;
-background:#F95D5C;</string>
+             <string notr="true">QPushButton{
+	border-radius:18px;
+	border:none;
+	background:#F95D5C;
+}
+QPushButton::pressed{
+	background:#aa3e3e;
+}</string>
             </property>
             <property name="text">
              <string/>
@@ -949,9 +982,14 @@ background:#F95D5C;</string>
              <string>停止番茄钟</string>
             </property>
             <property name="styleSheet">
-             <string notr="true">border-radius:18px;
-border:none;
-background:#F95D5C;</string>
+             <string notr="true">QPushButton{
+	border-radius:18px;
+	border:none;
+	background:#F95D5C;
+}
+QPushButton::pressed{
+	background:#aa3e3e;
+}</string>
             </property>
             <property name="text">
              <string/>
@@ -996,7 +1034,9 @@ background:#F95D5C;</string>
              <string>迷你计时器</string>
             </property>
             <property name="styleSheet">
-             <string notr="true">border:none;</string>
+             <string notr="true">#miniSizeButton{
+	border:none;
+}</string>
             </property>
             <property name="text">
              <string/>
@@ -1022,6 +1062,13 @@ background:#F95D5C;</string>
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>nameLabel</class>
+   <extends>QLabel</extends>
+   <header>namelabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../icon/icons.qrc"/>
  </resources>
