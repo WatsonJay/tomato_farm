@@ -1,5 +1,9 @@
 <RCC>
   <qresource prefix="icon">
+    <file>tomato-1.png</file>
+    <file>tomato-2.png</file>
+    <file>tomato-3.png</file>
+    <file>tomato-4.png</file>
     <file>normalWindow.png</file>
     <file>market.png</file>
     <file>miniBar.png</file>

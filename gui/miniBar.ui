@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>327</width>
-    <height>138</height>
+    <width>304</width>
+    <height>106</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,9">
    <property name="spacing">
@@ -33,13 +33,12 @@
     <widget class="QWidget" name="windowBar" native="true">
      <property name="styleSheet">
       <string notr="true">QWidget#windowBar{
-background:gray;
+background:rgba(100, 100, 100, 120);
+border-top-left-radius:7px;
+border-top-right-radius:7px;
 border-top:1px solid gray;
 border-right:1px solid gray;
 border-left:1px solid gray;
-}
-#windowBar&gt;QPushButton{
-border-radius:10px
 }</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -59,13 +58,15 @@ border-radius:10px
     <widget class="QWidget" name="mainWindow" native="true">
      <property name="styleSheet">
       <string notr="true">QWidget#mainWindow{
-background:gray;
+background:rgba(100, 100, 100, 120);
+border-bottom-left-radius:7px;
+border-bottom-right-radius:7px;
 border-bottom:1px solid gray;
 border-right:1px solid gray;
 border-left:1px solid gray;
 }</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="4,2,0">
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="2,2,4">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -97,7 +98,7 @@ border-left:1px solid gray;
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="nameLabel" name="label_2">
           <property name="minimumSize">
            <size>
             <width>150</width>
@@ -207,8 +208,14 @@ border-left:1px solid gray;
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-radius:15px;
-background:#F95D5C;</string>
+           <string notr="true">QPushButton{
+	border-radius:15px;
+	background:#F95D5C;
+}
+QPushButton::pressed{
+	background:#aa3e3e;
+}
+</string>
           </property>
           <property name="text">
            <string/>
@@ -234,8 +241,14 @@ background:#F95D5C;</string>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-radius:15px;
-background:#F95D5C;</string>
+           <string notr="true">QPushButton{
+	border-radius:15px;
+	background:#F95D5C;
+}
+QPushButton::pressed{
+	background:#aa3e3e;
+}
+</string>
           </property>
           <property name="text">
            <string/>
@@ -261,8 +274,14 @@ background:#F95D5C;</string>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-radius:15px;
-background:#F95D5C;</string>
+           <string notr="true">QPushButton{
+	border-radius:15px;
+	background:#F95D5C;
+}
+QPushButton::pressed{
+	background:#aa3e3e;
+}
+</string>
           </property>
           <property name="text">
            <string/>
@@ -288,8 +307,14 @@ background:#F95D5C;</string>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-radius:15px;
-background:#F95D5C;</string>
+           <string notr="true">QPushButton{
+	border-radius:15px;
+	background:#F95D5C;
+}
+QPushButton::pressed{
+	background:#aa3e3e;
+}
+</string>
           </property>
           <property name="text">
            <string/>
@@ -331,8 +356,12 @@ background:#F95D5C;</string>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">border:none;
-</string>
+           <string notr="true">QPushButton{
+	border:none;
+}
+QPushButton::pressed{
+	background:#565656;
+}</string>
           </property>
           <property name="text">
            <string/>
@@ -356,6 +385,13 @@ background:#F95D5C;</string>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>nameLabel</class>
+   <extends>QLabel</extends>
+   <header>namelabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../icon/icons.qrc"/>
  </resources>

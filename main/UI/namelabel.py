@@ -44,14 +44,14 @@ class nameLabel(QLabel):
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setFont(self.font)
-        painter.setPen(QColor('transparent'));
+        #painter.setPen(QColor('transparent'));
         self.textRect = painter.drawText(QRect(0, 0, self.width(), self.height()), Qt.AlignHCenter | Qt.AlignVCenter, self.txt)
 
         if self.textRect.width() > self.width():
-            painter.setPen(QColor('black'));  # 黑色
+            #painter.setPen(QColor('black'));  # 黑色
             painter.drawText(QRect(self.newX, 0, self.textRect.width(), self.height()), Qt.AlignLeft | Qt.AlignVCenter, self.txt)
         else:
-            painter.setPen(QColor('black'));  # 黑色
+            #painter.setPen(QColor('black'));  # 黑色
             self.textRect = painter.drawText(QRect(0, 0, self.width(), self.height()), Qt.AlignLeft | Qt.AlignVCenter, self.txt)
-            self.t.stop()
+            self.timer.stop()
 

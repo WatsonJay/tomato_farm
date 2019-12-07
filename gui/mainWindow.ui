@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1098</width>
-    <height>743</height>
+    <width>989</width>
+    <height>633</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -643,13 +643,13 @@ QPushButton:pressed{
                <widget class="QLabel" name="label_4">
                 <property name="minimumSize">
                  <size>
-                  <width>76</width>
+                  <width>64</width>
                   <height>0</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>76</width>
+                  <width>64</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -660,7 +660,7 @@ QPushButton:pressed{
                  </font>
                 </property>
                 <property name="text">
-                 <string>番茄钟个数：</string>
+                 <string>番茄个数：</string>
                 </property>
                </widget>
               </item>
@@ -1036,6 +1036,9 @@ QPushButton::pressed{
             <property name="styleSheet">
              <string notr="true">#miniSizeButton{
 	border:none;
+}
+#miniSizeButton::pressed{
+	background:#c0d5d6;
 }</string>
             </property>
             <property name="text">
