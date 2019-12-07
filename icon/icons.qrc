@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icon">
+    <file>lock.png</file>
+    <file>unlock.png</file>
     <file>tomato-1.png</file>
     <file>tomato-2.png</file>
     <file>tomato-3.png</file>
