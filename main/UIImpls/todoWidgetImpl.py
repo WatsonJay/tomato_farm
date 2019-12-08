@@ -16,6 +16,7 @@ class todoWidgetImpl(QWidget, Ui_todoWidget):
         self.setupUi(self)
         self.flag = False
 
+
     # 无边框移动窗体
     def mousePressEvent(self, QMouseEvent):
         try:

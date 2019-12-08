@@ -184,10 +184,62 @@ background:rgba(100, 100, 100, 120);
 }</string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
-     <widget class="QWidget" name="page"/>
-     <widget class="QWidget" name="page_2"/>
+     <widget class="QWidget" name="todayPage">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QListWidget" name="todayListWidget">
+         <property name="styleSheet">
+          <string notr="true">#todayListWidget{
+	border:none;
+	background-color: rgba(255, 255, 255, 0);
+}</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="overduePage">
+      <property name="styleSheet">
+       <string notr="true">#overdueListWidget{
+	border:none;
+	background-color: rgba(255, 255, 255, 0);
+}</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QListWidget" name="overdueListWidget"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>

@@ -96,18 +96,39 @@ class Ui_todoWidget(object):
 "background:rgba(100, 100, 100, 120);\n"
 "}")
         self.stackedWidget.setObjectName("stackedWidget")
-        self.page = QtWidgets.QWidget()
-        self.page.setObjectName("page")
-        self.stackedWidget.addWidget(self.page)
-        self.page_2 = QtWidgets.QWidget()
-        self.page_2.setObjectName("page_2")
-        self.stackedWidget.addWidget(self.page_2)
+        self.todayPage = QtWidgets.QWidget()
+        self.todayPage.setObjectName("todayPage")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.todayPage)
+        self.verticalLayout_3.setContentsMargins(3, 0, 3, 0)
+        self.verticalLayout_3.setSpacing(0)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.todayListWidget = QtWidgets.QListWidget(self.todayPage)
+        self.todayListWidget.setStyleSheet("#todayListWidget{\n"
+"    border:none;\n"
+"    background-color: rgba(255, 255, 255, 0);\n"
+"}")
+        self.todayListWidget.setObjectName("todayListWidget")
+        self.verticalLayout_3.addWidget(self.todayListWidget)
+        self.stackedWidget.addWidget(self.todayPage)
+        self.overduePage = QtWidgets.QWidget()
+        self.overduePage.setStyleSheet("#overdueListWidget{\n"
+"    border:none;\n"
+"    background-color: rgba(255, 255, 255, 0);\n"
+"}")
+        self.overduePage.setObjectName("overduePage")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.overduePage)
+        self.verticalLayout_2.setContentsMargins(3, 0, 3, 0)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.overdueListWidget = QtWidgets.QListWidget(self.overduePage)
+        self.overdueListWidget.setObjectName("overdueListWidget")
+        self.verticalLayout_2.addWidget(self.overdueListWidget)
+        self.stackedWidget.addWidget(self.overduePage)
         self.verticalLayout.addWidget(self.stackedWidget)
         self.verticalLayout.setStretch(1, 1)
         self.verticalLayout.setStretch(2, 6)
 
         self.retranslateUi(todoWidget)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(todoWidget)
 
     def retranslateUi(self, todoWidget):
