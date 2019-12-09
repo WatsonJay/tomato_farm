@@ -17,3 +17,23 @@ class sqlite:
             self.confsql.debug("连接成功")
         except Exception as e:
             self.confsql.error(e)
+
+    #输出工具
+    def out(self, outStr, *args):
+        if (self.showsql):
+            for var in args:
+                if (var):
+                    outStr = outStr + ", " + str(var)
+            print("db. " + outStr)
+
+    #执行sql或者查询列表 并提交
+    def execute(self, sql, *args):
+        args = self.turnArray(args)
+        self.out(sql, args)
+
+        cursor = self.conn.cursor()
+        #sql占位符 填充args 可以是tuple(1, 2)(动态参数数组) 也可以是list[1, 2] list(tuple) tuple(list)
+        res = cursor.execute(sql, args).fetchall()
+        conn.commit()
+        #self.close(conn)
+        return res
