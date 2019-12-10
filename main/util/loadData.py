@@ -8,32 +8,48 @@ from util.logger import logger
 
 
 class sqlite:
-    def __init__(self,path):
-        self.path = path
+    def __init__(self,filePath):
+        self.file = filePath
         log = logger()
         self.confsql = log.getlogger('conf')
         try:
-            self.conn = sqlite3.connect(self.path, timeout=5)
-            self.confsql.debug("连接成功")
+            self.conn = sqlite3.connect(self.file, timeout=5)
+            if (self.conn is None):
+                raise Exception("dbfile :" + self.file + "is not found or connect error ! ")
+            else:
+                self.conn.row_factory = self.dict_factory
+                self.confsql.info("connect successed")
         except Exception as e:
             self.confsql.error(e)
 
-    #输出工具
-    def out(self, outStr, *args):
-        if (self.showsql):
-            for var in args:
-                if (var):
-                    outStr = outStr + ", " + str(var)
-            print("db. " + outStr)
+    #以字典方式返回结果（可考虑替换为高度优化的sqlite3.Row类型）
+    def dict_factory(cursor, row):
+        d = {}
+        for idx, col in enumerate(cursor.description):
+            d[col[0]] = row[idx]
+        return d
 
-    #执行sql或者查询列表 并提交
-    def execute(self, sql, *args):
+    # 查询列表
+    def executeQuery(self, sql, *args):
         args = self.turnArray(args)
-        self.out(sql, args)
-
+        self.out(sql,args)
         cursor = self.conn.cursor()
-        #sql占位符 填充args 可以是tuple(1, 2)(动态参数数组) 也可以是list[1, 2] list(tuple) tuple(list)
-        res = cursor.execute(sql, args).fetchall()
-        conn.commit()
-        #self.close(conn)
+        res = cursor.execute(sql, args).fetchall()#大数据量时改造，确保内存
         return res
+
+        #关闭连接
+    def close(self,conn=None):
+        if (not conn is None):
+            conn.close()
+            self.conn=None
+        self.confsql.info("database is closed")
+
+    # 输出工具
+    def out(self, outStr, *args):
+        for var in args:
+            if (var):
+                if ("'%s'" in outStr):
+                    outStr = outStr.replace("'%s'",var,1)
+                if ("?" in outStr):
+                    outStr = outStr.replace("?",var,1)
+            self.confsql.debug('runed sql:'+outStr)
