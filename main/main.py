@@ -7,14 +7,19 @@ import os
 import sys
 
 from PyQt5.QtWidgets import QApplication
-#from UIImpls.mainWindowImpl import mainWindowImpl
-from UIImpls.todoWidgetImpl import todoWidgetImpl
-
+from UIImpls.mainWindowImpl import mainWindowImpl
+from UIImpls.unlockWidgetImpl import unlockWidgetImpl
+from util.loadConf import config
 if __name__ == '__main__':
     if not os.path.exists("log"):
         os.makedirs("log")
     #界面初始化
+    conf = config()
     app = QApplication(sys.argv)
-    mainWindow = todoWidgetImpl()
-    mainWindow.show()
+    if conf.getOption('LOCK', 'isLock')=="True":
+        unlockWidget = unlockWidgetImpl()
+        unlockWidget.show()
+    else:
+        mainWindow = mainWindowImpl()
+        mainWindow.show()
     sys.exit(app.exec_())
