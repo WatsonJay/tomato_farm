@@ -123,4 +123,4 @@ class config:
 if __name__ == '__main__':
     con = config()
     con.readConfig()
-    print("readed")
+    print(con.encrypt("123456"))

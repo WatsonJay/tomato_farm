@@ -5,6 +5,8 @@
 # @Soft    : tomato_farm
 from PyQt5 import QtCore
 from PyQt5.QtGui import QCursor
+from PyQt5.QtWidgets import QMessageBox
+
 
 class noBorderImpl:
 
@@ -27,3 +29,7 @@ class noBorderImpl:
     def mouseReleaseEvent(self, QMouseEvent):
         self.flag = False
         self.setCursor(QCursor(QtCore.Qt.ArrowCursor))
+
+    # 提示窗口
+    def Tips(self, message):
+        QMessageBox.about(self, "提示", message)

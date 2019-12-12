@@ -1,24 +1,24 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'unlockWidget.ui'
+# Form implementation generated from reading ui file 'unlockDialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.11.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_unlockWidget(object):
-    def setupUi(self, unlockWidget):
-        unlockWidget.setObjectName("unlockWidget")
-        unlockWidget.resize(265, 169)
+class Ui_unlockDialog(object):
+    def setupUi(self, unlockDialog):
+        unlockDialog.setObjectName("unlockDialog")
+        unlockDialog.resize(266, 178)
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
-        self.verticalLayout = QtWidgets.QVBoxLayout(unlockWidget)
+        self.verticalLayout = QtWidgets.QVBoxLayout(unlockDialog)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.windowBar = QtWidgets.QWidget(unlockWidget)
+        self.windowBar = QtWidgets.QWidget(unlockDialog)
         self.windowBar.setStyleSheet("QWidget#windowBar{\n"
 "background:gray;\n"
 "border-top:1px solid gray;\n"
@@ -78,7 +78,7 @@ class Ui_unlockWidget(object):
         self.closePushButton.setObjectName("closePushButton")
         self.horizontalLayout.addWidget(self.closePushButton)
         self.verticalLayout.addWidget(self.windowBar)
-        self.mainWidget = QtWidgets.QWidget(unlockWidget)
+        self.mainWidget = QtWidgets.QWidget(unlockDialog)
         self.mainWidget.setStyleSheet("QWidget#mainWidget{\n"
 "background:#e9eaed;\n"
 "border-bottom:1px solid gray;\n"
@@ -101,6 +101,7 @@ class Ui_unlockWidget(object):
         font.setFamily("Microsoft YaHei UI")
         self.passwordLineEdit.setFont(font)
         self.passwordLineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.passwordLineEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.passwordLineEdit.setObjectName("passwordLineEdit")
         self.verticalLayout_2.addWidget(self.passwordLineEdit)
         self.unlockPushButton = QtWidgets.QPushButton(self.mainWidget)
@@ -119,15 +120,15 @@ class Ui_unlockWidget(object):
         self.verticalLayout.addWidget(self.mainWidget)
         self.verticalLayout.setStretch(1, 9)
 
-        self.retranslateUi(unlockWidget)
-        self.miniPushButton.clicked.connect(unlockWidget.showMinimized)
-        self.closePushButton.clicked.connect(unlockWidget.close)
-        QtCore.QMetaObject.connectSlotsByName(unlockWidget)
+        self.retranslateUi(unlockDialog)
+        self.closePushButton.clicked.connect(unlockDialog.reject)
+        self.miniPushButton.clicked.connect(unlockDialog.showMinimized)
+        QtCore.QMetaObject.connectSlotsByName(unlockDialog)
 
-    def retranslateUi(self, unlockWidget):
+    def retranslateUi(self, unlockDialog):
         _translate = QtCore.QCoreApplication.translate
-        unlockWidget.setWindowTitle(_translate("unlockWidget", "Form"))
-        self.passwordLineEdit.setPlaceholderText(_translate("unlockWidget", "密码"))
-        self.unlockPushButton.setText(_translate("unlockWidget", "解锁"))
+        unlockDialog.setWindowTitle(_translate("unlockDialog", "Dialog"))
+        self.passwordLineEdit.setPlaceholderText(_translate("unlockDialog", "请输入密码"))
+        self.unlockPushButton.setText(_translate("unlockDialog", "解锁"))
 
 import UI.icons_rc

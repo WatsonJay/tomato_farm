@@ -5,21 +5,26 @@
 # @Soft    : tomato_farm
 import os
 import sys
+import time
 
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication,QDialog
 from UIImpls.mainWindowImpl import mainWindowImpl
-from UIImpls.unlockWidgetImpl import unlockWidgetImpl
+from UIImpls.unlockDialogImpl import unlockDialogImpl
 from util.loadConf import config
+
 if __name__ == '__main__':
     if not os.path.exists("log"):
         os.makedirs("log")
     #界面初始化
     conf = config()
     app = QApplication(sys.argv)
+    mainWindow = mainWindowImpl()
+    unlockDialog = unlockDialogImpl()
     if conf.getOption('LOCK', 'isLock')=="True":
-        unlockWidget = unlockWidgetImpl()
-        unlockWidget.show()
+        if unlockDialog.exec() == QDialog.Accepted:
+            mainWindow.show()
+        else:
+            exit(-1)
     else:
-        mainWindow = mainWindowImpl()
         mainWindow.show()
     sys.exit(app.exec_())

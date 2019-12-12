@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>unlockWidget</class>
- <widget class="QWidget" name="unlockWidget">
+ <class>unlockDialog</class>
+ <widget class="QDialog" name="unlockDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>265</width>
-    <height>169</height>
+    <width>266</width>
+    <height>178</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,9">
    <property name="spacing">
@@ -192,8 +192,11 @@ border-bottom-right-radius:7px;
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
         <property name="placeholderText">
-         <string>密码</string>
+         <string>请输入密码</string>
         </property>
        </widget>
       </item>
@@ -233,34 +236,34 @@ border-bottom-right-radius:7px;
  </resources>
  <connections>
   <connection>
-   <sender>miniPushButton</sender>
+   <sender>closePushButton</sender>
    <signal>clicked()</signal>
-   <receiver>unlockWidget</receiver>
-   <slot>showMinimized()</slot>
+   <receiver>unlockDialog</receiver>
+   <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>225</x>
-     <y>10</y>
+     <x>249</x>
+     <y>8</y>
     </hint>
     <hint type="destinationlabel">
-     <x>184</x>
-     <y>-6</y>
+     <x>138</x>
+     <y>-16</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>closePushButton</sender>
+   <sender>miniPushButton</sender>
    <signal>clicked()</signal>
-   <receiver>unlockWidget</receiver>
-   <slot>close()</slot>
+   <receiver>unlockDialog</receiver>
+   <slot>showMinimized()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>255</x>
-     <y>12</y>
+     <x>222</x>
+     <y>11</y>
     </hint>
     <hint type="destinationlabel">
-     <x>128</x>
-     <y>-15</y>
+     <x>59</x>
+     <y>-1</y>
     </hint>
    </hints>
   </connection>
