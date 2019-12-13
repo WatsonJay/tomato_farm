@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>466</width>
-    <height>335</height>
+    <width>415</width>
+    <height>286</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -184,7 +184,8 @@ QTabBar::tab {
 	padding-right: 1px;
 }
 QTabBar::tab:hover {
-		background: #E9EAED;
+	color: #656565;
+	background: #E9EAED;
 }
 QTabBar::tab:selected {
 	color: #656565;
@@ -202,12 +203,105 @@ QTabWidget::pane{
 }
 #tab,#tab_2,#tab_3,#tab_4{
     background:#E9EAED;
-}</string>
+}
+</string>
         </property>
         <property name="currentIndex">
          <number>0</number>
         </property>
-        <widget class="QWidget" name="tab">
+        <widget class="QWidget" name="sysTab">
+         <property name="styleSheet">
+          <string notr="true">QWidget&gt;QLineEdit{
+	border:1px solid gray;
+    border-radius:10px;
+    padding:2px 4px;
+}</string>
+         </property>
+         <attribute name="title">
+          <string>系统设置</string>
+         </attribute>
+         <layout class="QFormLayout" name="formLayout_2">
+          <property name="horizontalSpacing">
+           <number>3</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>15</number>
+          </property>
+          <property name="leftMargin">
+           <number>15</number>
+          </property>
+          <property name="rightMargin">
+           <number>15</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="gitNameLabel_2">
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>系统锁：</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QRadioButton" name="radioButton_2">
+              <property name="font">
+               <font>
+                <family>Microsoft YaHei UI</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>开启</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButton">
+              <property name="font">
+               <font>
+                <family>Microsoft YaHei UI</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>关闭</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>密码：</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="gitTab">
+         <property name="styleSheet">
+          <string notr="true">QWidget&gt;QLineEdit{
+	border:1px solid gray;
+    border-radius:10px;
+    padding:2px 4px;
+}</string>
+         </property>
          <attribute name="title">
           <string>github信息</string>
          </attribute>

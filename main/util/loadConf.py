@@ -28,6 +28,7 @@ class config:
             f.close()
         try:
             config.read(self.dirs+self.fileName, encoding="utf-8")
+            self.conflog.debug("配置文件已读取")
         except Exception as e:
             self.conflog.error(e)
         else:
@@ -37,6 +38,7 @@ class config:
     def writeConfig(self,config):
         try:
             config.write(open(self.dirs+self.fileName, "w", encoding='utf-8'))
+            self.conflog.debug("配置文件已写入")
         except Exception as e:
             self.conflog.error(e)
 
@@ -123,4 +125,4 @@ class config:
 if __name__ == '__main__':
     con = config()
     con.readConfig()
-    print(con.encrypt("123456"))
+    print(con.encrypt("False"))

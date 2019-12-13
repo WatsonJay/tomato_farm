@@ -20,7 +20,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     mainWindow = mainWindowImpl()
     unlockDialog = unlockDialogImpl()
-    if conf.getOption('LOCK', 'isLock')=="True":
+    if conf.decrypt(conf.getOption('LOCK', 'isLock'))=="True":
         if unlockDialog.exec() == QDialog.Accepted:
             mainWindow.show()
         else:
