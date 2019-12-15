@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icon">
+    <file>show.png</file>
+    <file>tomato.png</file>
     <file>delete_white.png</file>
     <file>top.png</file>
     <file>lock.png</file>

@@ -98,7 +98,7 @@ border-left:1px solid gray;
          </widget>
         </item>
         <item>
-         <widget class="nameLabel" name="label_2">
+         <widget class="nameLabel" name="taskLabel">
           <property name="minimumSize">
            <size>
             <width>150</width>
@@ -130,7 +130,7 @@ border-left:1px solid gray;
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="tomatoStageLabel">
           <property name="minimumSize">
            <size>
             <width>30</width>
@@ -177,7 +177,7 @@ border-left:1px solid gray;
          </widget>
         </item>
         <item>
-         <widget class="QLCDNumber" name="lcdNumber">
+         <widget class="QLCDNumber" name="timeLcd">
           <property name="styleSheet">
            <string notr="true">border:none;</string>
           </property>
@@ -342,7 +342,7 @@ QPushButton::pressed{
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="normalSizeButton">
           <property name="minimumSize">
            <size>
             <width>22</width>

@@ -47,12 +47,14 @@ class config:
         config = self.readConfig()
         if not config.has_section(section):  # 检查是否存在section
             config.add_section(section)
+            self.conflog.debug("追加配置组："+section)
         self.writeConfig(config)
 
     # 新增option
     def addoption(self, section, option, word):
         config = self.readConfig()
         config.set(section, option, word)
+        self.conflog.debug("在配置组：" + section + "下设置配置：" + option + "的值为：" + word)
         self.writeConfig(config)
 
     # 删除配置文件
@@ -60,6 +62,7 @@ class config:
         config = self.readConfig()
         if config.has_section(section):
             config.remove_section(section)  # 整个section下的所有内容都将删除
+            self.conflog.debug("删除配置组：" + section)
         self.writeConfig(config)
 
     #获得配置
@@ -67,6 +70,7 @@ class config:
         config = self.readConfig()
         if config.has_section(section):
             word = config.get(section, option)
+            self.conflog.debug("获取配置组：" + section + "下" + option + "的配置")
         else :
             word = ''
         return word

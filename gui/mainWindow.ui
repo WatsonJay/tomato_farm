@@ -753,7 +753,7 @@ QPushButton:pressed{
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="TomatoStageLabel">
+               <widget class="QLabel" name="tomatoStageLabel">
                 <property name="maximumSize">
                  <size>
                   <width>67</width>
