@@ -5,6 +5,8 @@
 # @Soft    : tomato_farm
 import configparser
 import os
+import re
+
 from Crypto.Cipher import AES
 from binascii import b2a_hex, a2b_hex
 from util.logger import logger
@@ -18,6 +20,13 @@ class config:
         self.dirs = os.path.abspath('.')+"/config/"
         self.fileName = "config.ini"
 
+    def remove_BOM(self,config_path):
+        content = open(config_path).read()
+        content = re.sub(r"\xfe\xff", "", content)
+        content = re.sub(r"\xff\xfe", "", content)
+        content = re.sub(r"\xef\xbb\xbf", "", content)
+        open(config_path, 'w').write(content)
+
     # 读取配置文件
     def readConfig(self):
         config = configparser.ConfigParser()
@@ -27,7 +36,9 @@ class config:
             f = open(self.dirs+self.fileName, 'w')
             f.close()
         try:
-            config.read(self.dirs+self.fileName, encoding="utf-8")
+            config_path = self.dirs+self.fileName
+            self.remove_BOM(config_path)
+            config.read(config_path, encoding="utf-8")
             self.conflog.debug("配置文件已读取")
         except Exception as e:
             self.conflog.error(e)
