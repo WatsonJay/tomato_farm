@@ -42,6 +42,11 @@ loggers:
     handlers: [file,stream]
     qualname: conf
     propagate: 0
+  gui:
+    level: DEBUG
+    handlers: [file,stream]
+    qualname: gui
+    propagate: 0
   data:
     level: DEBUG
     handlers: [file,stream]

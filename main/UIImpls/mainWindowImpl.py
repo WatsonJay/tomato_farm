@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import QMainWindow, QMessageBox, QCheckBox, QSystemTrayIcon
 from UI.mainWindow import Ui_MainWindow
 from UIImpls.noBorderImpl import noBorderImpl
 from UIImpls.miniBarImpl import miniBarImpl
+from UIImpls.todoWidgetImpl import todoWidgetImpl
 import UI.icons_rc
 
 class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl):
@@ -21,6 +22,8 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl):
         self.setupUi(self)
         self.closeNow = True
         self.miniBar = miniBarImpl()
+        self.todolist = todoWidgetImpl()
+        self.todolist.show()
         self.trayIcon()
         self.miniSizeButton.clicked.connect(self.miniSize)
         self.miniSizeSignal.connect(self.miniBar.miniShow)  # 通过信号槽设置时间
@@ -55,6 +58,8 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl):
     #立刻关闭
     def closeWithout(self):
         self.closeNow = False
+        self.todolist.close()
+        self.mSysTrayIcon.hide()
         self.close()
 
     #重写关闭事件
@@ -75,6 +80,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl):
                 event.ignore()
                 self.hide()
             else:
+                self.todolist.close()
                 event.accept()
                 self.mSysTrayIcon.hide()
 
