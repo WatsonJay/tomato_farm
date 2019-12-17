@@ -167,8 +167,7 @@ border-radius:10px
       <item>
        <widget class="QTabWidget" name="tabWidget">
         <property name="styleSheet">
-         <string notr="true">
-QTabWidget::tab-bar {
+         <string notr="true">QTabWidget::tab-bar {
 	border: none;
 }
 QTabBar::tab {

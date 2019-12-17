@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icon">
+    <file>storage.png</file>
     <file>dialog.png</file>
     <file>task.png</file>
     <file>show.png</file>
