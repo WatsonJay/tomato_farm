@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icon">
+    <file>dialog.png</file>
+    <file>task.png</file>
     <file>show.png</file>
     <file>tomato.png</file>
     <file>delete_white.png</file>
@@ -20,7 +22,6 @@
     <file>stati.png</file>
     <file>home_16.png</file>
     <file>info.png</file>
-    <file>mession.png</file>
     <file>setting.png</file>
     <file>user.png</file>
     <file>close_16.png</file>

@@ -246,7 +246,7 @@ border-bottom-right-radius:7px;
 	background:#c0d5d6;
 }</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0">
+           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0,0,0,0,0">
             <property name="spacing">
              <number>0</number>
             </property>
@@ -360,12 +360,38 @@ border-bottom-right-radius:7px;
               </property>
               <property name="icon">
                <iconset resource="../icon/icons.qrc">
-                <normaloff>:/icon/mession.png</normaloff>:/icon/mession.png</iconset>
+                <normaloff>:/icon/task.png</normaloff>:/icon/task.png</iconset>
               </property>
               <property name="checkable">
                <bool>true</bool>
               </property>
               <property name="autoExclusive">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="memoButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Microsoft YaHei UI</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>日志备忘</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../icon/icons.qrc">
+                <normaloff>:/icon/dialog.png</normaloff>:/icon/dialog.png</iconset>
+              </property>
+              <property name="checkable">
                <bool>true</bool>
               </property>
              </widget>
