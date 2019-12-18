@@ -1,5 +1,17 @@
 <RCC>
   <qresource prefix="icon">
+    <file>bold.png</file>
+    <file>center.png</file>
+    <file>fontColor.png</file>
+    <file>Italic.png</file>
+    <file>leftJust.png</file>
+    <file>rightJust.png</file>
+    <file>save.png</file>
+    <file>search.png</file>
+    <file>underline.png</file>
+    <file>upLevel.png</file>
+    <file>sameLevel.png</file>
+    <file>downLevel.png</file>
     <file>edit.png</file>
     <file>plus.png</file>
     <file>add.png</file>
