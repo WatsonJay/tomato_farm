@@ -20,7 +20,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QWidget" name="widget" native="true"/>
+      <widget class="QWidget" name="todayChartWidget" native="true"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -43,7 +43,13 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="todayLabel">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
@@ -110,7 +116,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_9">
+            <widget class="QLabel" name="dayAvgLabel">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
@@ -125,7 +137,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_15">
+            <widget class="QLabel" name="dayLevelLabel">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -182,7 +194,13 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label_6">
+          <widget class="QLabel" name="weekLabel">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
@@ -249,7 +267,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_11">
+            <widget class="QLabel" name="weekAvgLabel">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
@@ -264,7 +288,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_16">
+            <widget class="QLabel" name="weekLevelLabel">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -321,7 +345,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="monthLabel">
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
@@ -388,7 +412,13 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_14">
+            <widget class="QLabel" name="monthAvgLabel">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
@@ -403,7 +433,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_17">
+            <widget class="QLabel" name="monthLevelLabel">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -460,7 +490,13 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label_8">
+          <widget class="QLabel" name="totalLabel">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
@@ -562,14 +598,14 @@ QTabWidget::pane{
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="title">
-         <string>周记录</string>
+         <string>本周记录</string>
         </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
-          <widget class="QWidget" name="widget_2" native="true"/>
+          <widget class="QWidget" name="weekChartWidget" native="true"/>
          </item>
          <item>
-          <widget class="QWidget" name="widget_3" native="true"/>
+          <widget class="QWidget" name="weekPieWidget" native="true"/>
          </item>
         </layout>
        </widget>
@@ -577,12 +613,52 @@ QTabWidget::pane{
         <attribute name="title">
          <string>月记录</string>
         </attribute>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,9">
+         <property name="spacing">
+          <number>3</number>
+         </property>
          <item>
-          <widget class="QWidget" name="widget_4" native="true"/>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QComboBox" name="yearComboBox">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="monthComboBox"/>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QWidget" name="widget_5" native="true"/>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="QWidget" name="monthChartWidget" native="true"/>
+           </item>
+           <item>
+            <widget class="QWidget" name="monthPieWidget" native="true"/>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>

@@ -23,7 +23,7 @@
     <number>0</number>
    </property>
    <property name="leftMargin">
-    <number>1</number>
+    <number>9</number>
    </property>
    <property name="topMargin">
     <number>3</number>
@@ -38,19 +38,19 @@
     <widget class="QLabel" name="radiusLabel">
      <property name="minimumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>12</width>
+       <height>12</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>12</width>
+       <height>12</height>
       </size>
      </property>
      <property name="styleSheet">
       <string notr="true">#radiusLabel{
-	border-radius:12px;
+	border-radius:6px;
 	background:white;
 }</string>
      </property>

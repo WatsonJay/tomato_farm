@@ -18,12 +18,53 @@
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QTabWidget" name="tabWidget">
+       <property name="styleSheet">
+        <string notr="true">QTabWidget::tab-bar {
+	border: none;
+}
+QTabBar::tab {
+	border: none;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	color: white;
+	border: 1px solid #656565;
+    background:#656565;
+	height: 18px;
+	min-width: 65px;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+QTabBar::tab:hover {
+	color: #656565;
+	background: #E9EAED;
+}
+QTabBar::tab:selected {
+	color: #656565;
+	height: 25px;
+	background: #E9EAED;
+	border-bottom: 1px solid #E9EAED;
+}
+QTabBar::tab:!selected{
+    margin-top:5px;
+}
+
+QTabWidget::pane{
+	border-top: 1px solid #656565;
+	margin-top: -2px;
+}
+#tab,#tab_2,#tab_3,#tab_4{
+    background:#E9EAED;
+}</string>
+       </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tab">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <attribute name="title">
-         <string>Tab 1</string>
+         <string>任务箱</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <property name="spacing">
@@ -43,6 +84,111 @@
          </property>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="leftMargin">
+            <number>9</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="addTaskButton">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>新增</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton{
+	border:none;
+	border-radius:14px;
+	background:#6CE872;
+}</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../icon/icons.qrc">
+               <normaloff>:/icon/plus.png</normaloff>:/icon/plus.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="modifTaskButton">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>修改</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton{
+	border:none;
+	border-radius:14px;
+	background:#FEE66E;
+}</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../icon/icons.qrc">
+               <normaloff>:/icon/edit.png</normaloff>:/icon/edit.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="delTaskButton">
+             <property name="minimumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>删除</string>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton{
+	border:none;
+	border-radius:14px;
+	background:#F95D5C;
+}</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../icon/icons.qrc">
+               <normaloff>:/icon/delete_white.png</normaloff>:/icon/delete_white.png</iconset>
+             </property>
+            </widget>
+           </item>
            <item>
             <spacer name="horizontalSpacer">
              <property name="orientation">
@@ -56,37 +202,23 @@
              </property>
             </spacer>
            </item>
-           <item>
-            <widget class="QPushButton" name="pushButton">
-             <property name="text">
-              <string>PushButton</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_2">
-             <property name="text">
-              <string>PushButton</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_3">
-             <property name="text">
-              <string>PushButton</string>
-             </property>
-            </widget>
-           </item>
           </layout>
          </item>
          <item>
-          <widget class="QListWidget" name="listWidget"/>
+          <widget class="QListWidget" name="TaskListWidget">
+           <property name="styleSheet">
+            <string notr="true">QListWidget{
+	border:none;
+	background-color: rgba(209, 209, 209, 90);
+}</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
        <widget class="QWidget" name="tab_2">
         <attribute name="title">
-         <string>Tab 2</string>
+         <string>历史任务</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <property name="spacing">
@@ -105,7 +237,14 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QListWidget" name="listWidget_3"/>
+          <widget class="QListWidget" name="historyListWidget">
+           <property name="styleSheet">
+            <string notr="true">QListWidget{
+	border:none;
+	background-color: rgba(209, 209, 209, 90);
+}</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -135,7 +274,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="linkDayButton">
        <property name="minimumSize">
         <size>
          <width>40</width>
@@ -148,19 +287,39 @@
          <height>40</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>添加到当日</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	border:none;
+	border-radius:6px;
+}
+QPushButton:hover{
+	background:#c0d5d6;
+}
+QPushButton:pressed{
+	border:1px solid white;
+	background:#c0d5d6;
+}</string>
+       </property>
        <property name="text">
         <string/>
        </property>
+       <property name="icon">
+        <iconset resource="../icon/icons.qrc">
+         <normaloff>:/icon/add.png</normaloff>:/icon/add.png</iconset>
+       </property>
        <property name="iconSize">
         <size>
-         <width>16</width>
-         <height>16</height>
+         <width>20</width>
+         <height>20</height>
         </size>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_5">
+      <widget class="QPushButton" name="undoLinkButton">
        <property name="minimumSize">
         <size>
          <width>40</width>
@@ -173,8 +332,34 @@
          <height>40</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>移除选中任务</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{
+	border:none;
+	border-radius:6px;
+}
+QPushButton:hover{
+	background:#c0d5d6;
+}
+QPushButton:pressed{
+	border:1px solid white;
+	background:#c0d5d6;
+}</string>
+       </property>
        <property name="text">
         <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../icon/icons.qrc">
+         <normaloff>:/icon/remove.png</normaloff>:/icon/remove.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
        </property>
       </widget>
      </item>
@@ -200,18 +385,39 @@
      </item>
      <item>
       <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <family>Microsoft YaHei UI</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>当日任务</string>
+       </property>
+       <property name="margin">
+        <number>4</number>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="listWidget_2"/>
+      <widget class="QListWidget" name="dayTaskListWidget">
+       <property name="styleSheet">
+        <string notr="true">QListWidget{
+	border:none;
+	background-color: rgba(209, 209, 209, 90);
+}</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icon/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
