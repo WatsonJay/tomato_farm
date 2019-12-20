@@ -18,7 +18,7 @@
     <number>2</number>
    </property>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="4,4">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="1,8">
      <property name="spacing">
       <number>3</number>
      </property>
@@ -52,7 +52,23 @@
         </property>
         <item>
          <widget class="QWidget" name="widget" native="true">
+          <property name="styleSheet">
+           <string notr="true">QWidget&gt;QPushButton{
+	background-color: #d1d1d1;
+	border-radius:3px;
+}
+QWidget&gt;QPushButton:hover{
+	background-color: #ababab;
+}
+QWidget&gt;QPushButton:pressed{
+	background-color: #ababab;
+	background:#c0d5d6;
+}</string>
+          </property>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <property name="spacing">
+            <number>1</number>
+           </property>
            <property name="leftMargin">
             <number>6</number>
            </property>
@@ -65,25 +81,6 @@
            <property name="bottomMargin">
             <number>6</number>
            </property>
-           <item>
-            <widget class="QPushButton" name="pushButton_12">
-             <property name="minimumSize">
-              <size>
-               <width>60</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>60</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
            <item>
             <spacer name="horizontalSpacer_5">
              <property name="orientation">
@@ -98,7 +95,31 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_13">
+            <widget class="QPushButton" name="addTodayButton">
+             <property name="minimumSize">
+              <size>
+               <width>80</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Microsoft YaHei UI</family>
+              </font>
+             </property>
+             <property name="text">
+              <string>当日备忘</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="showMenuButton">
              <property name="minimumSize">
               <size>
                <width>25</width>
@@ -114,13 +135,30 @@
              <property name="text">
               <string/>
              </property>
+             <property name="icon">
+              <iconset resource="../icon/icons.qrc">
+               <normaloff>:/icon/down.png</normaloff>:/icon/down.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>8</width>
+               <height>8</height>
+              </size>
+             </property>
             </widget>
            </item>
           </layout>
          </widget>
         </item>
         <item>
-         <widget class="QTreeWidget" name="treeWidget"/>
+         <widget class="QTreeWidget" name="treeWidget">
+          <property name="styleSheet">
+           <string notr="true">QTreeWidget{
+	border:none;
+	background-color: rgba(209, 209, 209, 0);
+}</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -134,9 +172,28 @@
      </property>
      <item>
       <widget class="QWidget" name="widget_3" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>29</height>
+        </size>
+       </property>
        <property name="styleSheet">
         <string notr="true">QWidget&gt;QPushButton{
 	border:none;
+}
+QWidget&gt;QPushButton:hover{
+	background:#c0d5d6;
+}
+QWidget&gt;QPushButton:pressed{
+	border:1px solid white;
+	background:#c0d5d6;
 }</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -156,7 +213,7 @@
          <number>2</number>
         </property>
         <item>
-         <widget class="QPushButton" name="pushButton_11">
+         <widget class="QPushButton" name="saveButton">
           <property name="minimumSize">
            <size>
             <width>25</width>
@@ -211,7 +268,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="sizeComboBox">
           <property name="minimumSize">
            <size>
             <width>60</width>
@@ -223,6 +280,9 @@
             <width>60</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>字体大小</string>
           </property>
           <property name="styleSheet">
            <string notr="true"/>
@@ -230,7 +290,20 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <spacer name="horizontalSpacer_7">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="bordButton">
           <property name="minimumSize">
            <size>
             <width>25</width>
@@ -242,6 +315,9 @@
             <width>25</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>加粗</string>
           </property>
           <property name="text">
            <string/>
@@ -253,7 +329,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="ItalicButton">
           <property name="minimumSize">
            <size>
             <width>25</width>
@@ -265,6 +341,9 @@
             <width>25</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>斜体</string>
           </property>
           <property name="text">
            <string/>
@@ -276,7 +355,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="underlineButton">
           <property name="minimumSize">
            <size>
             <width>25</width>
@@ -288,6 +367,9 @@
             <width>25</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>xia下划线</string>
           </property>
           <property name="text">
            <string/>
@@ -312,7 +394,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_4">
+         <widget class="QPushButton" name="leftJustButton">
           <property name="minimumSize">
            <size>
             <width>25</width>
@@ -324,6 +406,9 @@
             <width>25</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>左对齐</string>
           </property>
           <property name="text">
            <string/>
@@ -335,7 +420,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_5">
+         <widget class="QPushButton" name="centerButton">
           <property name="minimumSize">
            <size>
             <width>25</width>
@@ -347,6 +432,9 @@
             <width>25</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>居中</string>
           </property>
           <property name="text">
            <string/>
@@ -358,7 +446,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_7">
+         <widget class="QPushButton" name="rightJustButton">
           <property name="minimumSize">
            <size>
             <width>25</width>
@@ -370,6 +458,9 @@
             <width>25</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>右对齐</string>
           </property>
           <property name="text">
            <string/>
@@ -394,7 +485,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_8">
+         <widget class="QPushButton" name="fontColorButton">
           <property name="minimumSize">
            <size>
             <width>25</width>
@@ -406,6 +497,9 @@
             <width>25</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>字体颜色</string>
           </property>
           <property name="text">
            <string/>
@@ -417,7 +511,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_9">
+         <widget class="QPushButton" name="signlePenButton">
           <property name="minimumSize">
            <size>
             <width>25</width>
@@ -429,6 +523,9 @@
             <width>25</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>记号笔</string>
           </property>
           <property name="text">
            <string/>
@@ -453,7 +550,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_10">
+         <widget class="QPushButton" name="searchChangeButton">
           <property name="minimumSize">
            <size>
             <width>25</width>
@@ -465,6 +562,9 @@
             <width>25</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>搜索</string>
           </property>
           <property name="text">
            <string/>
@@ -488,6 +588,13 @@
 }
 QWidget&gt;QPushButton{
 	border:none;
+}
+QWidget&gt;QPushButton:hover{
+	background:#c0d5d6;
+}
+QWidget&gt;QPushButton:pressed{
+	border:1px solid white;
+	background:#c0d5d6;
 }</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -495,13 +602,13 @@ QWidget&gt;QPushButton{
          <number>3</number>
         </property>
         <property name="leftMargin">
-         <number>2</number>
+         <number>3</number>
         </property>
         <property name="topMargin">
          <number>0</number>
         </property>
         <property name="rightMargin">
-         <number>2</number>
+         <number>3</number>
         </property>
         <property name="bottomMargin">
          <number>0</number>
@@ -520,7 +627,7 @@ QWidget&gt;QPushButton{
          </spacer>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="searchLineEdit">
           <property name="maximumSize">
            <size>
             <width>150</width>
@@ -536,7 +643,7 @@ QWidget&gt;QPushButton{
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_6">
+         <widget class="QPushButton" name="searchButton">
           <property name="minimumSize">
            <size>
             <width>24</width>
@@ -548,6 +655,9 @@ QWidget&gt;QPushButton{
             <width>24</width>
             <height>24</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>搜索</string>
           </property>
           <property name="text">
            <string/>
@@ -568,7 +678,7 @@ QWidget&gt;QPushButton{
        </property>
        <property name="background">
         <brush brushstyle="SolidPattern">
-         <color alpha="0">
+         <color alpha="90">
           <red>160</red>
           <green>160</green>
           <blue>160</blue>
