@@ -284,4 +284,4 @@ class Ui_memoWidget(object):
         self.searchChangeButton.setToolTip(_translate("memoWidget", "搜索"))
         self.searchLineEdit.setPlaceholderText(_translate("memoWidget", "关键词"))
         self.searchButton.setToolTip(_translate("memoWidget", "搜索"))
-import UI.icons_rc
+import icons_rc

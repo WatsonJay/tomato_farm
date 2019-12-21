@@ -62,19 +62,26 @@ class todoWidgetImpl(QWidget, Ui_todoWidget):
     #检测隐藏
     def checkHide(self):
         desktop = QApplication.desktop()
+        current_monitor = desktop.screenNumber(self)
+        desktopGem = desktop.screenGeometry(current_monitor)
         widgetGeom = self.geometry()
-        if widgetGeom.x() >= desktop.width() - widgetGeom.width() - 5 :
+        if widgetGeom.x() >= desktopGem.x() + desktopGem.width() - widgetGeom.width() - 5 and widgetGeom.x() <= desktopGem.x() + desktopGem.width() :
             self.conftodo.debug("鼠标离开,隐藏")
-            self.move(desktop.width() - 30, self.y())
             self.showHideWidget.setVisible(True)
+            self.move(desktopGem.x() + desktopGem.width() - self.showHideWidget.width() - self.mainWidget.width()//2, self.y())
+            self.mainWidget.setVisible(False)
+
 
     # 检测显示
     def checkShow(self):
         desktop = QApplication.desktop()
+        current_monitor = desktop.screenNumber(self)
+        desktopGem = desktop.screenGeometry(current_monitor)
         widgetGeom = self.geometry()
-        if widgetGeom.x() == desktop.width() - 30 :
+        if widgetGeom.x() == desktopGem.x() + desktopGem.width() - self.showHideWidget.width() - self.mainWidget.width()//2:
             self.conftodo.debug("鼠标进入,显示")
-            self.move(desktop.width() - widgetGeom.width(), self.y())
+            self.mainWidget.setVisible(True)
+            self.move(desktopGem.x() +desktopGem.width() - widgetGeom.width(), self.y())
             self.showHideWidget.setVisible(False)
 
     # 鼠标进入事件

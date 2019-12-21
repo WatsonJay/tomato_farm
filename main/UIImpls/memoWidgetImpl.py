@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QWidget
 
 from UI.memoWidget import Ui_memoWidget
 
+
 class memoWidgetImpl(QWidget, Ui_memoWidget):
     # 初始化
     def __init__(self, parent=None):

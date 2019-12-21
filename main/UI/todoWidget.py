@@ -42,13 +42,16 @@ class Ui_todoWidget(object):
         self.label.setObjectName("label")
         self.horizontalLayout_3.addWidget(self.label)
         self.verticalLayout.addWidget(self.showHideWidget)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem = QtWidgets.QSpacerItem(30, 321, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
+        self.mainWidget = QtWidgets.QWidget(todoWidget)
+        self.mainWidget.setObjectName("mainWidget")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.mainWidget)
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.windowBar = QtWidgets.QWidget(todoWidget)
+        self.windowBar = QtWidgets.QWidget(self.mainWidget)
         self.windowBar.setMinimumSize(QtCore.QSize(0, 15))
         self.windowBar.setStyleSheet("QWidget#windowBar{\n"
 "background:rgba(86, 86, 86, 200);\n"
@@ -58,7 +61,7 @@ class Ui_todoWidget(object):
 "}")
         self.windowBar.setObjectName("windowBar")
         self.verticalLayout_4.addWidget(self.windowBar)
-        self.toolWidget = QtWidgets.QWidget(todoWidget)
+        self.toolWidget = QtWidgets.QWidget(self.mainWidget)
         self.toolWidget.setMinimumSize(QtCore.QSize(0, 50))
         self.toolWidget.setMaximumSize(QtCore.QSize(16777215, 50))
         self.toolWidget.setStyleSheet("QWidget#toolWidget{\n"
@@ -113,7 +116,7 @@ class Ui_todoWidget(object):
         self.lockButton.setObjectName("lockButton")
         self.horizontalLayout.addWidget(self.lockButton)
         self.verticalLayout_4.addWidget(self.toolWidget)
-        self.stackedWidget = QtWidgets.QStackedWidget(todoWidget)
+        self.stackedWidget = QtWidgets.QStackedWidget(self.mainWidget)
         self.stackedWidget.setStyleSheet("QStackedWidget{\n"
 "    background:rgba(255, 255, 255, 0);\n"
 "    border-right:1px solid gray;\n"
@@ -127,7 +130,7 @@ class Ui_todoWidget(object):
         self.todayPage = QtWidgets.QWidget()
         self.todayPage.setObjectName("todayPage")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.todayPage)
-        self.verticalLayout_3.setContentsMargins(3, 0, 3, 0)
+        self.verticalLayout_3.setContentsMargins(3, 6, 3, 6)
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.todayListWidget = QtWidgets.QListWidget(self.todayPage)
@@ -145,19 +148,19 @@ class Ui_todoWidget(object):
 "}")
         self.overduePage.setObjectName("overduePage")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.overduePage)
-        self.verticalLayout_2.setContentsMargins(3, 0, 3, 0)
+        self.verticalLayout_2.setContentsMargins(3, 6, 3, 6)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.overdueListWidget = QtWidgets.QListWidget(self.overduePage)
         self.overdueListWidget.setObjectName("overdueListWidget")
         self.verticalLayout_2.addWidget(self.overdueListWidget)
         self.stackedWidget.addWidget(self.overduePage)
         self.verticalLayout_4.addWidget(self.stackedWidget)
-        self.verticalLayout_4.setStretch(1, 1)
         self.verticalLayout_4.setStretch(2, 9)
-        self.horizontalLayout_2.addLayout(self.verticalLayout_4)
+        self.horizontalLayout_2.addWidget(self.mainWidget)
+        self.horizontalLayout_2.setStretch(1, 9)
 
         self.retranslateUi(todoWidget)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(todoWidget)
 
     def retranslateUi(self, todoWidget):
