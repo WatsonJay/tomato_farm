@@ -8,10 +8,17 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QCheckBox, QSystemTrayIcon, QMenu, QAction
 from UI.mainWindow import Ui_MainWindow
+from UIImpls.firstWidgetImpl import firstWidgetImpl
+from UIImpls.marketWidgetImpl import marketWidgetImpl
+from UIImpls.memoWidgetImpl import memoWidgetImpl
+from UIImpls.statisWidgetImpl import statisWidgetImpl
+from UIImpls.taskWidgetImpl import taskWidgetImpl
 from UIImpls.noBorderImpl import noBorderImpl
 from UIImpls.miniBarImpl import miniBarImpl
 from UIImpls.todoWidgetImpl import todoWidgetImpl
 import UI.icons_rc
+
+
 
 class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl):
     #信号槽
@@ -25,6 +32,22 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl):
         self.todolist = todoWidgetImpl()
         self.todolist.show()
         self.trayIcon()
+        #添加功能页面
+        firstWidget = firstWidgetImpl()
+        statisWidget = statisWidgetImpl()
+        taskWidget = taskWidgetImpl()
+        memoWidget = memoWidgetImpl()
+        marketWidget = marketWidgetImpl()
+        self.stackedWidget.addWidget(firstWidget)
+        self.stackedWidget.addWidget(statisWidget)
+        self.stackedWidget.addWidget(taskWidget)
+        self.stackedWidget.addWidget(memoWidget)
+        self.stackedWidget.addWidget(marketWidget)
+        self.firstPageButton.clicked.connect(lambda:self.stackedWidget.setCurrentIndex(0))
+        self.statisButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
+        self.taskButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(2))
+        self.memoButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(3))
+        self.marketButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
         self.miniSizeButton.clicked.connect(self.miniSize)
         self.miniSizeSignal.connect(self.miniBar.miniShow)  # 通过信号槽设置时间
         self.miniBar.normalSizeSignal.connect(self.normalShow)

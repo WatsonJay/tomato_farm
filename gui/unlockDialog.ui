@@ -219,6 +219,13 @@ border-bottom-right-radius:7px;
 	border-radius:6px;
 	color:white;
 	background:#6CE872;
+}
+QPushButton:hover{
+	background:#53b357;
+}
+QPushButton:pressed{
+	border:1px solid white;
+	background:#53b357;
 }</string>
         </property>
         <property name="text">

@@ -114,6 +114,13 @@ class Ui_unlockDialog(object):
 "    border-radius:6px;\n"
 "    color:white;\n"
 "    background:#6CE872;\n"
+"}\n"
+"QPushButton:hover{\n"
+"    background:#53b357;\n"
+"}\n"
+"QPushButton:pressed{\n"
+"    border:1px solid white;\n"
+"    background:#53b357;\n"
 "}")
         self.unlockPushButton.setObjectName("unlockPushButton")
         self.verticalLayout_2.addWidget(self.unlockPushButton)

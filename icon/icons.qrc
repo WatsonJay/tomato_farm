@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icon">
+    <file>shop.png</file>
+    <file>shop.png</file>
     <file>down.png</file>
     <file>singlePen.png</file>
     <file>bold.png</file>

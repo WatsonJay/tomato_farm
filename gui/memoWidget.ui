@@ -113,6 +113,9 @@ QWidget&gt;QPushButton:pressed{
                <family>Microsoft YaHei UI</family>
               </font>
              </property>
+             <property name="toolTip">
+              <string>新增今日备忘</string>
+             </property>
              <property name="text">
               <string>当日备忘</string>
              </property>
@@ -131,6 +134,9 @@ QWidget&gt;QPushButton:pressed{
                <width>25</width>
                <height>25</height>
               </size>
+             </property>
+             <property name="toolTip">
+              <string>菜单</string>
              </property>
              <property name="text">
               <string/>
@@ -158,6 +164,11 @@ QWidget&gt;QPushButton:pressed{
 	background-color: rgba(209, 209, 209, 0);
 }</string>
           </property>
+          <column>
+           <property name="text">
+            <string notr="true">1</string>
+           </property>
+          </column>
          </widget>
         </item>
        </layout>

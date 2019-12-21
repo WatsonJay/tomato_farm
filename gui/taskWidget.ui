@@ -103,6 +103,9 @@ QTabWidget::pane{
              </property>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout">
+               <property name="spacing">
+                <number>6</number>
+               </property>
                <property name="leftMargin">
                 <number>9</number>
                </property>
@@ -236,6 +239,9 @@ QTabWidget::pane{
                 <spacer name="horizontalSpacer">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Expanding</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>

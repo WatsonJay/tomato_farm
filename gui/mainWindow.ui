@@ -303,7 +303,7 @@ border-bottom-right-radius:7px;
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="userInfoButton">
+             <widget class="QPushButton" name="statisButton">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -392,6 +392,12 @@ border-bottom-right-radius:7px;
                 <normaloff>:/icon/dialog.png</normaloff>:/icon/dialog.png</iconset>
               </property>
               <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+              <property name="autoExclusive">
                <bool>true</bool>
               </property>
              </widget>
