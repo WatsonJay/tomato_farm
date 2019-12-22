@@ -720,7 +720,7 @@ QWidget&gt;QPushButton{
             <number>2</number>
            </property>
            <item>
-            <widget class="QPushButton" name="pushButton_6">
+            <widget class="QPushButton" name="goBackButton">
              <property name="minimumSize">
               <size>
                <width>24</width>
@@ -798,7 +798,14 @@ QPushButton:pressed{
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="commNameLineEdit"/>
+            <widget class="QLineEdit" name="commNameLineEdit">
+             <property name="font">
+              <font>
+               <family>Microsoft YaHei UI</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_20">
@@ -814,29 +821,16 @@ QPushButton:pressed{
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="commPriceLineEdit"/>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_22">
+            <widget class="QLineEdit" name="commPriceLineEdit">
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
                <pointsize>10</pointsize>
               </font>
              </property>
-             <property name="text">
-              <string>创建时间：</string>
-             </property>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QDateEdit" name="createDateEdit">
-             <property name="calendarPopup">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
+           <item row="2" column="0">
             <widget class="QLabel" name="label_23">
              <property name="font">
               <font>
@@ -849,14 +843,20 @@ QPushButton:pressed{
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="2" column="1">
             <widget class="QDateEdit" name="buyDateEdit">
+             <property name="font">
+              <font>
+               <family>Microsoft YaHei UI</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
              <property name="calendarPopup">
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
+           <item row="3" column="0">
             <widget class="QLabel" name="label_24">
              <property name="font">
               <font>
@@ -869,33 +869,7 @@ QPushButton:pressed{
              </property>
             </widget>
            </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="label_31">
-             <property name="font">
-              <font>
-               <family>Microsoft YaHei UI</family>
-               <pointsize>10</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>描述：</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1">
-            <widget class="QLineEdit" name="descLineEdit">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>60</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
+           <item row="3" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
               <widget class="QRadioButton" name="yesRadioButton">
@@ -924,6 +898,38 @@ QPushButton:pressed{
               </widget>
              </item>
             </layout>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_31">
+             <property name="font">
+              <font>
+               <family>Microsoft YaHei UI</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>描述：</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="descLineEdit">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>60</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Microsoft YaHei UI</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -956,7 +962,7 @@ QPushButton:pressed{
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_7">
+            <widget class="QPushButton" name="commitButton">
              <property name="minimumSize">
               <size>
                <width>70</width>
@@ -987,7 +993,7 @@ QPushButton:pressed{
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_8">
+            <widget class="QPushButton" name="cancleButton">
              <property name="minimumSize">
               <size>
                <width>70</width>
