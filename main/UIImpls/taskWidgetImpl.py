@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QWidget, QListWidgetItem
 
 from UI.taskWidget import Ui_taskWidget
 from UIImpls.taskItemImpl import taskItemImpl
+from util.loadData import sqlite
 
 
 class taskWidgetImpl(QWidget, Ui_taskWidget):
@@ -15,6 +16,7 @@ class taskWidgetImpl(QWidget, Ui_taskWidget):
     def __init__(self, parent=None):
         super(taskWidgetImpl, self).__init__(parent)
         self.setupUi(self)
+        self.sqlite = sqlite('./config/tomato.db')
         self.addTaskButton.clicked.connect(self.addTask)
         self.cancleButton.clicked.connect(lambda:self.stackedWidget.setCurrentIndex(0))
 
@@ -28,6 +30,7 @@ class taskWidgetImpl(QWidget, Ui_taskWidget):
         self.stackedWidget.setCurrentIndex(1)
 
     def loadTask(self):
+        sql = "select * from "
         taskItem = taskItemImpl()
         ListItem = QListWidgetItem()
         ListItem.setSizeHint(taskItem.size())
