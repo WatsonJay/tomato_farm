@@ -26,9 +26,14 @@ class todoWidgetImpl(QWidget, Ui_todoWidget):
         self.conf = config()
         self.checkLock()
         self.move(int(self.conf.getOption('todoList', 'placeX')), int(self.conf.getOption('todoList', 'placeY')))
-        self.checkHide()
+
         self.lockButton.clicked.connect(self.lockStatus) #锁定/解锁
         self.changeButton.clicked.connect(self.changeCurrentPage) #切换当前页面
+
+    def show(self):
+        super(todoWidgetImpl, self).show()
+        self.checkHide()
+        return self
 
     #锁定检查
     def checkLock(self):

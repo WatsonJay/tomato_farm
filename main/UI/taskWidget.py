@@ -309,6 +309,7 @@ class Ui_taskWidget(object):
         self.label_7.setObjectName("label_7")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_7)
         self.taskDescEdit = QtWidgets.QTextEdit(self.page_2)
+        self.taskDescEdit.setMaximumSize(QtCore.QSize(16777215, 150))
         font = QtGui.QFont()
         font.setFamily("Microsoft YaHei UI")
         font.setPointSize(10)

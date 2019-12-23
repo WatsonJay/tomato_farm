@@ -28,9 +28,8 @@ class taskWidgetImpl(QWidget, Ui_taskWidget):
         self.stackedWidget.setCurrentIndex(1)
 
     def loadTask(self):
-        for i in range(0, 20):
-            taskItem = taskItemImpl()
-            ListItem = QListWidgetItem()
-            ListItem.setSizeHint(taskItem.size())
-            self.taskListWidget.addItem(ListItem)
-            self.taskListWidget.setItemWidget(ListItem, taskItem)
+        taskItem = taskItemImpl()
+        ListItem = QListWidgetItem()
+        ListItem.setSizeHint(taskItem.size())
+        self.taskListWidget.addItem(ListItem)
+        self.taskListWidget.setItemWidget(ListItem, taskItem)

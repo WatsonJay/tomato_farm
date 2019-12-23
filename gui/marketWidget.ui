@@ -132,6 +132,12 @@
     border-radius:10px;
     padding:2px 4px;
 }
+QWidget&gt;QTextEdit{
+	border:1px solid gray;
+	background:white;
+    border-radius:10px;
+	padding:2px 4px;
+}
 QWidget&gt;QDateEdit{
 	border:1px solid gray;
 	border-radius:10px;
@@ -150,6 +156,43 @@ QWidget&gt;QPushButton{
 	border:none;
 	color:white;
 	border-radius:12px;
+}
+
+QSpinBox,QDoubleSpinBox{
+	border:1px solid gray;
+	border-radius:10px;
+	padding:2px 4px;
+}
+
+/*spinbox 抬起样式*/
+QDoubleSpinBox::up-button,QSpinBox::up-button {
+	subcontrol-origin:border;
+    subcontrol-position:right;
+    image: url(:/icon/add.png);
+    width: 16px;
+    height: 20px;       
+}
+QDoubleSpinBox::down-button,QSpinBox::down-button {
+    subcontrol-origin:border;
+    subcontrol-position:left;
+    border-image: url(:/icon/remove.png);
+    width: 16px;
+    height: 17px;
+}
+/*按钮按下样式*/
+QDoubleSpinBox::up-button:pressed,QSpinBox::up-button:pressed{
+	subcontrol-origin:border;
+    subcontrol-position:right;
+    image: url(:/icon/add.png);
+    width: 16px;
+    height: 20px;       
+}
+  
+QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
+    subcontrol-position:left;
+    image: url(:/icon/remove.png);
+    width: 16px;
+    height: 17px;
 }</string>
        </property>
        <property name="currentIndex">
@@ -656,30 +699,7 @@ QPushButton:pressed{
        </widget>
        <widget class="QWidget" name="page_2">
         <property name="styleSheet">
-         <string notr="true">QWidget&gt;QLineEdit{
-	border:1px solid gray;
-    border-radius:10px;
-    padding:2px 4px;
-}
-QWidget&gt;QDateEdit{
-	border:1px solid gray;
-	border-radius:10px;
-	padding:2px 4px;
-}
-QWidget&gt;QDateEdit::drop-down{
-	width: 20px;
-	border-left-width: 1px;
-	border-left-style: solid;
-	border-left-color: gray; 
-}
-QWidget&gt;QDateEdit::down-arrow{
-	border-image:url(:/icon/down.png);
-}
-QWidget&gt;QPushButton{
-	border:none;
-	color:white;
-	border-radius:12px;
-}</string>
+         <string notr="true"/>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
@@ -693,42 +713,6 @@ QWidget&gt;QPushButton{
            <property name="bottomMargin">
             <number>2</number>
            </property>
-           <item>
-            <widget class="QPushButton" name="goBackButton">
-             <property name="minimumSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton{
-	background:#FEE66E;
-}
-QPushButton:hover{
-	background:#c5b355;
-}
-QPushButton:pressed{
-	border:1px solid white;
-	background:#c5b355;
-}
-</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="../icon/icons.qrc">
-               <normaloff>:/icon/show.png</normaloff>:/icon/show.png</iconset>
-             </property>
-            </widget>
-           </item>
            <item>
             <spacer name="horizontalSpacer_6">
              <property name="orientation">
@@ -791,16 +775,6 @@ QPushButton:pressed{
              </property>
              <property name="text">
               <string>商品价格：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="commPriceLineEdit">
-             <property name="font">
-              <font>
-               <family>Microsoft YaHei UI</family>
-               <pointsize>10</pointsize>
-              </font>
              </property>
             </widget>
            </item>
@@ -889,12 +863,22 @@ QPushButton:pressed{
              </property>
             </widget>
            </item>
+           <item row="1" column="1">
+            <widget class="QDoubleSpinBox" name="commPriceBox">
+             <property name="font">
+              <font>
+               <family>Microsoft YaHei UI</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+            </widget>
+           </item>
            <item row="4" column="1">
-            <widget class="QLineEdit" name="descLineEdit">
-             <property name="minimumSize">
+            <widget class="QTextEdit" name="descEdit">
+             <property name="maximumSize">
               <size>
-               <width>0</width>
-               <height>60</height>
+               <width>16777215</width>
+               <height>150</height>
               </size>
              </property>
              <property name="font">

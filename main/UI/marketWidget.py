@@ -74,6 +74,12 @@ class Ui_marketWidget(object):
 "    border-radius:10px;\n"
 "    padding:2px 4px;\n"
 "}\n"
+"QWidget>QTextEdit{\n"
+"    border:1px solid gray;\n"
+"    background:white;\n"
+"    border-radius:10px;\n"
+"    padding:2px 4px;\n"
+"}\n"
 "QWidget>QDateEdit{\n"
 "    border:1px solid gray;\n"
 "    border-radius:10px;\n"
@@ -92,6 +98,43 @@ class Ui_marketWidget(object):
 "    border:none;\n"
 "    color:white;\n"
 "    border-radius:12px;\n"
+"}\n"
+"\n"
+"QSpinBox,QDoubleSpinBox{\n"
+"    border:1px solid gray;\n"
+"    border-radius:10px;\n"
+"    padding:2px 4px;\n"
+"}\n"
+"\n"
+"/*spinbox 抬起样式*/\n"
+"QDoubleSpinBox::up-button,QSpinBox::up-button {\n"
+"    subcontrol-origin:border;\n"
+"    subcontrol-position:right;\n"
+"    image: url(:/icon/add.png);\n"
+"    width: 16px;\n"
+"    height: 20px;       \n"
+"}\n"
+"QDoubleSpinBox::down-button,QSpinBox::down-button {\n"
+"    subcontrol-origin:border;\n"
+"    subcontrol-position:left;\n"
+"    border-image: url(:/icon/remove.png);\n"
+"    width: 16px;\n"
+"    height: 17px;\n"
+"}\n"
+"/*按钮按下样式*/\n"
+"QDoubleSpinBox::up-button:pressed,QSpinBox::up-button:pressed{\n"
+"    subcontrol-origin:border;\n"
+"    subcontrol-position:right;\n"
+"    image: url(:/icon/add.png);\n"
+"    width: 16px;\n"
+"    height: 20px;       \n"
+"}\n"
+"  \n"
+"QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{\n"
+"    subcontrol-position:left;\n"
+"    image: url(:/icon/remove.png);\n"
+"    width: 16px;\n"
+"    height: 17px;\n"
 "}")
         self.stackedWidget.setObjectName("stackedWidget")
         self.page = QtWidgets.QWidget()
@@ -341,56 +384,13 @@ class Ui_marketWidget(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout)
         self.stackedWidget.addWidget(self.page)
         self.page_2 = QtWidgets.QWidget()
-        self.page_2.setStyleSheet("QWidget>QLineEdit{\n"
-"    border:1px solid gray;\n"
-"    border-radius:10px;\n"
-"    padding:2px 4px;\n"
-"}\n"
-"QWidget>QDateEdit{\n"
-"    border:1px solid gray;\n"
-"    border-radius:10px;\n"
-"    padding:2px 4px;\n"
-"}\n"
-"QWidget>QDateEdit::drop-down{\n"
-"    width: 20px;\n"
-"    border-left-width: 1px;\n"
-"    border-left-style: solid;\n"
-"    border-left-color: gray; \n"
-"}\n"
-"QWidget>QDateEdit::down-arrow{\n"
-"    border-image:url(:/icon/down.png);\n"
-"}\n"
-"QWidget>QPushButton{\n"
-"    border:none;\n"
-"    color:white;\n"
-"    border-radius:12px;\n"
-"}")
+        self.page_2.setStyleSheet("")
         self.page_2.setObjectName("page_2")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.page_2)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setContentsMargins(10, 2, -1, 2)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.goBackButton = QtWidgets.QPushButton(self.page_2)
-        self.goBackButton.setMinimumSize(QtCore.QSize(24, 24))
-        self.goBackButton.setMaximumSize(QtCore.QSize(24, 24))
-        self.goBackButton.setStyleSheet("QPushButton{\n"
-"    background:#FEE66E;\n"
-"}\n"
-"QPushButton:hover{\n"
-"    background:#c5b355;\n"
-"}\n"
-"QPushButton:pressed{\n"
-"    border:1px solid white;\n"
-"    background:#c5b355;\n"
-"}\n"
-"")
-        self.goBackButton.setText("")
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/icon/show.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.goBackButton.setIcon(icon4)
-        self.goBackButton.setObjectName("goBackButton")
-        self.horizontalLayout_6.addWidget(self.goBackButton)
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem6)
         self.verticalLayout_3.addLayout(self.horizontalLayout_6)
@@ -418,13 +418,6 @@ class Ui_marketWidget(object):
         self.label_20.setFont(font)
         self.label_20.setObjectName("label_20")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_20)
-        self.commPriceLineEdit = QtWidgets.QLineEdit(self.page_2)
-        font = QtGui.QFont()
-        font.setFamily("Microsoft YaHei UI")
-        font.setPointSize(10)
-        self.commPriceLineEdit.setFont(font)
-        self.commPriceLineEdit.setObjectName("commPriceLineEdit")
-        self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.commPriceLineEdit)
         self.label_23 = QtWidgets.QLabel(self.page_2)
         font = QtGui.QFont()
         font.setFamily("Microsoft YaHei UI")
@@ -472,14 +465,21 @@ class Ui_marketWidget(object):
         self.label_31.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_31.setObjectName("label_31")
         self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.label_31)
-        self.descLineEdit = QtWidgets.QLineEdit(self.page_2)
-        self.descLineEdit.setMinimumSize(QtCore.QSize(0, 60))
+        self.commPriceBox = QtWidgets.QDoubleSpinBox(self.page_2)
         font = QtGui.QFont()
         font.setFamily("Microsoft YaHei UI")
         font.setPointSize(10)
-        self.descLineEdit.setFont(font)
-        self.descLineEdit.setObjectName("descLineEdit")
-        self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.descLineEdit)
+        self.commPriceBox.setFont(font)
+        self.commPriceBox.setObjectName("commPriceBox")
+        self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.commPriceBox)
+        self.descEdit = QtWidgets.QTextEdit(self.page_2)
+        self.descEdit.setMaximumSize(QtCore.QSize(16777215, 150))
+        font = QtGui.QFont()
+        font.setFamily("Microsoft YaHei UI")
+        font.setPointSize(10)
+        self.descEdit.setFont(font)
+        self.descEdit.setObjectName("descEdit")
+        self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.descEdit)
         self.verticalLayout_3.addLayout(self.formLayout_2)
         spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_3.addItem(spacerItem7)
