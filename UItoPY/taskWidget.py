@@ -2,13 +2,11 @@
 
 # Form implementation generated from reading ui file 'taskWidget.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.2
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_taskWidget(object):
     def setupUi(self, taskWidget):
@@ -456,7 +454,7 @@ class Ui_taskWidget(object):
 
         self.retranslateUi(taskWidget)
         self.tabWidget.setCurrentIndex(0)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(taskWidget)
 
     def retranslateUi(self, taskWidget):
@@ -478,4 +476,5 @@ class Ui_taskWidget(object):
         self.linkDayButton.setToolTip(_translate("taskWidget", "添加到当日"))
         self.undoLinkButton.setToolTip(_translate("taskWidget", "移除选中任务"))
         self.label_2.setText(_translate("taskWidget", "当日任务"))
-import UI.icons_rc
+
+import icons_rc

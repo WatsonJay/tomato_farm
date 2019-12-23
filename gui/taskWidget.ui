@@ -85,7 +85,7 @@ QTabWidget::pane{
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="page">
             <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -143,6 +143,13 @@ QTabWidget::pane{
 	border:none;
 	border-radius:12px;
 	background:#6CE872;
+}
+QPushButton:hover{
+	background:#53b357;
+}
+QPushButton:pressed{
+	border:1px solid white;
+	background:#53b357;
 }</string>
                  </property>
                  <property name="text">
@@ -182,7 +189,15 @@ QTabWidget::pane{
 	border:none;
 	border-radius:12px;
 	background:#FEE66E;
-}</string>
+}
+QPushButton:hover{
+	background:#c5b355;
+}
+QPushButton:pressed{
+	border:1px solid white;
+	background:#c5b355;
+}
+</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -221,6 +236,13 @@ QTabWidget::pane{
 	border:none;
 	border-radius:12px;
 	background:#F95D5C;
+}
+QPushButton:hover{
+	background:#aa3e3e;
+}
+QPushButton:pressed{
+	border:1px solid white;
+	background:#aa3e3e;
 }</string>
                  </property>
                  <property name="text">
@@ -257,7 +279,7 @@ QTabWidget::pane{
               </layout>
              </item>
              <item>
-              <widget class="QListWidget" name="TaskListWidget">
+              <widget class="QListWidget" name="taskListWidget">
                <property name="styleSheet">
                 <string notr="true">QListWidget{
 	border:none;
@@ -274,6 +296,12 @@ QTabWidget::pane{
 	border:1px solid gray;
     border-radius:10px;
     padding:2px 4px;
+}
+QWidget&gt;QTextEdit{
+	border:1px solid gray;
+	background:white;
+    border-radius:10px;
+	padding:2px 4px;
 }
 QWidget&gt;QDateEdit{
 	border:1px solid gray;
@@ -347,58 +375,6 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_3">
-                 <property name="font">
-                  <font>
-                   <family>Microsoft YaHei UI</family>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>任务时长：</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_4">
-                 <property name="font">
-                  <font>
-                   <family>Microsoft YaHei UI</family>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>结束期限：</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_5">
-                 <property name="font">
-                  <font>
-                   <family>Microsoft YaHei UI</family>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>分阶段：</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_6">
-                 <property name="font">
-                  <font>
-                   <family>Microsoft YaHei UI</family>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>阶段数：</string>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="1">
                 <widget class="QLineEdit" name="taskNameEdit">
                  <property name="font">
@@ -409,8 +385,8 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_7">
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_3">
                  <property name="font">
                   <font>
                    <family>Microsoft YaHei UI</family>
@@ -418,26 +394,7 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
                   </font>
                  </property>
                  <property name="text">
-                  <string>任务描述</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="1">
-                <widget class="QLineEdit" name="taskDescEdit">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>70</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Microsoft YaHei UI</family>
-                   <pointsize>10</pointsize>
-                  </font>
+                  <string>任务时长：</string>
                  </property>
                 </widget>
                </item>
@@ -518,6 +475,19 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
                  </item>
                 </layout>
                </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_4">
+                 <property name="font">
+                  <font>
+                   <family>Microsoft YaHei UI</family>
+                   <pointsize>10</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>结束期限：</string>
+                 </property>
+                </widget>
+               </item>
                <item row="2" column="1">
                 <widget class="QDateEdit" name="taskDeadLineEdit">
                  <property name="font">
@@ -534,49 +504,29 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
-                <layout class="QHBoxLayout" name="horizontalLayout_5">
-                 <item>
-                  <widget class="QRadioButton" name="yesRadioButton">
-                   <property name="font">
-                    <font>
-                     <family>Microsoft YaHei UI</family>
-                     <pointsize>10</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>是</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="noRadioButton">
-                   <property name="font">
-                    <font>
-                     <family>Microsoft YaHei UI</family>
-                     <pointsize>10</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>否</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="4" column="1">
-                <widget class="QSpinBox" name="stageSpinBox">
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_7">
                  <property name="font">
                   <font>
                    <family>Microsoft YaHei UI</family>
                    <pointsize>10</pointsize>
                   </font>
                  </property>
-                 <property name="minimum">
-                  <number>1</number>
+                 <property name="text">
+                  <string>任务描述</string>
                  </property>
-                 <property name="maximum">
-                  <number>10</number>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QTextEdit" name="taskDescEdit">
+                 <property name="font">
+                  <font>
+                   <family>Microsoft YaHei UI</family>
+                   <pointsize>10</pointsize>
+                  </font>
                  </property>
                 </widget>
                </item>
