@@ -8,9 +8,10 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget
 from UI.miniBar import Ui_miniBarForm
 from UIImpls.noBorderImpl import noBorderImpl
+from UIImpls.tipImpl import tipImpl
 from util.loadConf import config
 
-class miniBarImpl(QWidget, Ui_miniBarForm, noBorderImpl):
+class miniBarImpl(QWidget, Ui_miniBarForm, noBorderImpl, tipImpl):
     # 信号槽
     normalSizeSignal = pyqtSignal()
 

@@ -6,9 +6,10 @@
 from PyQt5.QtWidgets import QWidget
 
 from UI.memoWidget import Ui_memoWidget
+from UIImpls.tipImpl import tipImpl
 
 
-class memoWidgetImpl(QWidget, Ui_memoWidget):
+class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
     # 初始化
     def __init__(self, parent=None):
         super(memoWidgetImpl, self).__init__(parent)

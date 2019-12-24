@@ -15,12 +15,13 @@ from UIImpls.statisWidgetImpl import statisWidgetImpl
 from UIImpls.taskWidgetImpl import taskWidgetImpl
 from UIImpls.noBorderImpl import noBorderImpl
 from UIImpls.miniBarImpl import miniBarImpl
+from UIImpls.tipImpl import tipImpl
 from UIImpls.todoWidgetImpl import todoWidgetImpl
 import UI.icons_rc
 
 
 
-class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl):
+class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     #信号槽
     miniSizeSignal = pyqtSignal()
     # 初始化

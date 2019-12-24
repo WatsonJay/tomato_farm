@@ -6,8 +6,10 @@
 from PyQt5.QtWidgets import QWidget
 
 from UI.statisWidget import Ui_statisWidget
+from UIImpls.tipImpl import tipImpl
 
-class statisWidgetImpl(QWidget, Ui_statisWidget):
+
+class statisWidgetImpl(QWidget, Ui_statisWidget, tipImpl):
     # 初始化
     def __init__(self, parent=None):
         super(statisWidgetImpl, self).__init__(parent)

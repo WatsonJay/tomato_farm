@@ -8,9 +8,10 @@ import sys
 from PyQt5.QtWidgets import QDialog
 from UI.unlockDialog import Ui_unlockDialog
 from UIImpls.noBorderImpl import noBorderImpl
+from UIImpls.tipImpl import tipImpl
 from util.loadConf import config
 
-class unlockDialogImpl(QDialog, Ui_unlockDialog, noBorderImpl):
+class unlockDialogImpl(QDialog, Ui_unlockDialog, noBorderImpl, tipImpl):
     # 初始化
     def __init__(self, parent=None):
         super(unlockDialogImpl, self).__init__(parent)

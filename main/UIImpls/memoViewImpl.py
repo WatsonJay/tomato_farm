@@ -8,8 +8,10 @@ from PyQt5.QtWidgets import QWidget
 
 from UIImpls.noBorderImpl import noBorderImpl
 from UI.memoView import Ui_memoView
+from UIImpls.tipImpl import tipImpl
 
-class memoViewImpl(QWidget, Ui_memoView):
+
+class memoViewImpl(QWidget, Ui_memoView, tipImpl):
     # 初始化
     def __init__(self, parent=None):
         super(memoViewImpl, self).__init__(parent)

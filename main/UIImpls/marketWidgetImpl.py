@@ -7,8 +7,10 @@ from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QWidget
 
 from UI.marketWidget import Ui_marketWidget
+from UIImpls.tipImpl import tipImpl
 
-class marketWidgetImpl(QWidget, Ui_marketWidget):
+
+class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
     # 初始化
     def __init__(self, parent=None):
         super(marketWidgetImpl, self).__init__(parent)
