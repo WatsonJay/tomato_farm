@@ -100,7 +100,7 @@
         </font>
        </property>
        <property name="text">
-        <string>未分配</string>
+        <string/>
        </property>
       </widget>
      </item>

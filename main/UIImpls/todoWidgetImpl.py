@@ -26,7 +26,6 @@ class todoWidgetImpl(QWidget, Ui_todoWidget):
         self.conf = config()
         self.checkLock()
         self.move(int(self.conf.getOption('todoList', 'placeX')), int(self.conf.getOption('todoList', 'placeY')))
-
         self.lockButton.clicked.connect(self.lockStatus) #锁定/解锁
         self.changeButton.clicked.connect(self.changeCurrentPage) #切换当前页面
 
@@ -122,7 +121,3 @@ class todoWidgetImpl(QWidget, Ui_todoWidget):
     def mouseReleaseEvent(self, QMouseEvent):
         self.mouseflag = False
         self.setCursor(QCursor(QtCore.Qt.ArrowCursor))
-
-    # 提示窗口
-    def Tips(self, message):
-        QMessageBox.about(self, "提示", message)

@@ -3,6 +3,7 @@
 # @Author  : Jaywatson
 # @File    : mainWindowImpl.py
 # @Soft    : tomato_farm
+import datetime
 import sys
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSignal
@@ -17,6 +18,7 @@ from UIImpls.noBorderImpl import noBorderImpl
 from UIImpls.miniBarImpl import miniBarImpl
 from UIImpls.tipImpl import tipImpl
 from UIImpls.todoWidgetImpl import todoWidgetImpl
+from util.loadData import sqlite
 import UI.icons_rc
 
 
@@ -79,7 +81,20 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.mSysTrayIcon.setContextMenu(tpMenu)
         self.mSysTrayIcon.show()
 
-    #立刻关闭
+    #检查任务逾期
+    def checkOverdue(self):
+        sqliteI = sqlite('./config/tomato.db')
+        now = datetime.date.today().strftime('%Y-%m-%d')
+        sql = "Update t_base_task SET is_overdue = ? where deadline_time < ?"
+        sqliteI.execute(sql, [1,now])
+
+    # 重写打开事件
+    def show(self):
+        super(mainWindowImpl, self).show()
+        self.checkOverdue()
+        return self
+
+    # 立刻关闭
     def closeWithout(self):
         self.closeNow = False
         self.todolist.close()

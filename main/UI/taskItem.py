@@ -45,6 +45,7 @@ class Ui_taskItem(object):
         font = QtGui.QFont()
         font.setFamily("Microsoft YaHei UI")
         self.typeLabel.setFont(font)
+        self.typeLabel.setText("")
         self.typeLabel.setObjectName("typeLabel")
         self.horizontalLayout.addWidget(self.typeLabel)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -92,7 +93,6 @@ class Ui_taskItem(object):
         _translate = QtCore.QCoreApplication.translate
         taskItem.setWindowTitle(_translate("taskItem", "Form"))
         self.label.setText(_translate("taskItem", "任务名："))
-        self.typeLabel.setText(_translate("taskItem", "未分配"))
         self.label_2.setText(_translate("taskItem", "截至时间："))
         self.yearLabel.setText(_translate("taskItem", "0000-00-00"))
         self.label_5.setText(_translate("taskItem", "时长："))
