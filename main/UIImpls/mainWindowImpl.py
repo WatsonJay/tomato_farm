@@ -20,7 +20,7 @@ from UIImpls.tipImpl import tipImpl
 from UIImpls.todoWidgetImpl import todoWidgetImpl
 from util.loadData import sqlite
 import UI.icons_rc
-
+from util.logger import logger
 
 
 class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
@@ -31,11 +31,14 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         super(mainWindowImpl, self).__init__(parent)
         self.setupUi(self)
         self.closeNow = True
+        log = logger()
+        self.confmain = log.getlogger('gui')
         self.miniBar = miniBarImpl()
         self.todolist = todoWidgetImpl()
         self.todolist.show()
         self.trayIcon()
         #添加功能页面
+        self.checkOverdue()
         firstWidget = firstWidgetImpl()
         statisWidget = statisWidgetImpl()
         taskWidget = taskWidgetImpl()
@@ -83,10 +86,16 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
 
     #检查任务逾期
     def checkOverdue(self):
-        sqliteI = sqlite('./config/tomato.db')
-        now = datetime.date.today().strftime('%Y-%m-%d')
-        sql = "Update t_base_task SET is_overdue = ? where deadline_time < ?"
-        sqliteI.execute(sql, [1,now])
+        try:
+            sqliteI = sqlite('./config/tomato.db')
+            now = datetime.date.today().strftime('%Y-%m-%d')
+            sql = '''Update t_base_task
+                  SET is_overdue = ? 
+                  where is_finish = ? and (select task_id from t_task_link_date where link_date < ?)'''
+            sqliteI.execute(sql, [1, 0, now])
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.confmain.error(e)
 
     # 重写打开事件
     def show(self):

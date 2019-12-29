@@ -3,6 +3,7 @@
 # @Author  : Jaywatson
 # @File    : taskWidgetImpl.py
 # @Soft    : tomato_farm
+import datetime
 import uuid
 
 from PyQt5.QtCore import QDate
@@ -132,18 +133,21 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
     #提交任务
     def commitTask(self):
         try:
-            if self.id == '':
-                sql = "Insert Into t_base_task (id,task_name,deadline_time,task_during,task_desc) values (?,?,?,?,?)"
-                time = self.taskHourBox.value() * 60 + self.taskMinuteBox.value()
-                self.sqlite.execute(sql,[str(uuid.uuid1()), self.taskNameEdit.text(), self.taskDeadLineEdit.text(), time,self.taskDescEdit.toPlainText()])
+            if self.taskNameEdit.text()!='':
+                if self.id == '':
+                    sql = "Insert Into t_base_task (id,task_name,deadline_time,task_during,task_desc) values (?,?,?,?,?)"
+                    time = self.taskHourBox.value() * 60 + self.taskMinuteBox.value()
+                    self.sqlite.execute(sql,[str(uuid.uuid1()), self.taskNameEdit.text(), self.taskDeadLineEdit.text(), time,self.taskDescEdit.toPlainText()])
+                else:
+                    sql = "Update t_base_task SET task_name=?,deadline_time=?,task_during=?,task_desc=?,is_overdue=0 where id=?"
+                    time = self.taskHourBox.value() * 60 + self.taskMinuteBox.value()
+                    self.sqlite.execute(sql,[self.taskNameEdit.text(),self.taskDeadLineEdit.text(),time,self.taskDescEdit.toPlainText(),self.id])
+                self.Tips("提交成功")
+                self.stackedWidget.setCurrentIndex(0)
+                self.loadTask()
+                self.id = ''
             else:
-                sql = "Update t_base_task SET task_name=?,deadline_time=?,task_during=?,task_desc=?,is_overdue=0 where id=?"
-                time = self.taskHourBox.value() * 60 + self.taskMinuteBox.value()
-                self.sqlite.execute(sql,[self.taskNameEdit.text(),self.taskDeadLineEdit.text(),time,self.taskDescEdit.toPlainText(),self.id])
-            self.Tips("提交成功")
-            self.stackedWidget.setCurrentIndex(0)
-            self.loadTask()
-            self.id = ''
+                self.Tips("请填写任务名")
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.conftask.error(e)
@@ -153,16 +157,23 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
     def taskLinkDay(self):
         try:
             if len(self.taskListWidget.selectedItems()) > 0:
-                selectedItem = self.taskListWidget.itemWidget(self.taskListWidget.selectedItems()[0])
-                id = selectedItem.taskId
                 date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
-                sql = "Insert Into t_task_link_date (id,task_id,link_date) values (?,?,?)"
-                self.sqlite.execute(sql,[str(uuid.uuid1()), id, date])
-                sql = "Update t_base_task set is_dated = 1 where id = ?"
-                self.sqlite.execute(sql,id)
-                self.Tips("绑定成功")
-                self.loadTask()
-                self.currentDayTask()
+                now = datetime.date.today()
+                if datetime.datetime.strptime(date, "%Y-%m-%d").date() >= now:
+                    selectedItem = self.taskListWidget.itemWidget(self.taskListWidget.selectedItems()[0])
+                    if datetime.datetime.strptime(selectedItem.date, "%Y-%m-%d").date() >= datetime.datetime.strptime(date, "%Y-%m-%d").date():
+                        id = selectedItem.taskId
+                        sql = "Insert Into t_task_link_date (id,task_id,link_date) values (?,?,?)"
+                        self.sqlite.execute(sql,[str(uuid.uuid1()), id, date])
+                        sql = "Update t_base_task set is_dated = 1 where id = ?"
+                        self.sqlite.execute(sql,id)
+                        self.Tips("绑定成功")
+                        self.loadTask()
+                        self.currentDayTask()
+                    else:
+                        self.Tips("任务截至时间低于分配时间")
+                else:
+                    self.Tips("不可将任务分配给过去时间")
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.conftask.error(e)

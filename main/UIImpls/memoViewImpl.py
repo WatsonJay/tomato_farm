@@ -6,7 +6,6 @@
 
 from PyQt5.QtWidgets import QWidget
 
-from UIImpls.noBorderImpl import noBorderImpl
 from UI.memoView import Ui_memoView
 from UIImpls.tipImpl import tipImpl
 
@@ -16,3 +15,4 @@ class memoViewImpl(QWidget, Ui_memoView, tipImpl):
     def __init__(self, parent=None):
         super(memoViewImpl, self).__init__(parent)
         self.setupUi(self)
+
