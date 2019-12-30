@@ -26,6 +26,7 @@ from util.logger import logger
 class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     #信号槽
     miniSizeSignal = pyqtSignal()
+    taskRefreshSignal = pyqtSignal()
     # 初始化
     def __init__(self, parent=None):
         super(mainWindowImpl, self).__init__(parent)
@@ -49,6 +50,12 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.stackedWidget.addWidget(taskWidget)
         self.stackedWidget.addWidget(memoWidget)
         self.stackedWidget.addWidget(marketWidget)
+        #信号绑定
+        self.taskRefreshSignal.connect(firstWidget.refreshAll)
+        self.taskRefreshSignal.connect(taskWidget.refreshAll)
+        taskWidget.taskRefreshSignal.connect(firstWidget.refreshAll)
+
+        #功能绑定
         self.firstPageButton.clicked.connect(lambda:self.stackedWidget.setCurrentIndex(0))
         self.statisButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
         self.taskButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(2))
@@ -93,9 +100,14 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
                   SET is_overdue = ? 
                   where is_finish = ? and (select task_id from t_task_link_date where link_date < ?)'''
             sqliteI.execute(sql, [1, 0, now])
+            self.taskRefreshSignal.emit()
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.confmain.error(e)
+
+    #启动任务线程
+    def taskStart(self):
+        self.confmain.debug("start")
 
     # 重写打开事件
     def show(self):

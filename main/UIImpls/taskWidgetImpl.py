@@ -6,7 +6,7 @@
 import datetime
 import uuid
 
-from PyQt5.QtCore import QDate
+from PyQt5.QtCore import QDate, pyqtSignal
 from PyQt5.QtWidgets import QWidget, QListWidgetItem, QMessageBox
 
 from UI.taskWidget import Ui_taskWidget
@@ -17,6 +17,8 @@ from util.logger import logger
 
 
 class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
+    #信号槽
+    taskRefreshSignal = pyqtSignal()
     # 初始化
     def __init__(self, parent=None):
         super(taskWidgetImpl, self).__init__(parent)
@@ -29,6 +31,7 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
         self.loadHistoryTask()
         self.id=''
         self.taskDeadLineEdit.setMinimumDate(QDate.currentDate())
+        #功能绑定
         self.addTaskButton.clicked.connect(self.addTask)
         self.modifTaskButton.clicked.connect(self.modifTask)
         self.delTaskButton.clicked.connect(self.deletTask)
@@ -37,6 +40,12 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
         self.calendarWidget.clicked.connect(self.currentDayTask)
         self.linkDayButton.clicked.connect(self.taskLinkDay)
         self.undoLinkButton.clicked.connect(self.taskUnlinkDay)
+
+    #全部刷新
+    def refreshAll(self):
+        self.loadTask()
+        self.loadHistoryTask()
+        self.currentDayTask()
 
     # 列出所有任务
     def loadTask(self):
@@ -170,6 +179,7 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
                         self.Tips("绑定成功")
                         self.loadTask()
                         self.currentDayTask()
+                        self.taskRefreshSignal.emit()
                     else:
                         self.Tips("任务截至时间低于分配时间")
                 else:
@@ -191,6 +201,7 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
                 self.Tips("已解除任务")
                 self.loadTask()
                 self.currentDayTask()
+                self.taskRefreshSignal.emit()
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.conftask.error(e)

@@ -5,6 +5,7 @@
 # @Soft    : tomato_farm
 import datetime
 
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget, QListWidgetItem
 
 from UI.firstWidget import Ui_homeWidget
@@ -15,6 +16,8 @@ from util.logger import logger
 
 
 class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
+    # 信号槽
+    taskStartSignal = pyqtSignal()
     # 初始化
     def __init__(self, parent=None):
         super(firstWidgetImpl, self).__init__(parent)
@@ -23,6 +26,12 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
         self.conffirst = log.getlogger('gui')
         self.sqlite = sqlite('./config/tomato.db')
         self.loadTodayTask()
+
+    #全部刷新
+    def refreshAll(self):
+        self.loadTodayTask()
+        self.loadOverdueTask()
+        print("first")
 
     #加载今日任务
     def loadTodayTask(self):
@@ -58,10 +67,15 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
             self.Tips("系统异常，请查看日志")
             self.conffirst.error(e)
 
+    #开始任务
+    def startTask(self,id):
+        print(id)
+
     # 创建列表项
     def makeItem(self, data):
         firstItem = firstItemImpl()
         firstItem.setInfo(data)
+        firstItem.taskStartSignal.connect(self.startTask)
         listItem = QListWidgetItem()
         listItem.setSizeHint(firstItem.size())
         return firstItem, listItem
