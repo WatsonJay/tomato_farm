@@ -12,6 +12,7 @@ from UI.mainWindow import Ui_MainWindow
 from UIImpls.firstWidgetImpl import firstWidgetImpl
 from UIImpls.marketWidgetImpl import marketWidgetImpl
 from UIImpls.memoWidgetImpl import memoWidgetImpl
+from UIImpls.messageWidgetImpl import messageWidgetImpl
 from UIImpls.statisWidgetImpl import statisWidgetImpl
 from UIImpls.taskWidgetImpl import taskWidgetImpl
 from UIImpls.noBorderImpl import noBorderImpl
@@ -53,8 +54,8 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         #信号绑定
         self.taskRefreshSignal.connect(firstWidget.refreshAll)
         self.taskRefreshSignal.connect(taskWidget.refreshAll)
+        firstWidget.taskRefreshSignal.connect(taskWidget.refreshAll)
         taskWidget.taskRefreshSignal.connect(firstWidget.refreshAll)
-
         #功能绑定
         self.firstPageButton.clicked.connect(lambda:self.stackedWidget.setCurrentIndex(0))
         self.statisButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
@@ -98,7 +99,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             now = datetime.date.today().strftime('%Y-%m-%d')
             sql = '''Update t_base_task
                   SET is_overdue = ? 
-                  where is_finish = ? and (select task_id from t_task_link_date where link_date < ?)'''
+                  where is_finish = ? and id in (select task_id from t_task_link_date where link_date < ?)'''
             sqliteI.execute(sql, [1, 0, now])
             self.taskRefreshSignal.emit()
         except Exception as e:

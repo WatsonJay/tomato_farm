@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'firstWidgetItem.ui'
 #
@@ -56,6 +55,14 @@ class Ui_firstWidgetItem(object):
         self.duringLabel.setText("")
         self.duringLabel.setObjectName("duringLabel")
         self.horizontalLayout_4.addWidget(self.duringLabel)
+        self.label_3 = QtWidgets.QLabel(firstWidgetItem)
+        font = QtGui.QFont()
+        font.setFamily("Microsoft YaHei UI")
+        self.label_3.setFont(font)
+        self.label_3.setObjectName("label_3")
+        self.horizontalLayout_4.addWidget(self.label_3)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
         self.widget = QtWidgets.QWidget(firstWidgetItem)
@@ -114,4 +121,5 @@ class Ui_firstWidgetItem(object):
         firstWidgetItem.setWindowTitle(_translate("firstWidgetItem", "Form"))
         self.label.setText(_translate("firstWidgetItem", "任务名："))
         self.label_2.setText(_translate("firstWidgetItem", "任务时长："))
+        self.label_3.setText(_translate("firstWidgetItem", "分钟"))
 import UI.icons_rc

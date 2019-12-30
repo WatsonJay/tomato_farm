@@ -47,6 +47,7 @@ class messageWidgetImpl(QWidget, Ui_messageWidget):
         self.animation.setDuration(2000)  # 2s
         # 弹回定时器
         self._timer = QTimer(self, timeout=self.closeAnimation)
+        self.closeButton.clicked.connect(self.closeNow)
 
     def show(self, content=''):
         self._timer.stop()  # 停止定时器
@@ -88,16 +89,23 @@ class messageWidgetImpl(QWidget, Ui_messageWidget):
             self.message.debug("onAnimationEnd stop timer")
             self._timer.stop()
 
+    def closeNow(self):
+        self.close()
+        self._timer.stop()
+
+    # 进入事件
     def enterEvent(self, QEvent):
         self.message.debug("enterEvent setFocus Qt.MouseFocusReason")
         self.setFocus(Qt.MouseFocusReason)
 
+    # 离开事件
     def leaveEvent(self, QEvent):
         self.message.debug("leaveEvent clearFocus")
         self.clearFocus()
         if self._hasFocus:
             QTimer.start(1000, self.closeAnimation)
 
+    # 设置内容
     def setContent(self, content):
         if content:
             self.label.setText(content)
@@ -105,6 +113,7 @@ class messageWidgetImpl(QWidget, Ui_messageWidget):
     def content(self):
         return self.label.text()
 
+    #设置超时
     def setTimeout(self, timeout):
         if isinstance(timeout, int):
             self._timeout = timeout
