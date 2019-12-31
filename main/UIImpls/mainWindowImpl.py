@@ -56,6 +56,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.taskRefreshSignal.connect(taskWidget.refreshAll)
         firstWidget.taskRefreshSignal.connect(taskWidget.refreshAll)
         taskWidget.taskRefreshSignal.connect(firstWidget.refreshAll)
+        firstWidget.taskStartSignal.connect(self.taskStart)
         #功能绑定
         self.firstPageButton.clicked.connect(lambda:self.stackedWidget.setCurrentIndex(0))
         self.statisButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
