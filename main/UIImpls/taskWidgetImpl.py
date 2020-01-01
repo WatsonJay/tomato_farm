@@ -196,7 +196,7 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
                 id = selectedItem.taskId
                 sql = "Delete from t_task_link_date where task_id = ?"
                 self.sqlite.execute(sql,id)
-                sql = "Update t_base_task set is_dated = 0 where id = ?"
+                sql = "Update t_base_task set is_dated = 0,is_overdue = 0 where id = ?"
                 self.sqlite.execute(sql, id)
                 self.Tips("已解除任务")
                 self.loadTask()

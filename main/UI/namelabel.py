@@ -12,6 +12,7 @@ class nameLabel(QLabel):
         super(nameLabel, self).__init__(parent)
         self.txt=''
         self.newX = 0
+        self.color = 'black'
         self.timer = QTimer(self)
         self.font = QFont('Microsoft YaHei UI', 10)
         self.timer.timeout.connect(self.changeTxtPosition)
@@ -27,13 +28,14 @@ class nameLabel(QLabel):
             self.newX = self.width()
         self.update()
 
-    def setText(self,s):
-        self.txt = s
+    def setText(self,txt,color='black'):
+        self.txt = txt
+        self.color = color
         self.newX = 0
         self.update()
 
     def enterEvent(self, event):
-        self.timer.start(150)
+        self.timer.start(500)
 
     def leaveEvent(self, event):
         # 鼠标离开则停止滚动并复位
@@ -44,14 +46,14 @@ class nameLabel(QLabel):
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setFont(self.font)
-        #painter.setPen(QColor('transparent'));
-        self.textRect = painter.drawText(QRect(0, 0, self.width(), self.height()), Qt.AlignHCenter | Qt.AlignVCenter, self.txt)
+        painter.setPen(QColor('transparent'))
+        self.textRect = painter.drawText(QRect(0, 0, self.width(), self.height()), Qt.AlignLeft | Qt.AlignVCenter, self.txt)
 
         if self.textRect.width() > self.width():
-            #painter.setPen(QColor('black'));  # 黑色
+            painter.setPen(QColor(self.color)) # 黑色
             painter.drawText(QRect(self.newX, 0, self.textRect.width(), self.height()), Qt.AlignLeft | Qt.AlignVCenter, self.txt)
         else:
-            #painter.setPen(QColor('black'));  # 黑色
-            self.textRect = painter.drawText(QRect(0, 0, self.width(), self.height()), Qt.AlignLeft | Qt.AlignVCenter, self.txt)
+            painter.setPen(QColor(self.color))  # 黑色
+            painter.drawText(QRect(0, 0, self.width(), self.height()), Qt.AlignLeft | Qt.AlignVCenter, self.txt)
             self.timer.stop()
 

@@ -22,6 +22,7 @@ from UIImpls.todoWidgetImpl import todoWidgetImpl
 from util.loadData import sqlite
 import UI.icons_rc
 from util.logger import logger
+from util.taskRunThread import taskRunThread
 
 
 class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
@@ -33,14 +34,19 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         super(mainWindowImpl, self).__init__(parent)
         self.setupUi(self)
         self.closeNow = True
+        self.taskRun = None
         log = logger()
         self.confmain = log.getlogger('gui')
+        self.trayIcon()
+        self.checkOverdue()
+        #界面初始化
         self.miniBar = miniBarImpl()
         self.todolist = todoWidgetImpl()
         self.todolist.show()
-        self.trayIcon()
-        #添加功能页面
-        self.checkOverdue()
+        self.taskTitleLabel.setText("无")
+        self.readyTomatoLabel.setText("0")
+        self.totalTomatoLabel.setText("0")
+        self.timeLcd.display("00:00")
         firstWidget = firstWidgetImpl()
         statisWidget = statisWidgetImpl()
         taskWidget = taskWidgetImpl()
@@ -51,12 +57,15 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.stackedWidget.addWidget(taskWidget)
         self.stackedWidget.addWidget(memoWidget)
         self.stackedWidget.addWidget(marketWidget)
+
         #信号绑定
         self.taskRefreshSignal.connect(firstWidget.refreshAll)
         self.taskRefreshSignal.connect(taskWidget.refreshAll)
+        self.miniSizeSignal.connect(self.miniBar.miniShow)
         firstWidget.taskRefreshSignal.connect(taskWidget.refreshAll)
         taskWidget.taskRefreshSignal.connect(firstWidget.refreshAll)
         firstWidget.taskStartSignal.connect(self.taskStart)
+
         #功能绑定
         self.firstPageButton.clicked.connect(lambda:self.stackedWidget.setCurrentIndex(0))
         self.statisButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
@@ -64,16 +73,21 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.memoButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(3))
         self.marketButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
         self.miniSizeButton.clicked.connect(self.miniSize)
-        self.miniSizeSignal.connect(self.miniBar.miniShow)  # 通过信号槽设置时间
         self.miniBar.normalSizeSignal.connect(self.normalShow)
 
     #切换迷你界面
     def miniSize(self):
+        if self.taskRun == taskRunThread():
+            self.taskRun.sendMsgSignal.disconnect(self.taskMsgShow)
+            self.taskRun.sendMsgSignal.connect(self.miniBar.taskMsgShow)
         self.miniSizeSignal.emit()
         self.hide()
 
     #切换正常界面
     def normalShow(self):
+        if self.taskRun == taskRunThread():
+            self.taskRun.sendMsgSignal.connect(self.taskMsgShow)
+            self.taskRun.sendMsgSignal.disconnect(self.miniBar.taskMsgShow)
         self.miniBar.hide()
         self.show()
 
@@ -108,8 +122,18 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             self.confmain.error(e)
 
     #启动任务线程
-    def taskStart(self):
-        self.confmain.debug("start")
+    def taskStart(self,dict):
+        if self.taskRun == taskRunThread():
+            self.taskRun.terminate()
+            self.taskRun = None
+        self.taskRun = taskRunThread(dict['id'],dict['task_during'])  # 任务启动线程
+        self.taskRun.sendMsgSignal.connect(self.taskMsgShow)
+        self.taskTitleLabel.setText(dict['task_name'])
+        self.miniBar.taskLabel.setText(dict['task_name'])
+
+    #任务进程信息显示
+    def taskMsgShow(self,dict):
+        self.confmain.debug("status")
 
     # 重写打开事件
     def show(self):

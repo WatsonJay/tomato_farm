@@ -18,7 +18,7 @@ from util.logger import logger
 
 class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
     # 信号槽
-    taskStartSignal = pyqtSignal()
+    taskStartSignal = pyqtSignal(dict)
     taskRefreshSignal = pyqtSignal()
     # 初始化
     def __init__(self, parent=None):
@@ -71,32 +71,32 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
             self.conffirst.error(e)
 
     #开始任务
-    def startTask(self,id):
+    def startTask(self,dict):
         try:
-            sql = "Update t_task_link_date set is_doing = 1 where task_id = ?"
-            self.sqlite.execute(sql, id)
-            self.refreshAll()
+            self.taskStartSignal.emit(dict)
             text = '''任务已启动，加油！
 请关注你的番茄成长进度'''
             self.messageView.show(text).showAnimation()
-            self.taskRefreshSignal.emit()
+            sql = "Update t_task_link_date set is_doing = 1 where task_id = ?"
+            self.sqlite.execute(sql, dict['id'])
+            self.refreshAll()
         except Exception as e:
             self.Tips("系统异常，请查看日志")
-            self.conftask.error(e)
+            self.conffirst.error(e)
 
     # 解除任务
     def unlinkTask(self, id):
         try:
             sql = "Delete from t_task_link_date where task_id = ?"
             self.sqlite.execute(sql, id)
-            sql = "Update t_base_task set is_dated = 0 where id = ?"
+            sql = "Update t_base_task set is_dated = 0,is_overdue = 0 where id = ?"
             self.sqlite.execute(sql, id)
             self.Tips("已解除任务")
             self.refreshAll()
             self.taskRefreshSignal.emit()
         except Exception as e:
             self.Tips("系统异常，请查看日志")
-            self.conftask.error(e)
+            self.conffirst.error(e)
 
     # 创建列表项
     def makeItem(self, data):

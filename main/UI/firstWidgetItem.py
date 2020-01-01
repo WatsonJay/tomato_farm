@@ -66,6 +66,8 @@ class Ui_firstWidgetItem(object):
         self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
         self.widget = QtWidgets.QWidget(firstWidgetItem)
+        self.widget.setMinimumSize(QtCore.QSize(66, 0))
+        self.widget.setMaximumSize(QtCore.QSize(66, 16777215))
         self.widget.setStyleSheet("QWidget>QPushButton{\n"
 "    border:none;\n"
 "    border-radius:12px;\n"
@@ -109,6 +111,19 @@ class Ui_firstWidgetItem(object):
         self.deleteButton.setIconSize(QtCore.QSize(12, 12))
         self.deleteButton.setObjectName("deleteButton")
         self.horizontalLayout_3.addWidget(self.deleteButton)
+        self.doingLabel = QtWidgets.QLabel(self.widget)
+        self.doingLabel.setMaximumSize(QtCore.QSize(16777215, 25))
+        font = QtGui.QFont()
+        font.setFamily("Microsoft YaHei UI")
+        self.doingLabel.setFont(font)
+        self.doingLabel.setStyleSheet("border:1px soild white;\n"
+"border-radius:5px;\n"
+"background:#6CE872;\n"
+"color:white;")
+        self.doingLabel.setText("")
+        self.doingLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.doingLabel.setObjectName("doingLabel")
+        self.horizontalLayout_3.addWidget(self.doingLabel)
         self.horizontalLayout_2.addWidget(self.widget)
         self.horizontalLayout_2.setStretch(0, 9)
         self.horizontalLayout_2.setStretch(1, 1)
