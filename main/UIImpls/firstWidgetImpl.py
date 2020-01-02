@@ -25,6 +25,7 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
         super(firstWidgetImpl, self).__init__(parent)
         self.setupUi(self)
         log = logger()
+        self.taskRan = False
         self.messageView = messageWidgetImpl()
         self.conffirst = log.getlogger('gui')
         self.sqlite = sqlite('./config/tomato.db')
@@ -74,15 +75,20 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
     def startTask(self,dict):
         try:
             self.taskStartSignal.emit(dict)
-            text = '''任务已启动，加油！
+            if self.taskRan:
+                text = '''任务已启动，加油！
 请关注你的番茄成长进度'''
-            self.messageView.show(text).showAnimation()
-            sql = "Update t_task_link_date set is_doing = 1 where task_id = ?"
-            self.sqlite.execute(sql, dict['id'])
-            self.refreshAll()
+                self.messageView.show(text).showAnimation()
+                sql = "Update t_task_link_date set is_doing = 1 where task_id = ?"
+                self.sqlite.execute(sql, dict['id'])
+                self.refreshAll()
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.conffirst.error(e)
+
+    # 检查
+    def taskCheck(self, bool):
+        self.taskRan = bool
 
     # 解除任务
     def unlinkTask(self, id):

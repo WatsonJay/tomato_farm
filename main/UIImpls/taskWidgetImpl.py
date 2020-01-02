@@ -139,6 +139,7 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.conftask.error(e)
+
     #提交任务
     def commitTask(self):
         try:

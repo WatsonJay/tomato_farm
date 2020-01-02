@@ -6,7 +6,7 @@
 import datetime
 import sys
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QTimer
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QCheckBox, QSystemTrayIcon, QMenu, QAction
 from UI.mainWindow import Ui_MainWindow
 from UIImpls.firstWidgetImpl import firstWidgetImpl
@@ -22,24 +22,25 @@ from UIImpls.todoWidgetImpl import todoWidgetImpl
 from util.loadData import sqlite
 import UI.icons_rc
 from util.logger import logger
-from util.taskRunThread import taskRunThread
 
 
 class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     #信号槽
     miniSizeSignal = pyqtSignal()
     taskRefreshSignal = pyqtSignal()
+    taskCheckSignal = pyqtSignal(bool)
     # 初始化
     def __init__(self, parent=None):
         super(mainWindowImpl, self).__init__(parent)
         self.setupUi(self)
         self.closeNow = True
-        self.taskRun = None
+        self.task = {}
         log = logger()
         self.confmain = log.getlogger('gui')
         self.trayIcon()
         self.checkOverdue()
         #界面初始化
+        self.timer = QTimer()
         self.miniBar = miniBarImpl()
         self.todolist = todoWidgetImpl()
         self.todolist.show()
@@ -62,6 +63,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.taskRefreshSignal.connect(firstWidget.refreshAll)
         self.taskRefreshSignal.connect(taskWidget.refreshAll)
         self.miniSizeSignal.connect(self.miniBar.miniShow)
+        self.taskCheckSignal.connect(firstWidget.taskCheck)
         firstWidget.taskRefreshSignal.connect(taskWidget.refreshAll)
         taskWidget.taskRefreshSignal.connect(firstWidget.refreshAll)
         firstWidget.taskStartSignal.connect(self.taskStart)
@@ -77,17 +79,11 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
 
     #切换迷你界面
     def miniSize(self):
-        if self.taskRun == taskRunThread():
-            self.taskRun.sendMsgSignal.disconnect(self.taskMsgShow)
-            self.taskRun.sendMsgSignal.connect(self.miniBar.taskMsgShow)
         self.miniSizeSignal.emit()
         self.hide()
 
     #切换正常界面
     def normalShow(self):
-        if self.taskRun == taskRunThread():
-            self.taskRun.sendMsgSignal.connect(self.taskMsgShow)
-            self.taskRun.sendMsgSignal.disconnect(self.miniBar.taskMsgShow)
         self.miniBar.hide()
         self.show()
 
@@ -123,16 +119,16 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
 
     #启动任务线程
     def taskStart(self,dict):
-        if self.taskRun == taskRunThread():
-            self.taskRun.terminate()
-            self.taskRun = None
-        self.taskRun = taskRunThread(dict['id'],dict['task_during'])  # 任务启动线程
-        self.taskRun.sendMsgSignal.connect(self.taskMsgShow)
-        self.taskTitleLabel.setText(dict['task_name'])
-        self.miniBar.taskLabel.setText(dict['task_name'])
+        self.timer.stop()
+        reply = QMessageBox.question(self, '任务替换', '是否中止当前正在执行任务?(任务所得番茄币将重置)',
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
+        if reply == QMessageBox.Yes:
+            self.taskCheckSignal.emit(True)
+        else:
+            self.taskCheckSignal.emit(False)
     #任务进程信息显示
-    def taskMsgShow(self,dict):
+    def taskMsgShow(self):
         self.confmain.debug("status")
 
     # 重写打开事件
