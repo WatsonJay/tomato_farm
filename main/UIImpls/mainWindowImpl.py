@@ -43,6 +43,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.timer = QTimer()
         self.miniBar = miniBarImpl()
         self.todolist = todoWidgetImpl()
+        self.messageView = messageWidgetImpl()
         self.todolist.show()
         self.taskTitleLabel.setText("无")
         self.readyTomatoLabel.setText("0")
@@ -76,6 +77,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.marketButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
         self.miniSizeButton.clicked.connect(self.miniSize)
         self.miniBar.normalSizeSignal.connect(self.normalShow)
+        self.timer.timeout.connect(self.taskStageShow)
 
     #切换迷你界面
     def miniSize(self):
@@ -119,17 +121,77 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
 
     #启动任务线程
     def taskStart(self,dict):
-        self.timer.stop()
-        reply = QMessageBox.question(self, '任务替换', '是否中止当前正在执行任务?(任务所得番茄币将重置)',
+        if self.task != {}:
+            reply = QMessageBox.question(self, '任务替换', '是否中止当前正在执行任务?(任务所得番茄币将重置)',
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.No:
+                self.taskCheckSignal.emit(False)
+                return
+            else:
+                self.task = {}
+        self.taskCheckSignal.emit(True)
+        self.task = dict
+        self.task['tomato_count'] = self.task['task_during'] // 15 if self.task['task_during'] % 15 == 0 else self.task['task_during'] // 15 + 1
+        self.taskTitleLabel.setText(self.task['task_name'])
+        self.totalTomatoLabel.setText(str(self.task['tomato_count']))
+        self.task['tomato_collected'] = 0
+        self.task['current_time_left'] = 0
+        self.task['task_stage'] = '初始化'
+        self.taskStageShow()
 
-        if reply == QMessageBox.Yes:
-            self.taskCheckSignal.emit(True)
-        else:
-            self.taskCheckSignal.emit(False)
     #任务进程信息显示
-    def taskMsgShow(self):
-        self.confmain.debug("status")
+    def taskStageShow(self):
+        if self.task['current_time_left'] == 0:
+            self.timer.stop()
+            if self.task['task_stage'] == '工作中':
+                self.task['tomato_collected'] += 1
+                self.task['task_during'] -= 15
+                if self.task['tomato_collected'] == self.task['tomato_count']:
+                    text = '''任务已全部完成，番茄币已到账'''
+                    self.messageView.show(text).showAnimation()
+                    self.taskfinish()
+                    return
+                elif self.task['tomato_collected'] % 4 == 0:
+                    text = '''完成一个阶段了，休息25分钟后继续加油'''
+                    self.messageView.show(text).showAnimation()
+                    self.task['current_time_left'] = 25 * 60
+                    self.task['task_stage'] = '长休息'
+                else:
+                    text = '''已完成1个番茄钟，休息5分钟吧'''
+                    self.messageView.show(text).showAnimation()
+                    self.task['current_time_left'] = 5 * 60
+                    self.task['task_stage'] = '短休息'
+            elif self.task['task_stage'] == '短休息' or self.task['task_stage'] == '长休息':
+                text = '''休息结束，继续番茄钟吧'''
+                self.messageView.show(text).showAnimation()
+                if self.task['task_during'] >=15:
+                    self.task['current_time_left'] = 15 * 60
+                else:
+                    self.task['current_time_left'] = self.task['task_during'] * 60
+                self.task['task_stage'] = '工作中'
+            else:
+                if self.task['task_during'] >=15:
+                    self.task['current_time_left'] = 15 * 60
+                else:
+                    self.task['current_time_left'] = self.task['task_during'] * 60
+                self.task['task_stage'] = '工作中'
+            self.readyTomatoLabel.setText(str(self.task['tomato_collected']))
+            self.tomatoStageLabel.setText(self.task['task_stage'])
+            self.timeBar.setValue(self.task['current_time_left'])
+            self.timeBar.setMaximum(self.task['current_time_left'])
+            self.timeLcd.display("%d:%02d" % (self.task['current_time_left']/60,self.task['current_time_left'] % 60))
+            self.timer.start(1000)
+        else:
+            self.task['current_time_left'] -= 1
+        self.timeLcd.display("%d:%02d" % (self.task['current_time_left']/60,self.task['current_time_left'] % 60))
+        self.timeBar.setValue(self.task['current_time_left'])
+
+    def taskfinish(self):
+        self.readyTomatoLabel.setText(str(self.task['tomato_collected']))
+        self.tomatoStageLabel.setText("已完成")
+        self.timeBar.setValue(0)
+        self.timeBar.setMaximum(100)
+        self.timeLcd.display("00:00")
 
     # 重写打开事件
     def show(self):
