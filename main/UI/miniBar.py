@@ -13,7 +13,7 @@ class Ui_miniBarForm(object):
         miniBarForm.setObjectName("miniBarForm")
         miniBarForm.resize(304, 127)
         miniBarForm.setWindowTitle("")
-        self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.ToolTip)  # 隐藏边框
+        self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
         self.verticalLayout = QtWidgets.QVBoxLayout(miniBarForm)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)

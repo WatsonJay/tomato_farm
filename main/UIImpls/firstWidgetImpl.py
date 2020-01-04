@@ -29,13 +29,12 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
         self.messageView = messageWidgetImpl()
         self.conffirst = log.getlogger('gui')
         self.sqlite = sqlite('./config/tomato.db')
-        self.loadTodayTask()
 
     #全部刷新
     def refreshAll(self):
         self.loadTodayTask()
         self.loadOverdueTask()
-        print("first")
+        self.loadCoin()
 
     #加载今日任务
     def loadTodayTask(self):
@@ -67,6 +66,23 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
                 taskItem, ListItem = self.makeItem(data)
                 self.overdueListWidget.addItem(ListItem)
                 self.overdueListWidget.setItemWidget(ListItem, taskItem)
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.conffirst.error(e)
+
+    #加载金币记录
+    def loadCoin(self):
+        self.billTextBrowser.clear()
+        try:
+            sql = "select * from t_base_coin"
+            datas = self.sqlite.executeQuery(sql)
+            for data in datas:
+                if data['coin_type'] == 0:
+                    type = '进账'
+                else:
+                    type = '支出'
+                msg = "["+data['create_time']+"]"+data['desc']+type+"番茄币"+str(data['coin_number'])+"个"
+                self.billTextBrowser.append(msg)
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.conffirst.error(e)

@@ -56,6 +56,7 @@ class todoWidgetImpl(QWidget, Ui_todoWidget):
             icon.addPixmap(QtGui.QPixmap(":/icon/unlock.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.lockButton.setIcon(icon)
 
+    #页面切换
     def changeCurrentPage(self):
         if self.currentLabel.text() == 'Today':
             self.currentLabel.setText('Overdue')
@@ -63,6 +64,11 @@ class todoWidgetImpl(QWidget, Ui_todoWidget):
         else:
             self.currentLabel.setText('Today')
             self.changeButton.setText('Overdue')
+
+    #今日列表刷新
+
+    #逾期列表刷新
+
     #检测隐藏
     def checkHide(self):
         desktop = QApplication.desktop()
@@ -74,7 +80,6 @@ class todoWidgetImpl(QWidget, Ui_todoWidget):
             self.showHideWidget.setVisible(True)
             self.move(desktopGem.x() + desktopGem.width() - self.showHideWidget.width() - self.mainWidget.width()//2, self.y())
             self.mainWidget.setVisible(False)
-
 
     # 检测显示
     def checkShow(self):

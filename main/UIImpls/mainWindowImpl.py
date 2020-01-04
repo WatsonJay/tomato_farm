@@ -5,6 +5,8 @@
 # @Soft    : tomato_farm
 import datetime
 import sys
+import uuid
+
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSignal, QTimer
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QCheckBox, QSystemTrayIcon, QMenu, QAction
@@ -19,6 +21,7 @@ from UIImpls.noBorderImpl import noBorderImpl
 from UIImpls.miniBarImpl import miniBarImpl
 from UIImpls.tipImpl import tipImpl
 from UIImpls.todoWidgetImpl import todoWidgetImpl
+from util.loadConf import config
 from util.loadData import sqlite
 import UI.icons_rc
 from util.logger import logger
@@ -26,25 +29,28 @@ from util.logger import logger
 
 class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     #信号槽
-    miniSizeSignal = pyqtSignal()
+    miniSizeSignal = pyqtSignal(dict)
     taskRefreshSignal = pyqtSignal()
     taskCheckSignal = pyqtSignal(bool)
     # 初始化
     def __init__(self, parent=None):
         super(mainWindowImpl, self).__init__(parent)
         self.setupUi(self)
+        self.conf = config()
         self.closeNow = True
         self.task = {}
+        self.sqlite = sqlite('./config/tomato.db')
         log = logger()
         self.confmain = log.getlogger('gui')
         self.trayIcon()
         self.checkOverdue()
+
         #界面初始化
         self.timer = QTimer()
         self.miniBar = miniBarImpl()
         self.todolist = todoWidgetImpl()
         self.messageView = messageWidgetImpl()
-        self.todolist.show()
+        self.miniSizeButton.setDisabled(True)
         self.taskTitleLabel.setText("无")
         self.readyTomatoLabel.setText("0")
         self.totalTomatoLabel.setText("0")
@@ -59,12 +65,15 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.stackedWidget.addWidget(taskWidget)
         self.stackedWidget.addWidget(memoWidget)
         self.stackedWidget.addWidget(marketWidget)
+        self.reloadConf()
 
         #信号绑定
         self.taskRefreshSignal.connect(firstWidget.refreshAll)
         self.taskRefreshSignal.connect(taskWidget.refreshAll)
         self.miniSizeSignal.connect(self.miniBar.miniShow)
         self.taskCheckSignal.connect(firstWidget.taskCheck)
+        self.miniBar.normalSizeSignal.connect(self.normalShow)
+        self.miniBar.taskFinishSignal.connect(self.taskfinish)
         firstWidget.taskRefreshSignal.connect(taskWidget.refreshAll)
         taskWidget.taskRefreshSignal.connect(firstWidget.refreshAll)
         firstWidget.taskStartSignal.connect(self.taskStart)
@@ -76,16 +85,32 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.memoButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(3))
         self.marketButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
         self.miniSizeButton.clicked.connect(self.miniSize)
-        self.miniBar.normalSizeSignal.connect(self.normalShow)
         self.timer.timeout.connect(self.taskStageShow)
 
+    #刷新配置文件信息
+    def reloadConf(self):
+        if self.conf.getOption('todoList', 'isshow') == "True":
+            self.todolist.show()
+        else:
+            self.todolist.hide()
     #切换迷你界面
     def miniSize(self):
-        self.miniSizeSignal.emit()
+        self.miniSizeSignal.emit(self.task)
+        self.timer.stop()
         self.hide()
 
     #切换正常界面
-    def normalShow(self):
+    def normalShow(self,dist = {}):
+        self.task = dist
+        if self.task != {}:
+            self.taskTitleLabel.setText(self.task['task_name'])
+            self.tomatoStageLabel.setText(self.task['task_stage'])
+            self.totalTomatoLabel.setText(str(self.task['tomato_count']))
+            self.readyTomatoLabel.setText(str(self.task['tomato_collected']))
+            self.timeBar.setValue(self.task['current_time_left'])
+            self.timeBar.setMaximum(self.task['stage_time'])
+            self.timeLcd.display("%d:%02d" % (self.task['current_time_left'] / 60, self.task['current_time_left'] % 60))
+            self.timer.start(1000)
         self.miniBar.hide()
         self.show()
 
@@ -96,24 +121,29 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         trayIcon.addPixmap(QPixmap(":/icon/tomato.png"), QIcon.Normal, QIcon.Off)
         self.mSysTrayIcon.setIcon(trayIcon)
         self.mSysTrayIcon.setToolTip("番茄农场")
-        self.mSysTrayIcon.activated.connect(self.normalShow)
+        self.mSysTrayIcon.activated.connect(self.iconActivated)
         tpMenu = QMenu()
         restoreAction = QAction('还原', self, triggered=self.show)  # 添加一级菜单动作选项(还原主窗口)
         quitAction = QAction('退出', self, triggered=self.closeWithout)  # 添加一级菜单动作选项(退出程序)
         tpMenu.addAction(restoreAction)
+        tpMenu.addSeparator()  # 分割行
         tpMenu.addAction(quitAction)
         self.mSysTrayIcon.setContextMenu(tpMenu)
         self.mSysTrayIcon.show()
 
+    # 触发托盘icon
+    def iconActivated(self, reason):
+        if reason == QSystemTrayIcon.DoubleClick:
+            self.show()
+
     #检查任务逾期
     def checkOverdue(self):
         try:
-            sqliteI = sqlite('./config/tomato.db')
             now = datetime.date.today().strftime('%Y-%m-%d')
             sql = '''Update t_base_task
                   SET is_overdue = ? 
                   where is_finish = ? and id in (select task_id from t_task_link_date where link_date < ?)'''
-            sqliteI.execute(sql, [1, 0, now])
+            self.sqlite.execute(sql, [1, 0, now])
             self.taskRefreshSignal.emit()
         except Exception as e:
             self.Tips("系统异常，请查看日志")
@@ -137,6 +167,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.task['tomato_collected'] = 0
         self.task['current_time_left'] = 0
         self.task['task_stage'] = '初始化'
+        self.miniSizeButton.setDisabled(False)
         self.taskStageShow()
 
     #任务进程信息显示
@@ -154,44 +185,65 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
                 elif self.task['tomato_collected'] % 4 == 0:
                     text = '''完成一个阶段了，休息25分钟后继续加油'''
                     self.messageView.show(text).showAnimation()
-                    self.task['current_time_left'] = 25 * 60
+                    self.task['current_time_left'] = self.task['stage_time'] = 25 * 60
                     self.task['task_stage'] = '长休息'
                 else:
                     text = '''已完成1个番茄钟，休息5分钟吧'''
                     self.messageView.show(text).showAnimation()
-                    self.task['current_time_left'] = 5 * 60
+                    self.task['current_time_left'] = self.task['stage_time'] = 5 * 60
                     self.task['task_stage'] = '短休息'
-            elif self.task['task_stage'] == '短休息' or self.task['task_stage'] == '长休息':
-                text = '''休息结束，继续番茄钟吧'''
-                self.messageView.show(text).showAnimation()
-                if self.task['task_during'] >=15:
-                    self.task['current_time_left'] = 15 * 60
-                else:
-                    self.task['current_time_left'] = self.task['task_during'] * 60
-                self.task['task_stage'] = '工作中'
             else:
+                if self.task['task_stage'] == '短休息' or self.task['task_stage'] == '长休息':
+                    text = '''休息结束，继续番茄钟吧'''
+                    self.messageView.show(text).showAnimation()
                 if self.task['task_during'] >=15:
-                    self.task['current_time_left'] = 15 * 60
+                    self.task['current_time_left'] = self.task['stage_time'] = 15 * 60
                 else:
-                    self.task['current_time_left'] = self.task['task_during'] * 60
+                    self.task['current_time_left'] = self.task['stage_time'] = self.task['task_during'] * 60
                 self.task['task_stage'] = '工作中'
+                jpg = QPixmap(":/icon/tomato-1.png").scaled(self.tomatoPicLabel.width(), self.tomatoPicLabel.height())
+                self.tomatoPicLabel.setPixmap(jpg)
             self.readyTomatoLabel.setText(str(self.task['tomato_collected']))
             self.tomatoStageLabel.setText(self.task['task_stage'])
             self.timeBar.setValue(self.task['current_time_left'])
-            self.timeBar.setMaximum(self.task['current_time_left'])
-            self.timeLcd.display("%d:%02d" % (self.task['current_time_left']/60,self.task['current_time_left'] % 60))
+            self.timeBar.setMaximum(self.task['stage_time'])
+            self.timeLcd.display("%d:%02d" % (self.task['stage_time']/60,self.task['stage_time'] % 60))
             self.timer.start(1000)
         else:
             self.task['current_time_left'] -= 1
+            if self.task['task_stage'] == '工作中':
+                if self.timeBar.value() < self.timeBar.maximum() * 3/4 and self.timeBar.value() > self.timeBar.maximum() * 1/2:
+                    jpg = QPixmap(":/icon/tomato-2.png").scaled(self.tomatoPicLabel.width(),self.tomatoPicLabel.height())
+                    self.tomatoPicLabel.setPixmap(jpg)
+                if self.timeBar.value() < self.timeBar.maximum() * 1/2 and self.timeBar.value() > self.timeBar.maximum() * 1/4:
+                    jpg = QPixmap(":/icon/tomato-3.png").scaled(self.tomatoPicLabel.width(),self.tomatoPicLabel.height())
+                    self.tomatoPicLabel.setPixmap(jpg)
+                if self.timeBar.value() < self.timeBar.maximum() * 1/4 :
+                    jpg = QPixmap(":/icon/tomato-4.png").scaled(self.tomatoPicLabel.width(),self.tomatoPicLabel.height())
+                    self.tomatoPicLabel.setPixmap(jpg)
         self.timeLcd.display("%d:%02d" % (self.task['current_time_left']/60,self.task['current_time_left'] % 60))
         self.timeBar.setValue(self.task['current_time_left'])
 
+    # 任务完成事件
     def taskfinish(self):
         self.readyTomatoLabel.setText(str(self.task['tomato_collected']))
         self.tomatoStageLabel.setText("已完成")
         self.timeBar.setValue(0)
         self.timeBar.setMaximum(100)
         self.timeLcd.display("00:00")
+        self.miniSizeButton.setDisabled(True)
+        try:
+            sql = "Update t_base_task set is_finish = 1 where id = ?"
+            self.sqlite.execute(sql, self.task['id'])
+            sql = "Update t_task_link_date set is_doing = 0 where task_id = ?"
+            self.sqlite.execute(sql, self.task['id'])
+            sql = "insert Into t_base_coin (id,coin_type,coin_number,desc) values (?,?,?,?)"
+            self.sqlite.execute(sql, [str(uuid.uuid1()), 0, self.task['tomato_count'],"任务"+self.task['task_name']+"完成获得"])
+            self.taskRefreshSignal.emit()
+            self.task = {}
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.confmain.error(e)
 
     # 重写打开事件
     def show(self):
