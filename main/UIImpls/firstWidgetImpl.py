@@ -81,7 +81,7 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
                     type = '进账'
                 else:
                     type = '支出'
-                msg = "["+data['create_time']+"]"+data['desc']+type+"番茄币"+str(data['coin_number'])+"个"
+                msg = "["+data['create_time']+"] : "+data['desc']+type+"番茄币"+str(data['coin_number'])+"个"
                 self.billTextBrowser.append(msg)
         except Exception as e:
             self.Tips("系统异常，请查看日志")
