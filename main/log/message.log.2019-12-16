@@ -1,3 +1,0 @@
-[2019-12-16 22:00:50] ERROR 21556:[loadConf.py:44] - remove_BOM() takes 1 positional argument but 2 were given
-[2019-12-16 22:01:38] ERROR 14128:[loadConf.py:44] - remove_BOM() takes 1 positional argument but 2 were given
-[2019-12-16 22:01:49] ERROR 8020:[loadConf.py:44] - remove_BOM() takes 1 positional argument but 2 were given
