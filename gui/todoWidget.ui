@@ -290,7 +290,7 @@ QStackedWidget&gt;QWidget{
 }</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="todayPage">
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -323,10 +323,7 @@ QStackedWidget&gt;QWidget{
         </widget>
         <widget class="QWidget" name="overduePage">
          <property name="styleSheet">
-          <string notr="true">#overdueListWidget{
-	border:none;
-	background-color: rgba(255, 255, 255, 0);
-}</string>
+          <string notr="true"/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <property name="leftMargin">
@@ -342,7 +339,14 @@ QStackedWidget&gt;QWidget{
            <number>6</number>
           </property>
           <item>
-           <widget class="QListWidget" name="overdueListWidget"/>
+           <widget class="QListWidget" name="overdueListWidget">
+            <property name="styleSheet">
+             <string notr="true">#overdueListWidget{
+	border:none;
+	background-color: rgba(255, 255, 255, 0);
+}</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

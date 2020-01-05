@@ -3,13 +3,17 @@
 # @Author  : Jaywatson
 # @File    : todoWidgetImpl.py
 # @Soft    : tomato_farm
+import datetime
 
 from PyQt5 import QtCore,QtGui
 from PyQt5.QtGui import QCursor
-from PyQt5.QtWidgets import QWidget, QApplication, QMessageBox
+from PyQt5.QtWidgets import QWidget, QApplication, QMessageBox, QListWidgetItem
 from UI.todoWidget import Ui_todoWidget
 import UI.icons_rc
+from UIImpls.overdueItemImpl import overdueItemImpl
+from UIImpls.todayItemImpl import todayItemImpl
 from util.loadConf import config
+from util.loadData import sqlite
 from util.logger import logger
 
 
@@ -25,6 +29,7 @@ class todoWidgetImpl(QWidget, Ui_todoWidget):
         self.showHideWidget.setVisible(False)
         self.conf = config()
         self.checkLock()
+        self.sqlite = sqlite('./config/tomato.db')
         self.move(int(self.conf.getOption('todoList', 'placeX')), int(self.conf.getOption('todoList', 'placeY')))
         self.lockButton.clicked.connect(self.lockStatus) #锁定/解锁
         self.changeButton.clicked.connect(self.changeCurrentPage) #切换当前页面
@@ -33,6 +38,11 @@ class todoWidgetImpl(QWidget, Ui_todoWidget):
         super(todoWidgetImpl, self).show()
         self.checkHide()
         return self
+
+    #全部刷新
+    def refreshAll(self):
+        self.loadTodayTask()
+        self.loadOverdueTask()
 
     #锁定检查
     def checkLock(self):
@@ -61,13 +71,56 @@ class todoWidgetImpl(QWidget, Ui_todoWidget):
         if self.currentLabel.text() == 'Today':
             self.currentLabel.setText('Overdue')
             self.changeButton.setText('Today')
+            self.stackedWidget.setCurrentIndex(1)
         else:
             self.currentLabel.setText('Today')
             self.changeButton.setText('Overdue')
-
+            self.stackedWidget.setCurrentIndex(0)
     #今日列表刷新
+    def loadTodayTask(self):
+        self.todayListWidget.clear()
+        now = str(datetime.date.today())
+        try:
+            sql = '''select tbt.id, tbt.task_name, tbt.task_during, ttld.is_doing from t_base_task tbt
+                  join t_task_link_date ttld on tbt.id = ttld.task_id
+                  where tbt.is_dated = ? and tbt.is_overdue = ? and tbt.is_finish = ? and ttld.link_date = ?'''
+            datas = self.sqlite.executeQuery(sql, 1, 0, 0, now)
+            for data in datas:
+                taskItem, ListItem = self.makeTodayItem(data)
+                self.todayListWidget.addItem(ListItem)
+                self.todayListWidget.setItemWidget(ListItem, taskItem)
+        except Exception as e:
+            self.conffirst.error(e)
 
     #逾期列表刷新
+    def loadOverdueTask(self):
+        self.overdueListWidget.clear()
+        try:
+            sql = '''select tbt.id, tbt.task_name, tbt.task_during, ttld.is_doing from t_base_task tbt
+                  join t_task_link_date ttld on tbt.id = ttld.task_id
+                  where tbt.is_dated = ? and tbt.is_overdue = ? and tbt.is_finish = ?'''
+            datas = self.sqlite.executeQuery(sql, 1, 1, 0)
+            for data in datas:
+                taskItem, ListItem = self.makeOverdueItem(data)
+                self.overdueListWidget.addItem(ListItem)
+                self.overdueListWidget.setItemWidget(ListItem, taskItem)
+        except Exception as e:
+            self.conffirst.error(e)
+
+    # 创建列表项
+    def makeOverdueItem(self, data):
+        firstItem = overdueItemImpl()
+        firstItem.setInfo(data)
+        listItem = QListWidgetItem()
+        listItem.setSizeHint(firstItem.size())
+        return firstItem, listItem
+
+    def makeTodayItem(self, data):
+        firstItem = todayItemImpl()
+        firstItem.setInfo(data)
+        listItem = QListWidgetItem()
+        listItem.setSizeHint(firstItem.size())
+        return firstItem, listItem
 
     #检测隐藏
     def checkHide(self):

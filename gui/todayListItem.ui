@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>325</width>
+    <width>319</width>
     <height>36</height>
    </rect>
   </property>
@@ -20,7 +20,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
-    <number>0</number>
+    <number>9</number>
    </property>
    <property name="leftMargin">
     <number>9</number>
@@ -60,7 +60,7 @@
     </widget>
    </item>
    <item>
-    <widget class="nameLabel" name="TaskNameLabel">
+    <widget class="nameLabel" name="taskNameLabel">
      <property name="font">
       <font>
        <family>Microsoft YaHei UI</family>

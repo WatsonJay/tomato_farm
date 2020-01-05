@@ -138,19 +138,22 @@ class Ui_todoWidget(object):
 "    border:none;\n"
 "    background-color: rgba(255, 255, 255, 0);\n"
 "}")
+        self.todayListWidget.verticalScrollBar().setStyleSheet("QScrollBar{width:0px;}")
         self.todayListWidget.setObjectName("todayListWidget")
         self.verticalLayout_3.addWidget(self.todayListWidget)
         self.stackedWidget.addWidget(self.todayPage)
         self.overduePage = QtWidgets.QWidget()
-        self.overduePage.setStyleSheet("#overdueListWidget{\n"
-"    border:none;\n"
-"    background-color: rgba(255, 255, 255, 0);\n"
-"}")
+        self.overduePage.setStyleSheet("")
         self.overduePage.setObjectName("overduePage")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.overduePage)
         self.verticalLayout_2.setContentsMargins(3, 6, 3, 6)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.overdueListWidget = QtWidgets.QListWidget(self.overduePage)
+        self.overdueListWidget.setStyleSheet("#overdueListWidget{\n"
+"    border:none;\n"
+"    background-color: rgba(255, 255, 255, 0);\n"
+"}")
+        self.overdueListWidget.verticalScrollBar().setStyleSheet("QScrollBar{width:0px;}")
         self.overdueListWidget.setObjectName("overdueListWidget")
         self.verticalLayout_2.addWidget(self.overdueListWidget)
         self.stackedWidget.addWidget(self.overduePage)
@@ -160,7 +163,7 @@ class Ui_todoWidget(object):
         self.horizontalLayout_2.setStretch(1, 9)
 
         self.retranslateUi(todoWidget)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(todoWidget)
 
     def retranslateUi(self, todoWidget):

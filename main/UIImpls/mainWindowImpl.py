@@ -91,8 +91,11 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     def reloadConf(self):
         if self.conf.getOption('todoList', 'isshow') == "True":
             self.todolist.show()
+            self.taskRefreshSignal.connect(self.todolist.refreshAll)
         else:
             self.todolist.hide()
+            self.taskRefreshSignal.disconnect(self.todolist.refreshAll)
+
     #切换迷你界面
     def miniSize(self):
         self.miniSizeSignal.emit(self.task)
