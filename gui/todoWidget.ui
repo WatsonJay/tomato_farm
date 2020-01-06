@@ -218,7 +218,7 @@ border-left:1px solid gray;
             <string notr="true">#changeButton{
 	border:none;
 	margin-top:10px;
-	color: rgb(124, 124, 124);
+	color: rgb(98, 98, 98);
 }</string>
            </property>
            <property name="text">

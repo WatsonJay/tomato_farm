@@ -12,7 +12,10 @@ class todayItemImpl(QWidget, Ui_todayListItem):
     def __init__(self, parent=None):
         super(todayItemImpl, self).__init__(parent)
         self.setupUi(self)
+        self.taskId = ''
 
     # 信息填充
     def setInfo(self, data):
+        if data['is_top'] == 1:
+            self.radiusLabel.setStyleSheet("#radiusLabel{border-radius:6px;background:#FEE66E;}")
         self.taskNameLabel.setText(data['task_name'],"white")

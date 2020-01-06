@@ -96,7 +96,7 @@ class Ui_todoWidget(object):
         self.changeButton.setStyleSheet("#changeButton{\n"
 "    border:none;\n"
 "    margin-top:10px;\n"
-"    color: rgb(124, 124, 124);\n"
+"    color: rgb(98, 98, 98);\n"
 "}")
         self.changeButton.setObjectName("changeButton")
         self.horizontalLayout.addWidget(self.changeButton)

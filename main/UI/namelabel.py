@@ -14,7 +14,6 @@ class nameLabel(QLabel):
         self.newX = 0
         self.color = 'black'
         self.timer = QTimer(self)
-        self.font = QFont('Microsoft YaHei UI', 10)
         self.timer.timeout.connect(self.changeTxtPosition)
 
     def changeTxtPosition(self):
@@ -45,7 +44,6 @@ class nameLabel(QLabel):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        painter.setFont(self.font)
         painter.setPen(QColor('transparent'))
         self.textRect = painter.drawText(QRect(0, 0, self.width(), self.height()), Qt.AlignLeft | Qt.AlignVCenter, self.txt)
 

@@ -32,6 +32,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     miniSizeSignal = pyqtSignal(dict)
     taskRefreshSignal = pyqtSignal()
     taskCheckSignal = pyqtSignal(bool)
+
     # 初始化
     def __init__(self, parent=None):
         super(mainWindowImpl, self).__init__(parent)
@@ -55,28 +56,28 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.readyTomatoLabel.setText("0")
         self.totalTomatoLabel.setText("0")
         self.timeLcd.display("00:00")
-        firstWidget = firstWidgetImpl()
+        self.firstWidget = firstWidgetImpl()
         statisWidget = statisWidgetImpl()
-        taskWidget = taskWidgetImpl()
+        self.taskWidget = taskWidgetImpl()
         memoWidget = memoWidgetImpl()
         marketWidget = marketWidgetImpl()
-        self.stackedWidget.addWidget(firstWidget)
+        self.stackedWidget.addWidget(self.firstWidget)
         self.stackedWidget.addWidget(statisWidget)
-        self.stackedWidget.addWidget(taskWidget)
+        self.stackedWidget.addWidget(self.taskWidget)
         self.stackedWidget.addWidget(memoWidget)
         self.stackedWidget.addWidget(marketWidget)
         self.reloadConf()
 
         #信号绑定
-        self.taskRefreshSignal.connect(firstWidget.refreshAll)
-        self.taskRefreshSignal.connect(taskWidget.refreshAll)
+        self.taskRefreshSignal.connect(self.firstWidget.refreshAll)
+        self.taskRefreshSignal.connect(self.taskWidget.refreshAll)
         self.miniSizeSignal.connect(self.miniBar.miniShow)
-        self.taskCheckSignal.connect(firstWidget.taskCheck)
+        self.taskCheckSignal.connect(self.firstWidget.taskCheck)
         self.miniBar.normalSizeSignal.connect(self.normalShow)
         self.miniBar.taskFinishSignal.connect(self.taskfinish)
-        firstWidget.taskRefreshSignal.connect(taskWidget.refreshAll)
-        taskWidget.taskRefreshSignal.connect(firstWidget.refreshAll)
-        firstWidget.taskStartSignal.connect(self.taskStart)
+        self.firstWidget.taskRefreshSignal.connect(self.taskWidget.refreshAll)
+        self.taskWidget.taskRefreshSignal.connect(self.firstWidget.refreshAll)
+        self.firstWidget.taskStartSignal.connect(self.taskStart)
 
         #功能绑定
         self.firstPageButton.clicked.connect(lambda:self.stackedWidget.setCurrentIndex(0))
@@ -92,9 +93,17 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         if self.conf.getOption('todoList', 'isshow') == "True":
             self.todolist.show()
             self.taskRefreshSignal.connect(self.todolist.refreshAll)
+            self.firstWidget.taskRefreshSignal.connect(self.todolist.refreshAll)
+            self.taskWidget.taskRefreshSignal.connect(self.todolist.refreshAll)
+            self.todolist.taskRefreshSignal.connect(self.taskWidget.refreshAll)
+            self.todolist.taskRefreshSignal.connect(self.firstWidget.refreshAll)
         else:
             self.todolist.hide()
             self.taskRefreshSignal.disconnect(self.todolist.refreshAll)
+            self.firstWidget.taskRefreshSignal.disconnect(self.todolist.refreshAll)
+            self.taskWidget.taskRefreshSignal.disconnect(self.todolist.refreshAll)
+            self.todolist.taskRefreshSignal.disconnect(self.taskWidget.refreshAll)
+            self.todolist.taskRefreshSignal.disconnect(self.firstWidget.refreshAll)
 
     #切换迷你界面
     def miniSize(self):

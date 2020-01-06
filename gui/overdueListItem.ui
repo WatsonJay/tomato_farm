@@ -34,17 +34,11 @@
      <property name="font">
       <font>
        <family>Microsoft YaHei UI</family>
-       <pointsize>10</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <property name="indent">
-      <number>-1</number>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
     </widget>
    </item>
@@ -94,15 +88,6 @@
          <family>Microsoft YaHei UI</family>
          <pointsize>12</pointsize>
         </font>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="margin">
-        <number>0</number>
-       </property>
-       <property name="indent">
-        <number>-1</number>
        </property>
       </widget>
      </item>
