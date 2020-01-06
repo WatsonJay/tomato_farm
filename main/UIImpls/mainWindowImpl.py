@@ -236,6 +236,18 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.timeLcd.display("%d:%02d" % (self.task['current_time_left']/60,self.task['current_time_left'] % 60))
         self.timeBar.setValue(self.task['current_time_left'])
 
+    # 重启任务
+    def redoTask(self):
+
+    # 开始任务
+    def startTask(self):
+
+    # 暂停任务
+    def pauseTask(self):
+
+    # 停止任务
+    def stopTask(self):
+
     # 任务完成事件
     def taskfinish(self):
         self.readyTomatoLabel.setText(str(self.task['tomato_collected']))
