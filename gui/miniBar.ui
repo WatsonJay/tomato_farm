@@ -227,7 +227,7 @@ QPushButton::pressed{
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="playButton">
+         <widget class="QPushButton" name="startButton">
           <property name="minimumSize">
            <size>
             <width>30</width>
@@ -260,7 +260,7 @@ QPushButton::pressed{
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pazueButton">
+         <widget class="QPushButton" name="pauseButton">
           <property name="minimumSize">
            <size>
             <width>30</width>

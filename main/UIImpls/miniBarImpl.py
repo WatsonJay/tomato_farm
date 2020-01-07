@@ -5,7 +5,7 @@
 # @Soft    : tomato_farm
 
 from PyQt5.QtCore import pyqtSignal, QTimer
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QMessageBox
 from UI.miniBar import Ui_miniBarForm
 from UIImpls.messageWidgetImpl import messageWidgetImpl
 from UIImpls.noBorderImpl import noBorderImpl
@@ -18,6 +18,7 @@ class miniBarImpl(QWidget, Ui_miniBarForm, noBorderImpl, tipImpl):
     # 信号槽
     normalSizeSignal = pyqtSignal(dict)
     taskFinishSignal = pyqtSignal()
+    taskStopSignal = pyqtSignal()
 
     # 初始化
     def __init__(self, parent=None):
@@ -33,6 +34,10 @@ class miniBarImpl(QWidget, Ui_miniBarForm, noBorderImpl, tipImpl):
         self.taskLabel.setText("无","white")
         self.normalSizeButton.clicked.connect(self.normalSize)
         self.timer.timeout.connect(self.taskStageShow)
+        self.redoButton.clicked.connect(self.redoTask)
+        self.startButton.clicked.connect(self.startTask)
+        self.pauseButton.clicked.connect(self.pauseTask)
+        self.stopButton.clicked.connect(self.stopTask)
 
 
     #切换正常界面
@@ -57,7 +62,8 @@ class miniBarImpl(QWidget, Ui_miniBarForm, noBorderImpl, tipImpl):
             self.timeBar.setMaximum(self.task['stage_time'])
             self.timeBar.setValue(self.task['current_time_left'])
             self.timeLcd.display("%d:%02d" % (self.task['current_time_left']/60,self.task['current_time_left'] % 60))
-            self.timer.start(1000)
+            if self.task['pause'] == 0:
+                self.timer.start(1000)
         self.show()
 
     # 任务进程信息显示
@@ -99,6 +105,39 @@ class miniBarImpl(QWidget, Ui_miniBarForm, noBorderImpl, tipImpl):
             self.task['current_time_left'] -= 1
         self.timeLcd.display("%d:%02d" % (self.task['current_time_left'] / 60, self.task['current_time_left'] % 60))
         self.timeBar.setValue(self.task['current_time_left'])
+
+    # 重启任务
+    def redoTask(self):
+        if self.task != {}:
+            reply = QMessageBox.question(self, '重置任务', '是否重置当前正在执行任务?(任务所得番茄币将重置)',
+                                        QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                self.timer.stop()
+                self.task['tomato_collected'] = 0
+                self.task['current_time_left'] = 0
+                self.task['task_stage'] = '初始化'
+                self.taskStageShow()
+            else:
+                return
+
+    # 开始任务
+    def startTask(self):
+        if self.task['pause'] == 1 and self.task != {}:
+            self.timer.start(1000)
+            self.task['pause'] = 0
+
+    # 暂停任务
+    def pauseTask(self):
+        if self.task != {}:
+            self.timer.stop()
+            self.task['pause'] = 1
+
+    # 停止任务
+    def stopTask(self):
+        if self.task != {}:
+            self.taskStopSignal.emit()
+            self.task = {}
+            self.normalSize()
 
     #任务完成
     def taskfinish(self):

@@ -119,10 +119,10 @@ class Ui_miniBarForm(object):
         self.redoButton.setIcon(icon)
         self.redoButton.setObjectName("redoButton")
         self.horizontalLayout_3.addWidget(self.redoButton)
-        self.playButton = QtWidgets.QPushButton(self.mainWindow)
-        self.playButton.setMinimumSize(QtCore.QSize(30, 30))
-        self.playButton.setMaximumSize(QtCore.QSize(30, 30))
-        self.playButton.setStyleSheet("QPushButton{\n"
+        self.startButton = QtWidgets.QPushButton(self.mainWindow)
+        self.startButton.setMinimumSize(QtCore.QSize(30, 30))
+        self.startButton.setMaximumSize(QtCore.QSize(30, 30))
+        self.startButton.setStyleSheet("QPushButton{\n"
 "    border-radius:15px;\n"
 "    background:#F95D5C;\n"
 "}\n"
@@ -130,16 +130,16 @@ class Ui_miniBarForm(object):
 "    background:#aa3e3e;\n"
 "}\n"
 "")
-        self.playButton.setText("")
+        self.startButton.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(":/icon/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.playButton.setIcon(icon1)
-        self.playButton.setObjectName("playButton")
-        self.horizontalLayout_3.addWidget(self.playButton)
-        self.pazueButton = QtWidgets.QPushButton(self.mainWindow)
-        self.pazueButton.setMinimumSize(QtCore.QSize(30, 30))
-        self.pazueButton.setMaximumSize(QtCore.QSize(30, 30))
-        self.pazueButton.setStyleSheet("QPushButton{\n"
+        self.startButton.setIcon(icon1)
+        self.startButton.setObjectName("startButton")
+        self.horizontalLayout_3.addWidget(self.startButton)
+        self.pauseButton = QtWidgets.QPushButton(self.mainWindow)
+        self.pauseButton.setMinimumSize(QtCore.QSize(30, 30))
+        self.pauseButton.setMaximumSize(QtCore.QSize(30, 30))
+        self.pauseButton.setStyleSheet("QPushButton{\n"
 "    border-radius:15px;\n"
 "    background:#F95D5C;\n"
 "}\n"
@@ -147,12 +147,12 @@ class Ui_miniBarForm(object):
 "    background:#aa3e3e;\n"
 "}\n"
 "")
-        self.pazueButton.setText("")
+        self.pauseButton.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/icon/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pazueButton.setIcon(icon2)
-        self.pazueButton.setObjectName("pazueButton")
-        self.horizontalLayout_3.addWidget(self.pazueButton)
+        self.pauseButton.setIcon(icon2)
+        self.pauseButton.setObjectName("pauseButton")
+        self.horizontalLayout_3.addWidget(self.pauseButton)
         self.stopButton = QtWidgets.QPushButton(self.mainWindow)
         self.stopButton.setMinimumSize(QtCore.QSize(30, 30))
         self.stopButton.setMaximumSize(QtCore.QSize(30, 30))

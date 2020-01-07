@@ -75,6 +75,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.taskCheckSignal.connect(self.firstWidget.taskCheck)
         self.miniBar.normalSizeSignal.connect(self.normalShow)
         self.miniBar.taskFinishSignal.connect(self.taskfinish)
+        self.miniBar.taskStopSignal.connect(self.stopTask)
         self.firstWidget.taskRefreshSignal.connect(self.taskWidget.refreshAll)
         self.taskWidget.taskRefreshSignal.connect(self.firstWidget.refreshAll)
         self.firstWidget.taskStartSignal.connect(self.taskStart)
@@ -126,7 +127,8 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             self.timeBar.setValue(self.task['current_time_left'])
             self.timeBar.setMaximum(self.task['stage_time'])
             self.timeLcd.display("%d:%02d" % (self.task['current_time_left'] / 60, self.task['current_time_left'] % 60))
-            self.timer.start(1000)
+            if self.task['pause'] == 0:
+                self.timer.start(1000)
         self.miniBar.hide()
         self.show()
 
@@ -254,10 +256,13 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
                 self.taskStageShow()
             else:
                 return
+
     # 开始任务
     def startTask(self):
         if self.task['pause'] == 1 and self.task != {}:
             self.timer.start(1000)
+            self.task['pause'] = 0
+
     # 暂停任务
     def pauseTask(self):
         if self.task != {}:
