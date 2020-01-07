@@ -85,6 +85,10 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.taskButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(2))
         self.memoButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(3))
         self.marketButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
+        self.redoTimerButton.clicked.connect(self.redoTask)
+        self.startTimerButton.clicked.connect(self.startTask)
+        self.pauseTimerButton.clicked.connect(self.pauseTask)
+        self.stopTimerButton.clicked.connect(self.stopTask)
         self.miniSizeButton.clicked.connect(self.miniSize)
         self.timer.timeout.connect(self.taskStageShow)
 
@@ -178,6 +182,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.totalTomatoLabel.setText(str(self.task['tomato_count']))
         self.task['tomato_collected'] = 0
         self.task['current_time_left'] = 0
+        self.task['pause'] = 0
         self.task['task_stage'] = '初始化'
         self.miniSizeButton.setDisabled(False)
         self.taskStageShow()
@@ -238,15 +243,50 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
 
     # 重启任务
     def redoTask(self):
-
+        if self.task != {}:
+            reply = QMessageBox.question(self, '重置任务', '是否重置当前正在执行任务?(任务所得番茄币将重置)',
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                self.timer.stop()
+                self.task['tomato_collected'] = 0
+                self.task['current_time_left'] = 0
+                self.task['task_stage'] = '初始化'
+                self.taskStageShow()
+            else:
+                return
     # 开始任务
     def startTask(self):
-
+        if self.task['pause'] == 1 and self.task != {}:
+            self.timer.start(1000)
     # 暂停任务
     def pauseTask(self):
+        if self.task != {}:
+            self.timer.stop()
+            self.task['pause'] = 1
 
     # 停止任务
     def stopTask(self):
+        if self.task != {}:
+            reply = QMessageBox.question(self, '中止任务', '是否中止当前正在执行任务?(任务所得番茄币将重置)',
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                self.timer.stop()
+                self.readyTomatoLabel.setText("0")
+                self.totalTomatoLabel.setText("0")
+                self.tomatoStageLabel.setText("已完成")
+                self.taskTitleLabel.setText("")
+                self.timeBar.setValue(0)
+                self.timeBar.setMaximum(100)
+                self.timeLcd.display("00:00")
+                self.miniSizeButton.setDisabled(True)
+                try:
+                    sql = "Update t_task_link_date set is_doing = 0 where task_id = ?"
+                    self.sqlite.execute(sql, self.task['id'])
+                    self.taskRefreshSignal.emit()
+                    self.task = {}
+                except Exception as e:
+                    self.Tips("系统异常，请查看日志")
+                    self.confmain.error(e)
 
     # 任务完成事件
     def taskfinish(self):
