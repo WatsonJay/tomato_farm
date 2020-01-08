@@ -142,7 +142,7 @@ border-bottom-left-radius:10px;
         </property>
         <property name="styleSheet">
          <string notr="true">QWidget#windowBar{
-background:rgba(86, 86, 86, 200);
+background:rgba(26, 26, 26, 120);
 border-top:1px solid gray;
 border-right:1px solid gray;
 border-left:1px solid gray;
@@ -166,7 +166,7 @@ border-left:1px solid gray;
         </property>
         <property name="styleSheet">
          <string notr="true">QWidget#toolWidget{
-background:rgba(86, 86, 86, 200);
+background:rgba(26, 26, 26, 120);
 border-right:1px solid gray;
 border-left:1px solid gray;
 }</string>
@@ -218,7 +218,7 @@ border-left:1px solid gray;
             <string notr="true">#changeButton{
 	border:none;
 	margin-top:10px;
-	color: rgb(98, 98, 98);
+	color: rgb(158, 158, 158);
 }</string>
            </property>
            <property name="text">
@@ -286,7 +286,7 @@ border-left:1px solid gray;
 	border-bottom:1px solid gray;
 }
 QStackedWidget&gt;QWidget{
-	background:rgba(86, 86, 86, 200);
+	background:rgba(26, 26, 26, 120);
 }</string>
         </property>
         <property name="currentIndex">

@@ -62,6 +62,7 @@ class todoWidgetImpl(QWidget, Ui_todoWidget, noBorderImpl):
                 taskItem, ListItem = self.makeTodayItem(data)
                 self.todayListWidget.addItem(ListItem)
                 self.todayListWidget.setItemWidget(ListItem, taskItem)
+                taskItem.taskRefreshSignal.connect(self.refreshAll)
         except Exception as e:
             self.conffirst.error(e)
 

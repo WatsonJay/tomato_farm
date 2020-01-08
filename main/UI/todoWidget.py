@@ -54,7 +54,7 @@ class Ui_todoWidget(object):
         self.windowBar = QtWidgets.QWidget(self.mainWidget)
         self.windowBar.setMinimumSize(QtCore.QSize(0, 15))
         self.windowBar.setStyleSheet("QWidget#windowBar{\n"
-"background:rgba(86, 86, 86, 200);\n"
+"background:rgba(26, 26, 26, 120);\n"
 "border-top:1px solid gray;\n"
 "border-right:1px solid gray;\n"
 "border-left:1px solid gray;\n"
@@ -65,7 +65,7 @@ class Ui_todoWidget(object):
         self.toolWidget.setMinimumSize(QtCore.QSize(0, 50))
         self.toolWidget.setMaximumSize(QtCore.QSize(16777215, 50))
         self.toolWidget.setStyleSheet("QWidget#toolWidget{\n"
-"background:rgba(86, 86, 86, 200);\n"
+"background:rgba(26, 26, 26, 120);\n"
 "border-right:1px solid gray;\n"
 "border-left:1px solid gray;\n"
 "}")
@@ -96,7 +96,7 @@ class Ui_todoWidget(object):
         self.changeButton.setStyleSheet("#changeButton{\n"
 "    border:none;\n"
 "    margin-top:10px;\n"
-"    color: rgb(98, 98, 98);\n"
+"    color: rgb(158, 158, 158);\n"
 "}")
         self.changeButton.setObjectName("changeButton")
         self.horizontalLayout.addWidget(self.changeButton)
@@ -124,7 +124,7 @@ class Ui_todoWidget(object):
 "    border-bottom:1px solid gray;\n"
 "}\n"
 "QStackedWidget>QWidget{\n"
-"    background:rgba(86, 86, 86, 200);\n"
+"    background:rgba(26, 26, 26, 120);\n"
 "}")
         self.stackedWidget.setObjectName("stackedWidget")
         self.todayPage = QtWidgets.QWidget()
