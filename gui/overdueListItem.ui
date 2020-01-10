@@ -201,6 +201,28 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QLabel" name="doingLabel">
+          <property name="maximumSize">
+           <size>
+            <width>66</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border:1px soild white;
+border-radius:5px;
+background:#6CE872;
+color:white;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>

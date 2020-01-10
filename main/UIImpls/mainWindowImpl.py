@@ -102,6 +102,8 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             self.taskWidget.taskRefreshSignal.connect(self.todolist.refreshAll)
             self.todolist.taskRefreshSignal.connect(self.taskWidget.refreshAll)
             self.todolist.taskRefreshSignal.connect(self.firstWidget.refreshAll)
+            self.todolist.taskStartSignal.connect(self.taskStart)
+            self.taskCheckSignal.connect(self.todolist.taskCheck)
         else:
             self.todolist.hide()
             self.taskRefreshSignal.disconnect(self.todolist.refreshAll)
@@ -109,6 +111,8 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             self.taskWidget.taskRefreshSignal.disconnect(self.todolist.refreshAll)
             self.todolist.taskRefreshSignal.disconnect(self.taskWidget.refreshAll)
             self.todolist.taskRefreshSignal.disconnect(self.firstWidget.refreshAll)
+            self.todolist.taskStartSignal.disconnect(self.taskStart)
+            self.taskCheckSignal.connect(self.todolist.taskCheck)
 
     #切换迷你界面
     def miniSize(self):
@@ -176,7 +180,10 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
                 self.taskCheckSignal.emit(False)
                 return
             else:
+                sql = "Update t_task_link_date set is_doing = 0 where task_id = ?"
+                self.sqlite.execute(sql, self.task['id'])
                 self.task = {}
+                self.miniBar.hide()
         self.taskCheckSignal.emit(True)
         self.task = dict
         self.task['tomato_count'] = self.task['task_during'] // 15 if self.task['task_during'] % 15 == 0 else self.task['task_during'] // 15 + 1

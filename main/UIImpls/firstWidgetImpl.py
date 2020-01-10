@@ -87,6 +87,10 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
             self.Tips("系统异常，请查看日志")
             self.conffirst.error(e)
 
+    # 检查
+    def taskCheck(self, bool):
+        self.taskRan = bool
+
     #开始任务
     def startTask(self,dict):
         try:
@@ -98,13 +102,10 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
                 sql = "Update t_task_link_date set is_doing = 1 where task_id = ?"
                 self.sqlite.execute(sql, dict['id'])
                 self.refreshAll()
+                self.taskRefreshSignal.emit()
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.conffirst.error(e)
-
-    # 检查
-    def taskCheck(self, bool):
-        self.taskRan = bool
 
     # 解除任务
     def unlinkTask(self, id):

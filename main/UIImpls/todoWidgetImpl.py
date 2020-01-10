@@ -10,6 +10,7 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget, QApplication, QMessageBox, QListWidgetItem
 from UI.todoWidget import Ui_todoWidget
 import UI.icons_rc
+from UIImpls.messageWidgetImpl import messageWidgetImpl
 from UIImpls.noBorderImpl import noBorderImpl
 from UIImpls.overdueItemImpl import overdueItemImpl
 from UIImpls.todayItemImpl import todayItemImpl
@@ -20,6 +21,7 @@ from util.logger import logger
 
 class todoWidgetImpl(QWidget, Ui_todoWidget, noBorderImpl):
     # 信号槽
+    taskStartSignal = pyqtSignal(dict)
     taskRefreshSignal = pyqtSignal()
 
     # 初始化
@@ -28,8 +30,10 @@ class todoWidgetImpl(QWidget, Ui_todoWidget, noBorderImpl):
         self.setupUi(self)
         self.flag = False
         self.mouseflag = False
+        self.taskRan = False
         log = logger()
         self.conftodo = log.getlogger('gui')
+        self.messageView = messageWidgetImpl()
         self.showHideWidget.setVisible(False)
         self.conf = config()
         self.checkLock()
@@ -59,12 +63,11 @@ class todoWidgetImpl(QWidget, Ui_todoWidget, noBorderImpl):
                   where tbt.is_dated = ? and tbt.is_overdue = ? and tbt.is_finish = ? and ttld.link_date = ? order by ttld.is_top DESC'''
             datas = self.sqlite.executeQuery(sql, 1, 0, 0, now)
             for data in datas:
-                taskItem, ListItem = self.makeTodayItem(data)
+                todayItem, ListItem = self.makeTodayItem(data)
                 self.todayListWidget.addItem(ListItem)
-                self.todayListWidget.setItemWidget(ListItem, taskItem)
-                taskItem.taskRefreshSignal.connect(self.refreshAll)
+                self.todayListWidget.setItemWidget(ListItem, todayItem)
         except Exception as e:
-            self.conffirst.error(e)
+            self.conftodo.error(e)
 
     #逾期列表刷新
     def loadOverdueTask(self):
@@ -83,18 +86,63 @@ class todoWidgetImpl(QWidget, Ui_todoWidget, noBorderImpl):
 
     # 创建列表项
     def makeOverdueItem(self, data):
-        firstItem = overdueItemImpl()
-        firstItem.setInfo(data)
+        overdueItem = overdueItemImpl()
+        overdueItem.setInfo(data)
+        overdueItem.taskStartSignal.connect(self.startTask)
+        overdueItem.taskUnlinkSignal.connect(self.unlinkTask)
         listItem = QListWidgetItem()
-        listItem.setSizeHint(firstItem.size())
-        return firstItem, listItem
+        listItem.setSizeHint(overdueItem.size())
+        return overdueItem, listItem
 
     def makeTodayItem(self, data):
-        firstItem = todayItemImpl()
-        firstItem.setInfo(data)
+        todayItem = todayItemImpl()
+        todayItem.setInfo(data)
+        todayItem.taskTopSignal.connect(self.topTask)
+        todayItem.taskStartSignal.connect(self.startTask)
+        todayItem.taskUnlinkSignal.connect(self.unlinkTask)
         listItem = QListWidgetItem()
-        listItem.setSizeHint(firstItem.size())
-        return firstItem, listItem
+        listItem.setSizeHint(todayItem.size())
+        return todayItem, listItem
+
+    # 检查
+    def taskCheck(self, bool):
+        self.taskRan = bool
+
+    # 开始任务
+    def startTask(self, dict):
+        try:
+            self.taskStartSignal.emit(dict)
+            if self.taskRan:
+                text = '''任务已启动，加油！
+请关注你的番茄成长进度'''
+                self.messageView.show(text).showAnimation()
+                sql = "Update t_task_link_date set is_doing = 1 where task_id = ?"
+                self.sqlite.execute(sql, dict['id'])
+                self.refreshAll()
+                self.taskRefreshSignal.emit()
+        except Exception as e:
+            self.conftodo.error(e)
+
+    # 解除任务
+    def unlinkTask(self, id):
+        try:
+            sql = "Delete from t_task_link_date where task_id = ?"
+            self.sqlite.execute(sql, id)
+            sql = "Update t_base_task set is_dated = 0,is_overdue = 0 where id = ?"
+            self.sqlite.execute(sql, id)
+            self.refreshAll()
+            self.taskRefreshSignal.emit()
+        except Exception as e:
+            self.conftodo.error(e)
+
+    #置顶任务
+    def topTask(self, id, sql):
+        try:
+            self.sqlite.execute(sql, id)
+            self.loadTodayTask()
+            self.taskRefreshSignal.emit()
+        except Exception as e:
+            self.conftodo.error(e)
 
     # 锁定检查
     def checkLock(self):

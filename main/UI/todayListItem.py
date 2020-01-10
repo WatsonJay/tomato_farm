@@ -103,6 +103,16 @@ class Ui_todayListItem(object):
         self.deleteButton.setIconSize(QtCore.QSize(12, 12))
         self.deleteButton.setObjectName("deleteButton")
         self.horizontalLayout_2.addWidget(self.deleteButton)
+        self.doingLabel = QtWidgets.QLabel(self.buttonWidget)
+        self.doingLabel.setMaximumSize(QtCore.QSize(66, 24))
+        self.doingLabel.setStyleSheet("border:1px soild white;\n"
+"border-radius:5px;\n"
+"background:#6CE872;\n"
+"color:white;")
+        self.doingLabel.setText("")
+        self.doingLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.doingLabel.setObjectName("doingLabel")
+        self.horizontalLayout_2.addWidget(self.doingLabel)
         self.horizontalLayout.addWidget(self.buttonWidget)
 
         self.retranslateUi(todayListItem)

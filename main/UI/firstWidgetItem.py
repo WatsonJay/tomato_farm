@@ -112,7 +112,7 @@ class Ui_firstWidgetItem(object):
         self.deleteButton.setObjectName("deleteButton")
         self.horizontalLayout_3.addWidget(self.deleteButton)
         self.doingLabel = QtWidgets.QLabel(self.widget)
-        self.doingLabel.setMaximumSize(QtCore.QSize(16777215, 25))
+        self.doingLabel.setMaximumSize(QtCore.QSize(16777215, 24))
         font = QtGui.QFont()
         font.setFamily("Microsoft YaHei UI")
         self.doingLabel.setFont(font)
