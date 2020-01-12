@@ -71,6 +71,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         #信号绑定
         self.taskRefreshSignal.connect(self.firstWidget.refreshAll)
         self.taskRefreshSignal.connect(self.taskWidget.refreshAll)
+        self.taskRefreshSignal.connect(marketWidget.loadMarket)
         self.miniSizeSignal.connect(self.miniBar.miniShow)
         self.taskCheckSignal.connect(self.firstWidget.taskCheck)
         self.miniBar.normalSizeSignal.connect(self.normalShow)

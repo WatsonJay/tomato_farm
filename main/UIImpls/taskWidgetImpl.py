@@ -32,7 +32,7 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
         self.addTaskButton.clicked.connect(self.addTask)
         self.modifTaskButton.clicked.connect(self.modifTask)
         self.delTaskButton.clicked.connect(self.deletTask)
-        self.cancleButton.clicked.connect(lambda:self.stackedWidget.setCurrentIndex(0))
+        self.cancleButton.clicked.connect(self.cancel)
         self.commitButton.clicked.connect(self.commitTask)
         self.calendarWidget.clicked.connect(self.currentDayTask)
         self.linkDayButton.clicked.connect(self.taskLinkDay)
@@ -120,6 +120,7 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
             self.taskDescEdit.setText(selectedItem.desc)
             self.stackedWidget.setCurrentIndex(1)
 
+    # 删除任务
     def deletTask(self):
         try:
             if len(self.taskListWidget.selectedItems()) > 0:
@@ -159,6 +160,11 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
             self.Tips("系统异常，请查看日志")
             self.conftask.error(e)
             self.id = ''
+
+    #取消
+    def cancel(self):
+        self.stackedWidget.setCurrentIndex(0)
+        self.id = ''
 
     # 任务分配
     def taskLinkDay(self):

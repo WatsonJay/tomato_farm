@@ -11,7 +11,7 @@ from UI.firstWidgetItem import Ui_firstWidgetItem
 from UIImpls.tipImpl import tipImpl
 
 
-class firstItemImpl(QWidget, Ui_firstWidgetItem, tipImpl):
+class firstItemImpl(QWidget, Ui_firstWidgetItem):
     # 信号槽
     taskStartSignal = pyqtSignal(dict)
     taskUnlinkSignal = pyqtSignal(str)
