@@ -262,4 +262,4 @@ class Ui_homeWidget(object):
         self.label_6.setText(_translate("homeWidget", "<html><head/><body><p><img src=\":/icon/storage.png\" width=\"30\" height=\"30\"/></p></body></html>"))
         self.label_4.setText(_translate("homeWidget", "番茄币："))
         self.tomatoCoinLabel.setText(_translate("homeWidget", "0"))
-import UI.icons_rc
+import icons_rc

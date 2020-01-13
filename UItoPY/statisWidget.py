@@ -324,4 +324,4 @@ class Ui_statisWidget(object):
         self.label_4.setText(_translate("statisWidget", "总计"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("statisWidget", "本周记录"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("statisWidget", "月记录"))
-import UI.icons_rc
+import icons_rc

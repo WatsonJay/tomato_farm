@@ -105,7 +105,7 @@ class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
                 self.sqlite.execute(sql, self.id)
                 sql = "insert Into t_base_coin (id,coin_type,coin_number,desc) values (?,?,?,?)"
                 self.sqlite.execute(sql, [str(uuid.uuid1()), 1, int(self.priceToCoinLabel.text()),
-                                          "购买" + self.commNameLabel.text()])
+                                          "购买[" + self.commNameLabel.text()] + "]")
                 self.id = ''
                 self.Tips("购买成功")
                 self.commNameLabel.setText("")

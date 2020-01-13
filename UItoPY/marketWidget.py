@@ -601,4 +601,4 @@ class Ui_marketWidget(object):
         self.label_11.setText(_translate("marketWidget", "商品链接："))
         self.commitButton.setText(_translate("marketWidget", "发布"))
         self.cancleButton.setText(_translate("marketWidget", "取消"))
-import UI.icons_rc
+import icons_rc

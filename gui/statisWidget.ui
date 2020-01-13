@@ -14,6 +14,9 @@
    <string/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5" stretch="4,6">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="4,6">
      <property name="spacing">
@@ -53,7 +56,7 @@
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
-             <pointsize>10</pointsize>
+             <pointsize>13</pointsize>
             </font>
            </property>
            <property name="text">
@@ -69,7 +72,7 @@
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
-             <pointsize>11</pointsize>
+             <pointsize>14</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -105,6 +108,7 @@
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
+               <pointsize>11</pointsize>
               </font>
              </property>
              <property name="text">
@@ -126,6 +130,7 @@
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
+               <pointsize>11</pointsize>
               </font>
              </property>
              <property name="text">
@@ -204,7 +209,7 @@
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
-             <pointsize>10</pointsize>
+             <pointsize>13</pointsize>
             </font>
            </property>
            <property name="text">
@@ -220,7 +225,7 @@
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
-             <pointsize>11</pointsize>
+             <pointsize>14</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -256,6 +261,7 @@
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
+               <pointsize>11</pointsize>
               </font>
              </property>
              <property name="text">
@@ -277,6 +283,7 @@
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
+               <pointsize>11</pointsize>
               </font>
              </property>
              <property name="text">
@@ -349,7 +356,7 @@
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
-             <pointsize>10</pointsize>
+             <pointsize>13</pointsize>
             </font>
            </property>
            <property name="text">
@@ -365,7 +372,7 @@
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
-             <pointsize>11</pointsize>
+             <pointsize>14</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -401,6 +408,7 @@
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
+               <pointsize>11</pointsize>
               </font>
              </property>
              <property name="text">
@@ -422,6 +430,7 @@
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
+               <pointsize>11</pointsize>
               </font>
              </property>
              <property name="text">
@@ -500,7 +509,7 @@
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
-             <pointsize>10</pointsize>
+             <pointsize>13</pointsize>
             </font>
            </property>
            <property name="text">
@@ -516,7 +525,7 @@
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
-             <pointsize>11</pointsize>
+             <pointsize>14</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>

@@ -20,7 +20,6 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
     # 信号槽
     taskStartSignal = pyqtSignal(dict)
     taskRefreshSignal = pyqtSignal()
-    coinRefreshSignal = pyqtSignal()
 
     # 初始化
     def __init__(self, parent=None):
@@ -32,12 +31,13 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
         self.conffirst = log.getlogger('gui')
         self.sqlite = sqlite('./config/tomato.db')
 
-    # 全部刷新
+    # 任务刷新
     def refreshAll(self):
         self.loadTodayTask()
         self.loadOverdueTask()
+        self.loadTaskCount()
 
-    #
+    # 番茄币刷新
     def refreshAllCoin(self):
         self.loadCoin()
         self.sumCoin()
@@ -77,6 +77,19 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
             self.conffirst.error(e)
 
     # 加载金币记录
+    def loadTaskCount(self):
+        try:
+            sql = "select * from v_task_count"
+            datas = self.sqlite.executeQuery(sql)
+            self.totalTaskLabel.setText(str(datas[0]['total']))
+            self.overdueTaskLabel.setText(str(datas[0]['overdue']))
+            self.completeTaskLabel.setText(str(datas[0]['done']))
+            self.undoTaskLabel.setText(str(datas[0]['left']))
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.conffirst.error(e)
+
+    # 加载金币记录
     def loadCoin(self):
         self.billTextBrowser.clear()
         try:
@@ -87,7 +100,7 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
                     type = '进账'
                 else:
                     type = '支出'
-                msg = "["+data['create_time']+"] : "+data['desc']+type+"番茄币"+str(data['coin_number'])+"个"
+                msg = data['create_time']+"   "+data['desc']+type+"番茄币"+str(data['coin_number'])+"个"
                 self.billTextBrowser.append(msg)
         except Exception as e:
             self.Tips("系统异常，请查看日志")

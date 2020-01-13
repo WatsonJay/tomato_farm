@@ -190,7 +190,7 @@ p, li { white-space: pre-wrap; }
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
-               <pointsize>11</pointsize>
+               <pointsize>13</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -204,7 +204,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="TotalTaskLabel">
+            <widget class="QLabel" name="totalTaskLabel">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -214,7 +214,7 @@ p, li { white-space: pre-wrap; }
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
-               <pointsize>10</pointsize>
+               <pointsize>13</pointsize>
               </font>
              </property>
              <property name="text">
@@ -269,7 +269,7 @@ p, li { white-space: pre-wrap; }
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
-               <pointsize>11</pointsize>
+               <pointsize>13</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -293,7 +293,7 @@ p, li { white-space: pre-wrap; }
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
-               <pointsize>10</pointsize>
+               <pointsize>13</pointsize>
               </font>
              </property>
              <property name="text">
@@ -348,7 +348,7 @@ p, li { white-space: pre-wrap; }
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
-               <pointsize>11</pointsize>
+               <pointsize>13</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -372,7 +372,7 @@ p, li { white-space: pre-wrap; }
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
-               <pointsize>10</pointsize>
+               <pointsize>13</pointsize>
               </font>
              </property>
              <property name="text">
@@ -427,7 +427,7 @@ p, li { white-space: pre-wrap; }
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
-               <pointsize>11</pointsize>
+               <pointsize>13</pointsize>
                <weight>75</weight>
                <bold>true</bold>
               </font>
@@ -451,7 +451,7 @@ p, li { white-space: pre-wrap; }
              <property name="font">
               <font>
                <family>Microsoft YaHei UI</family>
-               <pointsize>10</pointsize>
+               <pointsize>13</pointsize>
               </font>
              </property>
              <property name="text">
@@ -509,7 +509,7 @@ p, li { white-space: pre-wrap; }
          <item>
           <widget class="QLabel" name="label_6">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/icon/storage.png&quot; width=&quot;25&quot; height=&quot;25&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/icon/storage.png&quot; width=&quot;30&quot; height=&quot;30&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -524,7 +524,7 @@ p, li { white-space: pre-wrap; }
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
-             <pointsize>12</pointsize>
+             <pointsize>14</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -548,7 +548,7 @@ p, li { white-space: pre-wrap; }
            <property name="font">
             <font>
              <family>Microsoft YaHei UI</family>
-             <pointsize>12</pointsize>
+             <pointsize>14</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>

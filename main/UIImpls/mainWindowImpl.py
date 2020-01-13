@@ -76,7 +76,6 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.taskRefreshSignal.connect(self.taskWidget.refreshAll)
         self.coinRefreshSignal.connect(self.firstWidget.refreshAllCoin)
         self.coinRefreshSignal.connect(marketWidget.sumCoin)
-        self.firstWidget.coinRefreshSignal.connect(marketWidget.sumCoin)
         marketWidget.coinRefreshSignal.connect(self.firstWidget.refreshAllCoin)
         self.miniSizeSignal.connect(self.miniBar.miniShow)
         self.taskCheckSignal.connect(self.firstWidget.taskCheck)
@@ -324,7 +323,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             sql = "Update t_task_link_date set is_doing = 0 where task_id = ?"
             self.sqlite.execute(sql, self.task['id'])
             sql = "insert Into t_base_coin (id,coin_type,coin_number,desc) values (?,?,?,?)"
-            self.sqlite.execute(sql, [str(uuid.uuid1()), 0, self.task['tomato_count'],"任务"+self.task['task_name']+"完成"])
+            self.sqlite.execute(sql, [str(uuid.uuid1()), 0, self.task['tomato_count'],"任务["+self.task['task_name']+"]完成"])
             self.taskRefreshSignal.emit()
             self.coinRefreshSignal.emit()
             self.task = {}
