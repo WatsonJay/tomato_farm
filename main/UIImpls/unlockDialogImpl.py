@@ -17,10 +17,12 @@ class unlockDialogImpl(QDialog, Ui_unlockDialog, noBorderImpl, tipImpl):
         super(unlockDialogImpl, self).__init__(parent)
         self.setupUi(self)
         self.unlockPushButton.clicked.connect(self.unlock)
+        self.passwordLineEdit.returnPressed.connect(self.unlock)
 
     def unlock(self):
         conf = config()
-        if self.passwordLineEdit.text() == conf.decrypt(conf.getOption('LOCK', 'password')):
+        if self.passwordLineEdit.text() == conf.decrypt(conf.getOption('system', 'password')):
             self.accept()
         else:
             self.Tips("密码错误,请重试")
+        self.passwordLineEdit.setText("")

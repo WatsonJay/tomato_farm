@@ -203,6 +203,7 @@ QTabWidget::pane{
 #tab,#tab_2,#tab_3,#tab_4{
     background:#E9EAED;
 }
+
 </string>
         </property>
         <property name="currentIndex">
@@ -214,7 +215,9 @@ QTabWidget::pane{
 	border:1px solid gray;
     border-radius:10px;
     padding:2px 4px;
-}</string>
+}
+
+</string>
          </property>
          <attribute name="title">
           <string>系统设置</string>
@@ -290,6 +293,113 @@ QTabWidget::pane{
           </item>
           <item row="1" column="1">
            <widget class="QLineEdit" name="lineEdit"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>番茄币换算：</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="label_4">
+              <property name="font">
+               <font>
+                <family>Microsoft YaHei UI</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>1元相当于</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="tomatoRateSpinBox">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QSpinBox,QDoubleSpinBox{
+	border:1px solid gray;
+	border-radius:10px;
+	padding:2px 4px;
+}
+
+/*spinbox 抬起样式*/
+QDoubleSpinBox::up-button,QSpinBox::up-button {
+	subcontrol-origin:border;
+    subcontrol-position:right;
+    image: url(:/icon/add.png);
+    width: 16px;
+    height: 20px;       
+}
+QDoubleSpinBox::down-button,QSpinBox::down-button {
+    subcontrol-origin:border;
+    subcontrol-position:left;
+    border-image: url(:/icon/remove.png);
+    width: 16px;
+    height: 17px;
+}
+/*按钮按下样式*/
+QDoubleSpinBox::up-button:pressed,QSpinBox::up-button:pressed{
+	subcontrol-origin:border;
+    subcontrol-position:right;
+    image: url(:/icon/add.png);
+    width: 16px;
+    height: 20px;       
+}
+  
+QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
+    subcontrol-position:left;
+    image: url(:/icon/remove.png);
+    width: 16px;
+    height: 17px;
+}</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_5">
+              <property name="font">
+               <font>
+                <family>Microsoft YaHei UI</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>个番茄币</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>

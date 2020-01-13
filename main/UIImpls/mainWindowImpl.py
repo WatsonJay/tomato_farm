@@ -9,7 +9,7 @@ import uuid
 
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSignal, QTimer
-from PyQt5.QtWidgets import QMainWindow, QMessageBox, QCheckBox, QSystemTrayIcon, QMenu, QAction
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, QCheckBox, QSystemTrayIcon, QMenu, QAction, QDialog
 from UI.mainWindow import Ui_MainWindow
 from UIImpls.firstWidgetImpl import firstWidgetImpl
 from UIImpls.marketWidgetImpl import marketWidgetImpl
@@ -21,6 +21,7 @@ from UIImpls.noBorderImpl import noBorderImpl
 from UIImpls.miniBarImpl import miniBarImpl
 from UIImpls.tipImpl import tipImpl
 from UIImpls.todoWidgetImpl import todoWidgetImpl
+from UIImpls.unlockDialogImpl import unlockDialogImpl
 from util.loadConf import config
 from util.loadData import sqlite
 import UI.icons_rc
@@ -32,6 +33,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     miniSizeSignal = pyqtSignal(dict)
     taskRefreshSignal = pyqtSignal()
     taskCheckSignal = pyqtSignal(bool)
+    coinRefreshSignal = pyqtSignal()
 
     # 初始化
     def __init__(self, parent=None):
@@ -47,6 +49,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.checkOverdue()
 
         #界面初始化
+        self.unlockDialog = unlockDialogImpl()
         self.timer = QTimer()
         self.miniBar = miniBarImpl()
         self.todolist = todoWidgetImpl()
@@ -71,7 +74,10 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         #信号绑定
         self.taskRefreshSignal.connect(self.firstWidget.refreshAll)
         self.taskRefreshSignal.connect(self.taskWidget.refreshAll)
-        self.taskRefreshSignal.connect(marketWidget.loadMarket)
+        self.coinRefreshSignal.connect(self.firstWidget.refreshAllCoin)
+        self.coinRefreshSignal.connect(marketWidget.sumCoin)
+        self.firstWidget.coinRefreshSignal.connect(marketWidget.sumCoin)
+        marketWidget.coinRefreshSignal.connect(self.firstWidget.refreshAllCoin)
         self.miniSizeSignal.connect(self.miniBar.miniShow)
         self.taskCheckSignal.connect(self.firstWidget.taskCheck)
         self.miniBar.normalSizeSignal.connect(self.normalShow)
@@ -81,6 +87,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.taskWidget.taskRefreshSignal.connect(self.firstWidget.refreshAll)
         self.firstWidget.taskStartSignal.connect(self.taskStart)
 
+        self.coinRefreshSignal.emit()
         #功能绑定
         self.firstPageButton.clicked.connect(lambda:self.stackedWidget.setCurrentIndex(0))
         self.statisButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
@@ -115,6 +122,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             self.todolist.taskStartSignal.disconnect(self.taskStart)
             self.taskCheckSignal.connect(self.todolist.taskCheck)
 
+
     #切换迷你界面
     def miniSize(self):
         self.miniSizeSignal.emit(self.task)
@@ -146,7 +154,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.mSysTrayIcon.setToolTip("番茄农场")
         self.mSysTrayIcon.activated.connect(self.iconActivated)
         tpMenu = QMenu()
-        restoreAction = QAction('还原', self, triggered=self.show)  # 添加一级菜单动作选项(还原主窗口)
+        restoreAction = QAction('还原', self, triggered=self.showCheck)  # 添加一级菜单动作选项(还原主窗口)
         quitAction = QAction('退出', self, triggered=self.closeWithout)  # 添加一级菜单动作选项(退出程序)
         tpMenu.addAction(restoreAction)
         tpMenu.addSeparator()  # 分割行
@@ -157,7 +165,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     # 触发托盘icon
     def iconActivated(self, reason):
         if reason == QSystemTrayIcon.DoubleClick:
-            self.show()
+            self.showCheck()
 
     #检查任务逾期
     def checkOverdue(self):
@@ -267,9 +275,10 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
 
     # 开始任务
     def startTask(self):
-        if self.task['pause'] == 1 and self.task != {}:
-            self.timer.start(1000)
-            self.task['pause'] = 0
+        if self.task != {}:
+            if self.task['pause'] == 1:
+                self.timer.start(1000)
+                self.task['pause'] = 0
 
     # 暂停任务
     def pauseTask(self):
@@ -315,8 +324,9 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             sql = "Update t_task_link_date set is_doing = 0 where task_id = ?"
             self.sqlite.execute(sql, self.task['id'])
             sql = "insert Into t_base_coin (id,coin_type,coin_number,desc) values (?,?,?,?)"
-            self.sqlite.execute(sql, [str(uuid.uuid1()), 0, self.task['tomato_count'],"任务"+self.task['task_name']+"完成获得"])
+            self.sqlite.execute(sql, [str(uuid.uuid1()), 0, self.task['tomato_count'],"任务"+self.task['task_name']+"完成"])
             self.taskRefreshSignal.emit()
+            self.coinRefreshSignal.emit()
             self.task = {}
         except Exception as e:
             self.Tips("系统异常，请查看日志")
@@ -327,6 +337,16 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         super(mainWindowImpl, self).show()
         self.checkOverdue()
         return self
+
+    # 密码方式打开
+    def showCheck(self):
+        if self.conf.decrypt(self.conf.getOption('system', 'isLock')) == "True":
+            if self.unlockDialog.exec() == QDialog.Accepted:
+                self.show()
+            else:
+                self.close()
+        else:
+            self.show()
 
     # 立刻关闭
     def closeWithout(self):

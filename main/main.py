@@ -7,9 +7,8 @@ import os
 import sys
 import time
 
-from PyQt5.QtWidgets import QApplication,QDialog
+from PyQt5.QtWidgets import QApplication
 from UIImpls.mainWindowImpl import mainWindowImpl
-from UIImpls.unlockDialogImpl import unlockDialogImpl
 from util.loadConf import config
 
 if __name__ == '__main__':
@@ -19,12 +18,5 @@ if __name__ == '__main__':
     conf = config()
     app = QApplication(sys.argv)
     mainWindow = mainWindowImpl()
-    unlockDialog = unlockDialogImpl()
-    if conf.decrypt(conf.getOption('LOCK', 'isLock'))=="True":
-        if unlockDialog.exec() == QDialog.Accepted:
-            mainWindow.show()
-        else:
-            exit(-1)
-    else:
-        mainWindow.show()
+    mainWindow.showCheck()
     sys.exit(app.exec_())

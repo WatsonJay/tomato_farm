@@ -81,6 +81,8 @@ class sqlite:
             raise e
 
         #关闭连接
+
+    #关闭连接
     def close(self,conn=None):
         try:
             if (not conn is None):

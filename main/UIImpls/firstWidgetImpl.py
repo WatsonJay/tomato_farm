@@ -20,6 +20,8 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
     # 信号槽
     taskStartSignal = pyqtSignal(dict)
     taskRefreshSignal = pyqtSignal()
+    coinRefreshSignal = pyqtSignal()
+
     # 初始化
     def __init__(self, parent=None):
         super(firstWidgetImpl, self).__init__(parent)
@@ -30,13 +32,17 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
         self.conffirst = log.getlogger('gui')
         self.sqlite = sqlite('./config/tomato.db')
 
-    #全部刷新
+    # 全部刷新
     def refreshAll(self):
         self.loadTodayTask()
         self.loadOverdueTask()
-        self.loadCoin()
 
-    #加载今日任务
+    #
+    def refreshAllCoin(self):
+        self.loadCoin()
+        self.sumCoin()
+
+    # 加载今日任务
     def loadTodayTask(self):
         self.todayListWidget.clear()
         now = str(datetime.date.today())
@@ -53,7 +59,7 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
             self.Tips("系统异常，请查看日志")
             self.conffirst.error(e)
 
-    #加载过期任务
+    # 加载过期任务
     def loadOverdueTask(self):
         self.overdueListWidget.clear()
         now = str(datetime.date.today())
@@ -70,7 +76,7 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
             self.Tips("系统异常，请查看日志")
             self.conffirst.error(e)
 
-    #加载金币记录
+    # 加载金币记录
     def loadCoin(self):
         self.billTextBrowser.clear()
         try:
@@ -87,11 +93,22 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
             self.Tips("系统异常，请查看日志")
             self.conffirst.error(e)
 
+    # 统计番茄币
+    def sumCoin(self):
+        try:
+            sql = "select (select ifNull(sum(coin_number),0) as 'in' from t_base_coin Where coin_type = 0) - (select ifNull(sum(coin_number),0) as 'in' from t_base_coin Where coin_type = 1) as sum"
+            datas = self.sqlite.executeQuery(sql)
+            coinSum = datas[0]['sum']
+            self.tomatoCoinLabel.setText(str(coinSum))
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.conffirst.error(e)
+
     # 检查
     def taskCheck(self, bool):
         self.taskRan = bool
 
-    #开始任务
+    # 开始任务
     def startTask(self,dict):
         try:
             self.taskStartSignal.emit(dict)

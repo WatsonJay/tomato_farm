@@ -6,34 +6,49 @@
 import datetime
 import uuid
 
-from PyQt5.QtCore import QDate
+from PyQt5.QtCore import QDate, pyqtSignal
 from PyQt5.QtWidgets import QWidget, QListWidgetItem, QMessageBox
 
 from UI.marketWidget import Ui_marketWidget
 from UIImpls.marketItemImpl import marketItemImpl
 from UIImpls.tipImpl import tipImpl
+from util.loadConf import config
 from util.loadData import sqlite
 from util.logger import logger
 
 
 class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
+    # 信号槽
+    coinRefreshSignal = pyqtSignal()
+
     # 初始化
     def __init__(self, parent=None):
         super(marketWidgetImpl, self).__init__(parent)
         self.setupUi(self)
         log = logger()
+        self.conf = config()
         self.confmarket = log.getlogger('gui')
         self.sqlite = sqlite('./config/tomato.db')
         self.id = ''
+        self.coinSum = 0
+        self.tomatoRate = 0
         self.deleteWidget.hide()
+        self.getRate()
+        self.loadMarket()
         self.addButton.clicked.connect(self.addCommodity)
         self.modifButton.clicked.connect(self.modifCommodity)
+        self.deleteCommButton.clicked.connect(self.deleteCommodity)
         self.deleteButton.clicked.connect(self.deleteCommodity)
         self.commitButton.clicked.connect(self.commitCommodity)
         self.cancleButton.clicked.connect(self.cancel)
         self.listWidget.clicked.connect(self.showCommodity)
+        self.buyButton.clicked.connect(self.buyCommodity)
 
-    # 列出所有任务
+    #获得换算率
+    def getRate(self):
+        self.tomatoRate = float(self.conf.getOption('system', 'tomatoRate'))
+
+    # 列出所有商品
     def loadMarket(self):
         self.listWidget.clear()
         try:
@@ -47,23 +62,69 @@ class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
             self.Tips("系统异常，请查看日志")
             self.confmarket.error(e)
 
+    # 统计番茄币
+    def sumCoin(self):
+        try:
+            sql = "select (select ifNull(sum(coin_number),0) as 'in' from t_base_coin Where coin_type = 0) - (select ifNull(sum(coin_number),0) as 'in' from t_base_coin Where coin_type = 1) as sum"
+            datas = self.sqlite.executeQuery(sql)
+            self.coinSum =  datas[0]['sum']
+            self.tomatoCoinLabel.setText(str(self.coinSum))
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.confmarket.error(e)
+
     # 显示商品信息
     def showCommodity(self):
         if len(self.listWidget.selectedItems()) > 0:
             selectedItem = self.listWidget.itemWidget(self.listWidget.selectedItems()[0])
             self.id = selectedItem.commodity['id']
             self.commNameLabel.setText(selectedItem.commodity['comm_name'])
-            self.commPriceLabel.setText(str(selectedItem.commodity['comm_price']))
+            self.commPriceLabel.setText(str(selectedItem.commodity['comm_price']) + '元')
+            self.priceToCoinLabel.setText(str(int(selectedItem.commodity['comm_price'] * self.tomatoRate)))
             self.createTimeLabel.setText(selectedItem.commodity['create_time'])
             self.buyTimeLabel.setText(selectedItem.commodity['buy_time'])
-            self.linkLabel.setText("<a href=%s><b>%s</b></a>" % (selectedItem.commodity['link'],selectedItem.commodity['link']))
+            self.linkLabel.setText(
+                "<a href=%s><b>%s</b></a>" % (selectedItem.commodity['link'], selectedItem.commodity['link']))
             self.descLabel.setText(selectedItem.commodity['comm_desc'])
             buyTime = datetime.datetime.strptime(selectedItem.commodity['buy_time'], "%Y-%m-%d").date()
             now = datetime.date.today()
             if buyTime < now:
                 self.deleteWidget.setVisible(True)
+            else:
+                self.deleteWidget.setVisible(False)
             if selectedItem.commodity['is_sale'] == 1:
-                self.buyButton.setDisabled(True)
+                self.buyButton.setVisible(False)
+            else:
+                self.buyButton.setVisible(True)
+
+    #购买商品
+    def buyCommodity(self):
+        if self.coinSum > int(self.priceToCoinLabel.text()):
+            try:
+                sql = "Update t_base_commodity set is_sale = 1 where id = ?"
+                self.sqlite.execute(sql, self.id)
+                sql = "insert Into t_base_coin (id,coin_type,coin_number,desc) values (?,?,?,?)"
+                self.sqlite.execute(sql, [str(uuid.uuid1()), 1, int(self.priceToCoinLabel.text()),
+                                          "购买" + self.commNameLabel.text()])
+                self.id = ''
+                self.Tips("购买成功")
+                self.commNameLabel.setText("")
+                self.commPriceLabel.setText("")
+                self.priceToCoinLabel.setText("")
+                self.buyTimeLabel.setText("")
+                self.createTimeLabel.setText("")
+                self.linkLabel.setText("")
+                self.descLabel.setText("")
+                self.loadMarket()
+                self.sumCoin()
+                self.coinRefreshSignal.emit()
+            except Exception as e:
+                self.Tips("系统异常，请查看日志")
+                self.confmarket.error(e)
+                self.id = ''
+        else:
+            self.Tips("番茄币不足以支付，继续加油完成任务吧")
+
     # 新增商品
     def addCommodity(self):
         self.commNameLineEdit.setText("")
@@ -92,7 +153,7 @@ class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
             else:
                 self.Tips("已售商品无法编辑")
 
-    # 删除任务
+    # 删除商品
     def deleteCommodity(self):
         try:
             if len(self.listWidget.selectedItems()) > 0:
@@ -105,12 +166,12 @@ class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
                     sql = "Delete from t_base_commodity where id = ?"
                     self.sqlite.execute(sql, id)
                     self.Tips("已删除任务")
-                    self.loadTask()
+                    self.loadMarket()
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.confmarket.error(e)
 
-    # 提交任务
+    # 提交商品
     def commitCommodity(self):
         try:
             if self.commNameLineEdit.text() != '':
