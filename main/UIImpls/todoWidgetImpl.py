@@ -46,6 +46,7 @@ class todoWidgetImpl(QWidget, Ui_todoWidget, noBorderImpl):
     def show(self):
         super(todoWidgetImpl, self).show()
         self.checkHide()
+        self.refreshAll()
         return self
 
     #全部刷新

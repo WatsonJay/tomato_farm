@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>settingDialog</class>
+ <widget class="QDialog" name="settingDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>415</width>
-    <height>286</height>
+    <height>288</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">QTabWidget QStackedWidget{   // 这里QStackedWidget背景设置成透明/其它颜色  
-    background: transparent;    
-}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,9">
    <property name="spacing">
@@ -152,6 +147,20 @@ border-radius:10px
 	border-bottom-left-radius:7px;
 	border-bottom-right-radius:7px;
 }
+QDialogButtonBox&gt;QPushButton{
+	background:#656565;
+	color:#FEFEFE;
+	font: 9pt &quot;Microsoft YaHei UI&quot;;
+	border-radius:4px;
+	width:60px;
+	height:24px;
+	margin-top:3px;
+	margin-right:8px;
+}
+QDialogButtonBox&gt;QPushButton:checked{
+	background:#FEFEFE;
+	color:#656565;
+}
 </string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -236,7 +245,7 @@ QTabWidget::pane{
            <number>15</number>
           </property>
           <item row="0" column="0">
-           <widget class="QLabel" name="gitNameLabel_2">
+           <widget class="QLabel" name="label_7">
             <property name="font">
              <font>
               <family>Microsoft YaHei UI</family>
@@ -251,7 +260,7 @@ QTabWidget::pane{
           <item row="0" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QRadioButton" name="radioButton_2">
+             <widget class="QRadioButton" name="sysLockOnButton">
               <property name="font">
                <font>
                 <family>Microsoft YaHei UI</family>
@@ -261,10 +270,13 @@ QTabWidget::pane{
               <property name="text">
                <string>开启</string>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radioButton">
+             <widget class="QRadioButton" name="sysLockOffButton">
               <property name="font">
                <font>
                 <family>Microsoft YaHei UI</family>
@@ -274,6 +286,9 @@ QTabWidget::pane{
               <property name="text">
                <string>关闭</string>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup</string>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -292,7 +307,11 @@ QTabWidget::pane{
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="lineEdit"/>
+           <widget class="QLineEdit" name="sysLockPassEdit">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_3">
@@ -401,6 +420,55 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
             </item>
            </layout>
           </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>桌面任务：</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QRadioButton" name="todoOnButton">
+              <property name="font">
+               <font>
+                <family>Microsoft YaHei UI</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>启用</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_2</string>
+              </attribute>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="todoOffButton">
+              <property name="font">
+               <font>
+                <family>Microsoft YaHei UI</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>禁用</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_2</string>
+              </attribute>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
         </widget>
         <widget class="QWidget" name="gitTab">
@@ -476,7 +544,11 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
            <widget class="QLineEdit" name="gitNameEdit"/>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="gitPasswordEdit"/>
+           <widget class="QLineEdit" name="gitPasswordEdit">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
           </item>
           <item row="2" column="1">
            <widget class="QLineEdit" name="gitProgramEdit"/>
@@ -492,6 +564,9 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
             <property name="text">
              <string>生成的链接串：</string>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+            </property>
            </widget>
           </item>
           <item row="3" column="1">
@@ -499,7 +574,7 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>0</height>
+              <height>60</height>
              </size>
             </property>
             <property name="maximumSize">
@@ -539,30 +614,11 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
           <family>Microsoft YaHei UI</family>
          </font>
         </property>
-        <property name="styleSheet">
-         <string notr="true">#buttonBox&gt;QPushButton{
-	background:#656565;
-	color:#FEFEFE;
-	font: 9pt &quot;Microsoft YaHei UI&quot;;
-	border-radius:4px;
-	width:60px;
-	height:24px;
-	margin-top:3px;
-	margin-right:8px;
-}
-#buttonBox&gt;QPushButton:checked{
-	background:#FEFEFE;
-	color:#656565;
-}
-#buttonBox{
-	
-}</string>
-        </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="standardButtons">
-         <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+         <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
         </property>
         <property name="centerButtons">
          <bool>true</bool>
@@ -581,12 +637,12 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>settingDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>438</x>
-     <y>325</y>
+     <x>413</x>
+     <y>278</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -597,12 +653,12 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>settingDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>450</x>
-     <y>325</y>
+     <x>413</x>
+     <y>278</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -613,12 +669,12 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
   <connection>
    <sender>closePushButton</sender>
    <signal>clicked()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>settingDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>450</x>
-     <y>12</y>
+     <x>407</x>
+     <y>14</y>
     </hint>
     <hint type="destinationlabel">
      <x>332</x>
@@ -627,4 +683,8 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
    </hints>
   </connection>
  </connections>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_2"/>
+ </buttongroups>
 </ui>

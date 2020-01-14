@@ -80,7 +80,7 @@ class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
             self.id = selectedItem.commodity['id']
             self.commNameLabel.setText(selectedItem.commodity['comm_name'])
             self.commPriceLabel.setText(str(selectedItem.commodity['comm_price']) + '元')
-            self.priceToCoinLabel.setText(str(int(selectedItem.commodity['comm_price'] * self.tomatoRate)))
+            self.priceToCoinLabel.setText(str(int(round(selectedItem.commodity['comm_price'] * self.tomatoRate ))))
             self.createTimeLabel.setText(selectedItem.commodity['create_time'])
             self.buyTimeLabel.setText(selectedItem.commodity['buy_time'])
             self.linkLabel.setText(
@@ -105,7 +105,7 @@ class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
                 self.sqlite.execute(sql, self.id)
                 sql = "insert Into t_base_coin (id,coin_type,coin_number,desc) values (?,?,?,?)"
                 self.sqlite.execute(sql, [str(uuid.uuid1()), 1, int(self.priceToCoinLabel.text()),
-                                          "购买[" + self.commNameLabel.text()] + "]")
+                                          "购买[" + self.commNameLabel.text() + "]"])
                 self.id = ''
                 self.Tips("购买成功")
                 self.commNameLabel.setText("")

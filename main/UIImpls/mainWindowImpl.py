@@ -15,6 +15,7 @@ from UIImpls.firstWidgetImpl import firstWidgetImpl
 from UIImpls.marketWidgetImpl import marketWidgetImpl
 from UIImpls.memoWidgetImpl import memoWidgetImpl
 from UIImpls.messageWidgetImpl import messageWidgetImpl
+from UIImpls.settingDialogImpl import settingDialogImpl
 from UIImpls.statisWidgetImpl import statisWidgetImpl
 from UIImpls.taskWidgetImpl import taskWidgetImpl
 from UIImpls.noBorderImpl import noBorderImpl
@@ -34,6 +35,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     taskRefreshSignal = pyqtSignal()
     taskCheckSignal = pyqtSignal(bool)
     coinRefreshSignal = pyqtSignal()
+    rateRefreshSignal = pyqtSignal()
 
     # 初始化
     def __init__(self, parent=None):
@@ -50,6 +52,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
 
         #界面初始化
         self.unlockDialog = unlockDialogImpl()
+        self.settingDialog = settingDialogImpl()
         self.timer = QTimer()
         self.miniBar = miniBarImpl()
         self.todolist = todoWidgetImpl()
@@ -76,6 +79,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.taskRefreshSignal.connect(self.taskWidget.refreshAll)
         self.coinRefreshSignal.connect(self.firstWidget.refreshAllCoin)
         self.coinRefreshSignal.connect(marketWidget.sumCoin)
+        self.rateRefreshSignal.connect(marketWidget.getRate)
         marketWidget.coinRefreshSignal.connect(self.firstWidget.refreshAllCoin)
         self.miniSizeSignal.connect(self.miniBar.miniShow)
         self.taskCheckSignal.connect(self.firstWidget.taskCheck)
@@ -93,6 +97,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.taskButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(2))
         self.memoButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(3))
         self.marketButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
+        self.settingButton.clicked.connect(self.setting)
         self.redoTimerButton.clicked.connect(self.redoTask)
         self.startTimerButton.clicked.connect(self.startTask)
         self.pauseTimerButton.clicked.connect(self.pauseTask)
@@ -102,7 +107,8 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
 
     #刷新配置文件信息
     def reloadConf(self):
-        if self.conf.getOption('todoList', 'isshow') == "True":
+        self.rateRefreshSignal.emit()
+        if self.conf.getOption('system', 'todoshow') == "True":
             self.todolist.show()
             self.taskRefreshSignal.connect(self.todolist.refreshAll)
             self.firstWidget.taskRefreshSignal.connect(self.todolist.refreshAll)
@@ -113,14 +119,13 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             self.taskCheckSignal.connect(self.todolist.taskCheck)
         else:
             self.todolist.hide()
-            self.taskRefreshSignal.disconnect(self.todolist.refreshAll)
-            self.firstWidget.taskRefreshSignal.disconnect(self.todolist.refreshAll)
-            self.taskWidget.taskRefreshSignal.disconnect(self.todolist.refreshAll)
-            self.todolist.taskRefreshSignal.disconnect(self.taskWidget.refreshAll)
-            self.todolist.taskRefreshSignal.disconnect(self.firstWidget.refreshAll)
-            self.todolist.taskStartSignal.disconnect(self.taskStart)
-            self.taskCheckSignal.connect(self.todolist.taskCheck)
-
+            # self.taskRefreshSignal.disconnect(self.todolist.refreshAll)
+            # self.firstWidget.taskRefreshSignal.disconnect(self.todolist.refreshAll)
+            # self.taskWidget.taskRefreshSignal.disconnect(self.todolist.refreshAll)
+            # self.todolist.taskRefreshSignal.disconnect(self.taskWidget.refreshAll)
+            # self.todolist.taskRefreshSignal.disconnect(self.firstWidget.refreshAll)
+            # self.todolist.taskStartSignal.disconnect(self.taskStart)
+            # self.taskCheckSignal.disconnect(self.todolist.taskCheck)
 
     #切换迷你界面
     def miniSize(self):
@@ -143,6 +148,11 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
                 self.timer.start(1000)
         self.miniBar.hide()
         self.show()
+
+    #设置
+    def setting(self):
+        if self.settingDialog.exec() == QDialog.Accepted:
+            self.reloadConf()
 
     #托盘事件
     def trayIcon(self):

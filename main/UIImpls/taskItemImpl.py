@@ -28,7 +28,7 @@ class taskItemImpl(QWidget, Ui_taskItem):
         deadline = datetime.datetime.strptime(data['deadline_time'],"%Y-%m-%d").date()
         now = datetime.date.today()
         self.date = data['deadline_time']
-        if deadline < now:
+        if deadline < now and data['is_finish'] == 0:
             self.yearLabel.setText("<font color=%s>%s</font>" % ('#F95D5C', data['deadline_time']))
         else:
             self.yearLabel.setText("<font color=%s>%s</font>" % ("black", data['deadline_time']))
