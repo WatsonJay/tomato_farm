@@ -112,7 +112,7 @@
               </font>
              </property>
              <property name="text">
-              <string>平均：</string>
+              <string>昨日：</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -120,7 +120,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="dayAvgLabel">
+            <widget class="QLabel" name="lastDayLabel">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -265,7 +265,7 @@
               </font>
              </property>
              <property name="text">
-              <string>平均：</string>
+              <string>上周：</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -273,7 +273,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="weekAvgLabel">
+            <widget class="QLabel" name="lastWeekLabel">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -412,7 +412,7 @@
               </font>
              </property>
              <property name="text">
-              <string>平均：</string>
+              <string>上月：</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -420,7 +420,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="monthAvgLabel">
+            <widget class="QLabel" name="lastMonthLabel">
              <property name="minimumSize">
               <size>
                <width>30</width>
