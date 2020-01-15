@@ -25,8 +25,8 @@ class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
     def __init__(self, parent=None):
         super(marketWidgetImpl, self).__init__(parent)
         self.setupUi(self)
-        log = logger()
         self.conf = config()
+        log = logger()
         self.confmarket = log.getlogger('gui')
         self.sqlite = sqlite('./config/tomato.db')
         self.id = ''
@@ -97,7 +97,7 @@ class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
             else:
                 self.buyButton.setVisible(True)
 
-    #购买商品
+    # 购买商品
     def buyCommodity(self):
         if self.coinSum > int(self.priceToCoinLabel.text()):
             try:

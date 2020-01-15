@@ -73,9 +73,10 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.stackedWidget.addWidget(memoWidget)
         self.stackedWidget.addWidget(marketWidget)
         self.reloadConf()
-
+        self.checkExceptTask()
         #信号绑定
         self.taskRefreshSignal.connect(self.firstWidget.refreshAll)
+        self.taskRefreshSignal.connect(statisWidget.refreshAll)
         self.taskRefreshSignal.connect(self.taskWidget.refreshAll)
         self.coinRefreshSignal.connect(self.firstWidget.refreshAllCoin)
         self.coinRefreshSignal.connect(marketWidget.sumCoin)
@@ -189,6 +190,26 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             self.Tips("系统异常，请查看日志")
             self.confmain.error(e)
 
+    #检查任务异常中断
+    def checkExceptTask(self):
+        try:
+            now = datetime.date.today().strftime('%Y-%m-%d')
+            sql = '''select tbt.id, tbt.task_name, tbt.task_during, ttld.is_doing from t_base_task tbt
+                              join t_task_link_date ttld on tbt.id = ttld.task_id
+                              where ttld.is_doing = 1'''
+            data = self.sqlite.executeQuery(sql)
+            reply = QMessageBox.question(self, '存在异常中止任务', '是否重新开始异常任务?',
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.No:
+                sql = "Update t_task_link_date set is_doing = 0 where task_id = ?"
+                self.sqlite.execute(sql, data[0]['id'])
+                return
+            else:
+                self.taskStart(data[0])
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.confmain.error(e)
+
     #启动任务线程
     def taskStart(self,dict):
         if self.task != {}:
@@ -275,6 +296,8 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
             if reply == QMessageBox.Yes:
                 self.timer.stop()
+                text = '''任务已重新开始'''
+                self.messageView.show(text).showAnimation()
                 self.task['tomato_collected'] = 0
                 self.task['current_time_left'] = 0
                 self.task['task_stage'] = '初始化'
@@ -286,12 +309,16 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     def startTask(self):
         if self.task != {}:
             if self.task['pause'] == 1:
+                text = '''任务已继续，加油>_<'''
+                self.messageView.show(text).showAnimation()
                 self.timer.start(1000)
                 self.task['pause'] = 0
 
     # 暂停任务
     def pauseTask(self):
         if self.task != {}:
+            text = '''任务已暂停，别太久哦'''
+            self.messageView.show(text).showAnimation()
             self.timer.stop()
             self.task['pause'] = 1
 
@@ -328,8 +355,8 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.timeLcd.display("00:00")
         self.miniSizeButton.setDisabled(True)
         try:
-            sql = "Update t_base_task set is_finish = 1 where id = ?"
-            self.sqlite.execute(sql, self.task['id'])
+            sql = "Update t_base_task set is_finish = 1,finish_date = ? where id = ?"
+            self.sqlite.execute(sql, datetime.date.today(), self.task['id'])
             sql = "Update t_task_link_date set is_doing = 0 where task_id = ?"
             self.sqlite.execute(sql, self.task['id'])
             sql = "insert Into t_base_coin (id,coin_type,coin_number,desc) values (?,?,?,?)"
@@ -359,6 +386,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
 
     # 立刻关闭
     def closeWithout(self):
+        self.stopTask()
         self.closeNow = False
         self.todolist.close()
         self.mSysTrayIcon.hide()

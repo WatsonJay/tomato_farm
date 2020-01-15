@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icon">
+    <file>level.png</file>
     <file>untop.png</file>
     <file>shop.png</file>
     <file>shop.png</file>

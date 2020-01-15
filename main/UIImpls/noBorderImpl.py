@@ -7,8 +7,13 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import QMessageBox
 
+from util.logger import logger
+
 
 class noBorderImpl:
+
+    log = logger()
+    confnoborder = log.getlogger('gui')
 
     # 无边框移动窗体
     def mousePressEvent(self, QMouseEvent):
@@ -19,13 +24,22 @@ class noBorderImpl:
                 QMouseEvent.accept()
                 self.setCusor(QCursor(QtCore.Qt.OpenHandCursor))
         except Exception as e:
+            self.confnoborder.error(e)
             pass
 
     def mouseMoveEvent(self, QMouseEvent):
-        if QtCore.Qt.LeftButton and self.flag:
-            self.move(QMouseEvent.globalPos() - self.m_Position)
-            QMouseEvent.accept()
+        try:
+            if QtCore.Qt.LeftButton and self.flag:
+                self.move(QMouseEvent.globalPos() - self.m_Position)
+                QMouseEvent.accept()
+        except Exception as e:
+            self.confnoborder.error(e)
+            pass
 
     def mouseReleaseEvent(self, QMouseEvent):
-        self.flag = False
-        self.setCursor(QCursor(QtCore.Qt.ArrowCursor))
+        try:
+            self.flag = False
+            self.setCursor(QCursor(QtCore.Qt.ArrowCursor))
+        except Exception as e:
+            self.confnoborder.error(e)
+            pass
