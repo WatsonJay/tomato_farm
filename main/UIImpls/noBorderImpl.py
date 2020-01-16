@@ -4,7 +4,7 @@
 # @File    : noBorderImpl.py
 # @Soft    : tomato_farm
 from PyQt5 import QtCore
-from PyQt5.QtGui import QCursor
+from PyQt5.QtGui import QCursor, QEnterEvent
 from PyQt5.QtWidgets import QMessageBox
 
 from util.logger import logger
@@ -21,8 +21,8 @@ class noBorderImpl:
             if QMouseEvent.button() == QtCore.Qt.LeftButton:
                 self.flag = True
                 self.m_Position = QMouseEvent.globalPos() - self.pos()
+                self.setCursor(QtCore.Qt.ClosedHandCursor)
                 QMouseEvent.accept()
-                self.setCusor(QCursor(QtCore.Qt.OpenHandCursor))
         except Exception as e:
             self.confnoborder.error(e)
             pass
@@ -39,7 +39,7 @@ class noBorderImpl:
     def mouseReleaseEvent(self, QMouseEvent):
         try:
             self.flag = False
-            self.setCursor(QCursor(QtCore.Qt.ArrowCursor))
+            self.setCursor(QtCore.Qt.ArrowCursor)
         except Exception as e:
             self.confnoborder.error(e)
             pass

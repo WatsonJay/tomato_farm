@@ -73,7 +73,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.stackedWidget.addWidget(memoWidget)
         self.stackedWidget.addWidget(marketWidget)
         self.reloadConf()
-        self.checkExceptTask()
+
         #信号绑定
         self.taskRefreshSignal.connect(self.firstWidget.refreshAll)
         self.taskRefreshSignal.connect(statisWidget.refreshAll)
@@ -198,14 +198,15 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
                               join t_task_link_date ttld on tbt.id = ttld.task_id
                               where ttld.is_doing = 1'''
             data = self.sqlite.executeQuery(sql)
-            reply = QMessageBox.question(self, '存在异常中止任务', '是否重新开始异常任务?',
+            if len(data) > 0:
+                reply = QMessageBox.question(self, '存在异常中止任务', '是否重新开始异常任务?',
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-            if reply == QMessageBox.No:
-                sql = "Update t_task_link_date set is_doing = 0 where task_id = ?"
-                self.sqlite.execute(sql, data[0]['id'])
-                return
-            else:
-                self.taskStart(data[0])
+                if reply == QMessageBox.No:
+                    sql = "Update t_task_link_date set is_doing = 0 where task_id = ?"
+                    self.sqlite.execute(sql, data[0]['id'])
+                    return
+                else:
+                    self.taskStart(data[0])
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.confmain.error(e)
@@ -372,6 +373,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     def show(self):
         super(mainWindowImpl, self).show()
         self.checkOverdue()
+        self.checkExceptTask()
         return self
 
     # 密码方式打开
