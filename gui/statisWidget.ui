@@ -23,7 +23,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QWidget" name="todayChartWidget" native="true"/>
+      <layout class="QHBoxLayout" name="todayChartLayout"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1,1,1">
@@ -729,6 +729,14 @@ QTabWidget::pane{
 }
 #tab,#tab_2,#tab_3,#tab_4{
     background:#E9EAED;
+}
+QPushButton{
+	border-radius:12px;
+	border:none;
+	background:#F95D5C;
+}
+QPushButton::pressed{
+	background:#aa3e3e;
 }</string>
        </property>
        <property name="currentIndex">
@@ -738,16 +746,115 @@ QTabWidget::pane{
         <attribute name="title">
          <string>本周记录</string>
         </attribute>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,9">
+         <property name="spacing">
+          <number>3</number>
+         </property>
          <item>
-          <widget class="QWidget" name="weekChartWidget" native="true"/>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <property name="rightMargin">
+            <number>4</number>
+           </property>
+           <item>
+            <spacer name="horizontalSpacer_11">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="weekRefreshButton">
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../icon/icons.qrc">
+               <normaloff>:/icon/redo.png</normaloff>:/icon/redo.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>12</width>
+               <height>12</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
-          <widget class="QWidget" name="weekPieWidget" native="true"/>
+          <layout class="QHBoxLayout" name="horizontalLayout_13" stretch="9,0,9">
+           <property name="spacing">
+            <number>3</number>
+           </property>
+           <item>
+            <layout class="QVBoxLayout" name="weekChartLayout"/>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_10">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="weekPieLayout"/>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
        <widget class="QWidget" name="tab_2">
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+	border-radius:12px;
+	border:none;
+	background:#F95D5C;
+}
+QPushButton::pressed{
+	background:#aa3e3e;
+}
+QComboBox{
+	border:1px solid gray;
+	border-radius:5px;
+	padding:2px 4px;
+}
+QComboBox::drop-down{
+	width: 20px;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: gray; 
+}
+QComboBox::down-arrow{
+	border-image:url(:/icon/down.png);
+}</string>
+        </property>
         <attribute name="title">
          <string>月记录</string>
         </attribute>
@@ -757,8 +864,14 @@ QTabWidget::pane{
          </property>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <property name="spacing">
+            <number>4</number>
+           </property>
            <property name="leftMargin">
             <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>4</number>
            </property>
            <item>
             <widget class="QComboBox" name="yearComboBox">
@@ -768,10 +881,28 @@ QTabWidget::pane{
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <family>Microsoft YaHei UI</family>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <item>
+              <property name="text">
+               <string>222</string>
+              </property>
+             </item>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="monthComboBox"/>
+            <widget class="QComboBox" name="monthComboBox">
+             <property name="font">
+              <font>
+               <family>Microsoft YaHei UI</family>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="horizontalSpacer_4">
@@ -786,15 +917,60 @@ QTabWidget::pane{
              </property>
             </spacer>
            </item>
+           <item>
+            <widget class="QPushButton" name="monthRefreshButton">
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../icon/icons.qrc">
+               <normaloff>:/icon/redo.png</normaloff>:/icon/redo.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>12</width>
+               <height>12</height>
+              </size>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="9,0,9">
+           <property name="spacing">
+            <number>3</number>
+           </property>
            <item>
-            <widget class="QWidget" name="monthChartWidget" native="true"/>
+            <layout class="QVBoxLayout" name="monthChartLayout"/>
            </item>
            <item>
-            <widget class="QWidget" name="monthPieWidget" native="true"/>
+            <spacer name="verticalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="monthPieLayout"/>
            </item>
           </layout>
          </item>

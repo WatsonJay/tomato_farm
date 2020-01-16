@@ -8,6 +8,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtChart import QChartView
 
 
 class Ui_statisWidget(object):
@@ -21,9 +22,11 @@ class Ui_statisWidget(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.todayChartWidget = QtWidgets.QWidget(statisWidget)
-        self.todayChartWidget.setObjectName("todayChartWidget")
-        self.horizontalLayout.addWidget(self.todayChartWidget)
+        self.todayChartLayout = QtWidgets.QHBoxLayout()
+        self.todayChartView = QChartView(statisWidget)
+        self.todayChartLayout.setObjectName("todayChartLayout")
+        self.todayChartLayout.addWidget(self.todayChartView)
+        self.horizontalLayout.addLayout(self.todayChartLayout)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -288,45 +291,125 @@ class Ui_statisWidget(object):
 "}\n"
 "#tab,#tab_2,#tab_3,#tab_4{\n"
 "    background:#E9EAED;\n"
+"}\n"
+"QPushButton{\n"
+"    border-radius:12px;\n"
+"    border:none;\n"
+"    background:#F95D5C;\n"
+"}\n"
+"QPushButton::pressed{\n"
+"    background:#aa3e3e;\n"
 "}")
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.tab)
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.tab)
+        self.verticalLayout_7.setSpacing(3)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_5.setContentsMargins(-1, -1, 4, -1)
+        self.horizontalLayout_5.setSpacing(4)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.weekChartWidget = QtWidgets.QWidget(self.tab)
-        self.weekChartWidget.setObjectName("weekChartWidget")
-        self.horizontalLayout_5.addWidget(self.weekChartWidget)
-        self.weekPieWidget = QtWidgets.QWidget(self.tab)
-        self.weekPieWidget.setObjectName("weekPieWidget")
-        self.horizontalLayout_5.addWidget(self.weekPieWidget)
+        spacerItem17 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem17)
+        self.weekRefreshButton = QtWidgets.QPushButton(self.tab)
+        self.weekRefreshButton.setMinimumSize(QtCore.QSize(24, 24))
+        self.weekRefreshButton.setMaximumSize(QtCore.QSize(24, 24))
+        self.weekRefreshButton.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icon/redo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.weekRefreshButton.setIcon(icon)
+        self.weekRefreshButton.setIconSize(QtCore.QSize(12, 12))
+        self.weekRefreshButton.setObjectName("weekRefreshButton")
+        self.horizontalLayout_5.addWidget(self.weekRefreshButton)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_5)
+        self.horizontalLayout_13 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_13.setSpacing(3)
+        self.horizontalLayout_13.setObjectName("horizontalLayout_13")
+        self.weekChartLayout = QtWidgets.QVBoxLayout()
+        self.weekChartLayout.setObjectName("weekChartLayout")
+        self.horizontalLayout_13.addLayout(self.weekChartLayout)
+        spacerItem18 = QtWidgets.QSpacerItem(0, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.horizontalLayout_13.addItem(spacerItem18)
+        self.weekPieLayout = QtWidgets.QVBoxLayout()
+        self.weekPieLayout.setObjectName("weekPieLayout")
+        self.horizontalLayout_13.addLayout(self.weekPieLayout)
+        self.horizontalLayout_13.setStretch(0, 9)
+        self.horizontalLayout_13.setStretch(2, 9)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_13)
+        self.verticalLayout_7.setStretch(1, 9)
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
+        self.tab_2.setStyleSheet("QPushButton{\n"
+"    border-radius:12px;\n"
+"    border:none;\n"
+"    background:#F95D5C;\n"
+"}\n"
+"QPushButton::pressed{\n"
+"    background:#aa3e3e;\n"
+"}\n"
+"QComboBox{\n"
+"    border:1px solid gray;\n"
+"    border-radius:5px;\n"
+"    padding:2px 4px;\n"
+"}\n"
+"QComboBox::drop-down{\n"
+"    width: 20px;\n"
+"    border-left-width: 1px;\n"
+"    border-left-style: solid;\n"
+"    border-left-color: gray; \n"
+"}\n"
+"QComboBox::down-arrow{\n"
+"    border-image:url(:/icon/down.png);\n"
+"}")
         self.tab_2.setObjectName("tab_2")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.tab_2)
         self.verticalLayout_6.setSpacing(3)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_7.setContentsMargins(0, -1, -1, -1)
+        self.horizontalLayout_7.setContentsMargins(0, -1, 4, -1)
+        self.horizontalLayout_7.setSpacing(4)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.yearComboBox = QtWidgets.QComboBox(self.tab_2)
         self.yearComboBox.setMinimumSize(QtCore.QSize(100, 0))
+        font = QtGui.QFont()
+        font.setFamily("Microsoft YaHei UI")
+        font.setPointSize(9)
+        self.yearComboBox.setFont(font)
         self.yearComboBox.setObjectName("yearComboBox")
+        self.yearComboBox.addItem("")
         self.horizontalLayout_7.addWidget(self.yearComboBox)
         self.monthComboBox = QtWidgets.QComboBox(self.tab_2)
+        font = QtGui.QFont()
+        font.setFamily("Microsoft YaHei UI")
+        font.setPointSize(9)
+        self.monthComboBox.setFont(font)
         self.monthComboBox.setObjectName("monthComboBox")
         self.horizontalLayout_7.addWidget(self.monthComboBox)
-        spacerItem17 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem17)
+        spacerItem19 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem19)
+        self.monthRefreshButton = QtWidgets.QPushButton(self.tab_2)
+        self.monthRefreshButton.setMinimumSize(QtCore.QSize(24, 24))
+        self.monthRefreshButton.setMaximumSize(QtCore.QSize(24, 24))
+        self.monthRefreshButton.setText("")
+        self.monthRefreshButton.setIcon(icon)
+        self.monthRefreshButton.setIconSize(QtCore.QSize(12, 12))
+        self.monthRefreshButton.setObjectName("monthRefreshButton")
+        self.horizontalLayout_7.addWidget(self.monthRefreshButton)
         self.verticalLayout_6.addLayout(self.horizontalLayout_7)
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_9.setSpacing(3)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        self.monthChartWidget = QtWidgets.QWidget(self.tab_2)
-        self.monthChartWidget.setObjectName("monthChartWidget")
-        self.horizontalLayout_9.addWidget(self.monthChartWidget)
-        self.monthPieWidget = QtWidgets.QWidget(self.tab_2)
-        self.monthPieWidget.setObjectName("monthPieWidget")
-        self.horizontalLayout_9.addWidget(self.monthPieWidget)
+        self.monthChartLayout = QtWidgets.QVBoxLayout()
+        self.monthChartLayout.setObjectName("monthChartLayout")
+        self.horizontalLayout_9.addLayout(self.monthChartLayout)
+        spacerItem20 = QtWidgets.QSpacerItem(0, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.horizontalLayout_9.addItem(spacerItem20)
+        self.monthPieLayout = QtWidgets.QVBoxLayout()
+        self.monthPieLayout.setObjectName("monthPieLayout")
+        self.horizontalLayout_9.addLayout(self.monthPieLayout)
+        self.horizontalLayout_9.setStretch(0, 9)
+        self.horizontalLayout_9.setStretch(2, 9)
         self.verticalLayout_6.addLayout(self.horizontalLayout_9)
         self.verticalLayout_6.setStretch(1, 9)
         self.tabWidget.addTab(self.tab_2, "")
