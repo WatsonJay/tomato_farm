@@ -14,6 +14,7 @@ class noBorderImpl:
 
     log = logger()
     confnoborder = log.getlogger('gui')
+    flag = False
 
     # 无边框移动窗体
     def mousePressEvent(self, QMouseEvent):

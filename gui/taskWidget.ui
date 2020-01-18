@@ -826,7 +826,102 @@ QPushButton:pressed{
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QCalendarWidget" name="calendarWidget"/>
+      <widget class="QCalendarWidget" name="calendarWidget">
+       <property name="font">
+        <font>
+         <family>Microsoft YaHei UI</family>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">/*顶部导航区域*/
+#qt_calendar_navigationbar {
+    background-color: #F95D5C;
+    min-height: 30px;
+}
+/*上一个月按钮和下一个月按钮(从源码里找到的objectName)*/
+#qt_calendar_prevmonth, #qt_calendar_nextmonth {
+    border: none; /*去掉边框*/
+    /*margin-top: 64px;*/
+    color: white;
+    min-width: 24px;
+    max-width: 24px;
+    min-height: 24px;
+    max-height: 24px;
+    border-radius: 12px; /*看来近似椭圆*/
+    font-weight: bold; /*字体加粗*/
+    qproperty-icon: none; /*去掉默认的方向键图片，当然也可以自定义*/
+    background-color: transparent;/*背景颜色透明*/
+}
+#qt_calendar_prevmonth {
+    qproperty-text: &quot;&lt;&quot;; /*修改按钮的文字*/
+}
+#qt_calendar_nextmonth {
+    qproperty-text: &quot;&gt;&quot;;
+}
+#qt_calendar_prevmonth:hover, #qt_calendar_nextmonth:hover {
+    background-color: rgba(225, 225, 225, 100);
+}
+#qt_calendar_prevmonth:pressed, #qt_calendar_nextmonth:pressed {
+    background-color: rgba(235, 235, 235, 100);
+}
+
+
+/*年,月控件*/
+#qt_calendar_yearbutton, #qt_calendar_monthbutton {
+    color: white;
+    /*margin: 18px;*/
+    min-width: 60px;
+    border-radius: 8px;
+}
+#qt_calendar_yearbutton:hover, #qt_calendar_monthbutton:hover {
+    background-color: rgba(225, 225, 225, 100);
+}
+#qt_calendar_yearbutton:pressed, #qt_calendar_monthbutton:pressed {
+    background-color: rgba(235, 235, 235, 100);
+}
+
+
+/*年份输入框*/
+#qt_calendar_yearedit {
+    min-width: 50px;
+    color: white;
+    background: transparent;/*让输入框背景透明*/
+}
+#qt_calendar_yearedit::up-button { /*往上的按钮*/
+    width: 20px;
+    subcontrol-position: right;/*移动到右边*/
+}
+#qt_calendar_yearedit::down-button { /*往下的按钮*/
+    width: 20px;
+    subcontrol-position: left; /*移动到左边去*/
+}
+
+
+/*月份选择菜单*/
+CalendarWidget&gt;QToolButton&gt;QMenu {
+     background-color: white;
+}
+CalendarWidget QToolButton QMenu::item {
+    padding: 10px;
+}
+CalendarWidget&gt;QToolButton&gt;QMenu::item:selected:enabled {
+    background-color: #F95D5C;
+}
+CalendarWidget QToolButton::menu-indicator {
+    /*image: none;去掉月份选择下面的小箭头*/
+    subcontrol-position: right top;/*右边居中*/
+}
+
+
+/*下方的日历表格*/
+#qt_calendar_calendarview {
+    outline: 0px;/*去掉选中后的虚线框*/
+    selection-background-color: #F95D5C; /*选中背景颜色*/
+}
+
+</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_2">

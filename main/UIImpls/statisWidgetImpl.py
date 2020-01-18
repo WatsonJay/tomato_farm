@@ -3,6 +3,10 @@
 # @Author  : Jaywatson
 # @File    : statisWidgetImpl.py
 # @Soft    : tomato_farm
+from random import randint
+
+import PyQt5
+from PyQt5.QtChart import QBarSet
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget
 
