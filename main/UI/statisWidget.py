@@ -7,8 +7,9 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from UI.perBarChartView import perBarChartView
 
+from UI.barChartView import barChartView
+from UI.perBarChartView import perBarChartView
 
 class Ui_statisWidget(object):
     def setupUi(self, statisWidget):
@@ -32,8 +33,9 @@ class Ui_statisWidget(object):
         self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_8.setSpacing(0)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
-        xAxis = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
-        self.yearTotalView = perBarChartView(xAxis)
+        #插入图表
+        yearXAxis = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+        self.yearTotalView = perBarChartView(yearXAxis)
         self.verticalLayout_8.addWidget(self.yearTotalView)
         self.horizontalLayout.addWidget(self.groupBox)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
@@ -323,10 +325,14 @@ class Ui_statisWidget(object):
         self.horizontalLayout_5.addWidget(self.weekRefreshButton)
         self.verticalLayout_7.addLayout(self.horizontalLayout_5)
         self.horizontalLayout_13 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_13.setSpacing(3)
+        self.horizontalLayout_13.setSpacing(5)
         self.horizontalLayout_13.setObjectName("horizontalLayout_13")
         self.weekChartLayout = QtWidgets.QVBoxLayout()
         self.weekChartLayout.setObjectName("weekChartLayout")
+        # 插入图表
+        weekXAxis = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
+        self.weekChartView = barChartView(weekXAxis)
+        self.weekChartLayout.addWidget(self.weekChartView)
         self.horizontalLayout_13.addLayout(self.weekChartLayout)
         spacerItem12 = QtWidgets.QSpacerItem(0, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.horizontalLayout_13.addItem(spacerItem12)
@@ -334,7 +340,7 @@ class Ui_statisWidget(object):
         self.weekPieLayout.setObjectName("weekPieLayout")
         self.horizontalLayout_13.addLayout(self.weekPieLayout)
         self.horizontalLayout_13.setStretch(0, 9)
-        self.horizontalLayout_13.setStretch(2, 9)
+        self.horizontalLayout_13.setStretch(2, 6)
         self.verticalLayout_7.addLayout(self.horizontalLayout_13)
         self.verticalLayout_7.setStretch(1, 9)
         self.tabWidget.addTab(self.tab, "")
@@ -395,20 +401,13 @@ class Ui_statisWidget(object):
         self.monthRefreshButton.setObjectName("monthRefreshButton")
         self.horizontalLayout_7.addWidget(self.monthRefreshButton)
         self.verticalLayout_6.addLayout(self.horizontalLayout_7)
-        self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_9.setSpacing(3)
-        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.monthChartLayout = QtWidgets.QVBoxLayout()
+        self.monthChartLayout.setSpacing(0)
         self.monthChartLayout.setObjectName("monthChartLayout")
-        self.horizontalLayout_9.addLayout(self.monthChartLayout)
-        spacerItem14 = QtWidgets.QSpacerItem(0, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.horizontalLayout_9.addItem(spacerItem14)
-        self.monthPieLayout = QtWidgets.QVBoxLayout()
-        self.monthPieLayout.setObjectName("monthPieLayout")
-        self.horizontalLayout_9.addLayout(self.monthPieLayout)
-        self.horizontalLayout_9.setStretch(0, 9)
-        self.horizontalLayout_9.setStretch(2, 9)
-        self.verticalLayout_6.addLayout(self.horizontalLayout_9)
+        # 插入图表
+        self.monthChartView = perBarChartView(weekXAxis)
+        self.monthChartLayout.addWidget(self.monthChartView)
+        self.verticalLayout_6.addLayout(self.monthChartLayout)
         self.verticalLayout_6.setStretch(1, 9)
         self.tabWidget.addTab(self.tab_2, "")
         self.horizontalLayout_2.addWidget(self.tabWidget)

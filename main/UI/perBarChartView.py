@@ -12,7 +12,6 @@ class perBarChartView(QChartView):
 
     def __init__(self, xAxis=[], *args, **kwargs):
         super(perBarChartView, self).__init__(*args, **kwargs)
-        self.setRenderHint(QPainter.Antialiasing)
         self.initChart(xAxis)
 
     def initChart(self, xAxis):
@@ -36,6 +35,7 @@ class perBarChartView(QChartView):
         axis_x.setLabelsAngle(280)
         axis_y = QValueAxis(self._chart)
         axis_y.setTitleText("任务数")
+        axis_y.setRange(0, 50)
         self._chart.addAxis(axis_x, Qt.AlignBottom)
         self._chart.addAxis(axis_y, Qt.AlignLeft)
         self._series.attachAxis(axis_x)
