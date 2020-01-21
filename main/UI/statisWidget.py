@@ -9,12 +9,18 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from UI.barChartView import barChartView
+from UI.monthChartView import monthChartView
 from UI.perBarChartView import perBarChartView
+from UI.pieChartView import pieChartView
+
 
 class Ui_statisWidget(object):
     def setupUi(self, statisWidget):
         statisWidget.setObjectName("statisWidget")
         statisWidget.resize(886, 541)
+        font = QtGui.QFont()
+        font.setFamily("Microsoft YaHei UI")
+        statisWidget.setFont(font)
         statisWidget.setWindowTitle("")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(statisWidget)
         self.verticalLayout_5.setSpacing(3)
@@ -338,6 +344,8 @@ class Ui_statisWidget(object):
         self.horizontalLayout_13.addItem(spacerItem12)
         self.weekPieLayout = QtWidgets.QVBoxLayout()
         self.weekPieLayout.setObjectName("weekPieLayout")
+        self.weekPieView = pieChartView()
+        self.weekPieLayout.addWidget(self.weekPieView)
         self.horizontalLayout_13.addLayout(self.weekPieLayout)
         self.horizontalLayout_13.setStretch(0, 9)
         self.horizontalLayout_13.setStretch(2, 6)
@@ -405,7 +413,7 @@ class Ui_statisWidget(object):
         self.monthChartLayout.setSpacing(0)
         self.monthChartLayout.setObjectName("monthChartLayout")
         # 插入图表
-        self.monthChartView = perBarChartView(weekXAxis)
+        self.monthChartView = monthChartView()
         self.monthChartLayout.addWidget(self.monthChartView)
         self.verticalLayout_6.addLayout(self.monthChartLayout)
         self.verticalLayout_6.setStretch(1, 9)

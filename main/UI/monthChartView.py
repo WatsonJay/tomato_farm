@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# @Time    : 2020/1/18 11:00
+# @Time    : 2020/1/21 21:36
 # @Author  : Jaywatson
-# @File    : BarChartView.py
+# @File    : monthChartView.py
 # @Soft    : tomato_farm
 
 from PyQt5.QtChart import QChartView, QChart, QBarCategoryAxis, QBarSeries, QValueAxis, QPercentBarSeries
@@ -9,10 +9,10 @@ from PyQt5.QtCore import Qt, QMargins
 from PyQt5.QtGui import QPainter
 
 
-class barChartView(QChartView):
+class monthChartView(QChartView):
 
     def __init__(self, xAxis=[], *args, **kwargs):
-        super(barChartView, self).__init__(*args, **kwargs)
+        super(monthChartView, self).__init__(*args, **kwargs)
         self.initChart(xAxis)
 
     def initChart(self, xAxis):
@@ -32,12 +32,11 @@ class barChartView(QChartView):
         self._series = QBarSeries(self._chart)
         self._chart.addSeries(self._series)
         self._chart.createDefaultAxes()  # 创建默认的轴
-        axis_x = QBarCategoryAxis(self._chart)
-        axis_x.append(self.categories)
-        axis_x.setLabelsAngle(280)
-        axis_y = QValueAxis(self._chart)
-        axis_y.setTitleText("任务数")
-        axis_y.setRange(0, 10)
-        self._chart.setAxisX(axis_x, self._series)
-        self._chart.setAxisY(axis_y, self._series)
+        self._axis_x = QBarCategoryAxis(self._chart)
+        self._axis_x.append(self.categories)
+        self._axis_y = QValueAxis(self._chart)
+        self._axis_y.setTitleText("任务数")
+        self._axis_y.setRange(0, 10)
+        self._chart.setAxisX(self._axis_x, self._series)
+        self._chart.setAxisY(self._axis_y, self._series)
         self.setChart(self._chart)
