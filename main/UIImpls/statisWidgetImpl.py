@@ -7,7 +7,7 @@ from random import randint
 
 import PyQt5
 from PyQt5.QtChart import QBarSet
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QColor
 from PyQt5.QtWidgets import QWidget
 
 import UI.icons_rc
@@ -90,7 +90,9 @@ class statisWidgetImpl(QWidget, Ui_statisWidget, tipImpl):
                 '12': '十二月',
             }
             doneBar = QBarSet('按时完成')
+            doneBar.setColor(QColor('#F95D5C'))
             overdueBar = QBarSet('逾期完成')
+            overdueBar.setColor(QColor('#aa3e3e'))
             # 待优化循环
             for month in yearXAxis:
                 exist = False
