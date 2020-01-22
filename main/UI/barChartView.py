@@ -40,4 +40,8 @@ class barChartView(QChartView):
         axis_y.setRange(0, 10)
         self._chart.setAxisX(axis_x, self._series)
         self._chart.setAxisY(axis_y, self._series)
+        # chart的图例
+        legend = self._chart.legend()
+        legend.setVisible(True)
+
         self.setChart(self._chart)
