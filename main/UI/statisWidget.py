@@ -9,7 +9,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from UI.barChartView import barChartView
-from UI.monthChartView import monthChartView
 from UI.perBarChartView import perBarChartView
 from UI.pieChartView import pieChartView
 
@@ -338,6 +337,7 @@ class Ui_statisWidget(object):
         # 插入图表
         weekXAxis = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
         self.weekChartView = barChartView(weekXAxis)
+        self.weekChartView._axis_x.setLabelsAngle(280)
         self.weekChartLayout.addWidget(self.weekChartView)
         self.horizontalLayout_13.addLayout(self.weekChartLayout)
         spacerItem12 = QtWidgets.QSpacerItem(0, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -398,6 +398,15 @@ class Ui_statisWidget(object):
         self.monthComboBox.setFont(font)
         self.monthComboBox.setObjectName("monthComboBox")
         self.horizontalLayout_7.addWidget(self.monthComboBox)
+        self.searchButton = QtWidgets.QPushButton(self.tab_2)
+        self.searchButton.setMinimumSize(QtCore.QSize(60, 24))
+        self.searchButton.setMaximumSize(QtCore.QSize(60, 24))
+        font = QtGui.QFont()
+        font.setFamily("Microsoft YaHei UI")
+        self.searchButton.setFont(font)
+        self.searchButton.setStyleSheet("color:white")
+        self.searchButton.setObjectName("searchButton")
+        self.horizontalLayout_7.addWidget(self.searchButton)
         spacerItem13 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem13)
         self.monthRefreshButton = QtWidgets.QPushButton(self.tab_2)
@@ -413,7 +422,8 @@ class Ui_statisWidget(object):
         self.monthChartLayout.setSpacing(0)
         self.monthChartLayout.setObjectName("monthChartLayout")
         # 插入图表
-        self.monthChartView = monthChartView()
+        self.monthChartView = barChartView()
+        self.monthChartView._axis_x.setLabelsAngle(0)
         self.monthChartLayout.addWidget(self.monthChartView)
         self.verticalLayout_6.addLayout(self.monthChartLayout)
         self.verticalLayout_6.setStretch(1, 9)
@@ -445,5 +455,6 @@ class Ui_statisWidget(object):
         self.label_4.setText(_translate("statisWidget", "总计"))
         self.totalLabel.setText(_translate("statisWidget", "0"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("statisWidget", "本周记录"))
+        self.searchButton.setText(_translate("statisWidget", "查询"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("statisWidget", "月记录"))
 import UI.icons_rc

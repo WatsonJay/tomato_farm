@@ -17,8 +17,6 @@ class barChartView(QChartView):
     def __init__(self, xAxis=[], *args, **kwargs):
         super(barChartView, self).__init__(*args, **kwargs)
         self.initChart(xAxis)
-        # 提示widget
-        self.toolTipWidget = GraphicsProxyWidget(self._chart)
 
         # line 宽度需要调整
         self.lineItem = QGraphicsLineItem(self._chart)
@@ -26,8 +24,12 @@ class barChartView(QChartView):
         self.lineItem.setPen(pen)
         self.lineItem.setZValue(998)
         self.lineItem.hide()
+        self.cal()
 
-        # 一些固定计算，减少mouseMoveEvent中的计算量
+    # 一些固定计算，减少mouseMoveEvent中的计算量
+    def cal(self):
+        # 提示widget
+        self.toolTipWidget = GraphicsProxyWidget(self._chart)
         # 获取x和y轴的最小最大值
         axisX, axisY = self._chart.axisX(), self._chart.axisY()
         self.category_len = len(axisX.categories())
@@ -36,6 +38,9 @@ class barChartView(QChartView):
         # 坐标系中左上角顶点
         self.point_top = self._chart.mapToPosition(
             QPointF(self.min_x, self.max_y))
+
+    def setCat(self, data):
+        self.categories = data
 
     #初始化
     def initChart(self, xAxis):
@@ -55,14 +60,13 @@ class barChartView(QChartView):
         self._series = QBarSeries(self._chart)
         self._chart.addSeries(self._series)
         self._chart.createDefaultAxes()  # 创建默认的轴
-        axis_x = QBarCategoryAxis(self._chart)
-        axis_x.append(self.categories)
-        axis_x.setLabelsAngle(280)
-        axis_y = QValueAxis(self._chart)
-        axis_y.setTitleText("任务数")
-        axis_y.setRange(0, 10)
-        self._chart.setAxisX(axis_x, self._series)
-        self._chart.setAxisY(axis_y, self._series)
+        self._axis_x = QBarCategoryAxis(self._chart)
+        self._axis_x.append(self.categories)
+        self._axis_y = QValueAxis(self._chart)
+        self._axis_y.setTitleText("任务数")
+        self._axis_y.setRange(0, 10)
+        self._chart.setAxisX(self._axis_x, self._series)
+        self._chart.setAxisY(self._axis_y, self._series)
         # chart的图例
         legend = self._chart.legend()
         legend.setVisible(True)
@@ -80,7 +84,7 @@ class barChartView(QChartView):
         serie = self._chart.series()[0]
         bars = [(bar, bar.at(index))
                 for bar in serie.barSets() if self.min_x <= x <= self.max_x and self.min_y <= y <= self.max_y]
-#         print(bars)
+        # print(bars)
         if bars:
             right_top = self._chart.mapToPosition(
                 QPointF(self.max_x, self.max_y))
