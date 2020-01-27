@@ -44,10 +44,9 @@ class pieChartView(QChartView):
         pos = event.pos()
         x = pos.x()
         y = pos.y()
-        print("x:"+str(x)+",y:"+str(y))
         # 得到在坐标系中的所有区域
         self.min_x, self.max_x = self._chart.geometry().width()*0.2 , self._chart.geometry().width()*0.8
-        self.min_y, self.max_y = self._chart.geometry().height()*0.3 , self._chart.geometry().height()*0.8
+        self.min_y, self.max_y = self._chart.geometry().height()*0.2 , self._chart.geometry().height()*0.9
         serie = self._chart.series()[0]
         slices = [(slice, slice.value())
                 for slice in serie.slices()]

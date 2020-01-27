@@ -12,8 +12,6 @@ from UIImpls.mainWindowImpl import mainWindowImpl
 from util.loadConf import config
 
 if __name__ == '__main__':
-    if not os.path.exists("log"):
-        os.makedirs("log")
     #界面初始化
     conf = config()
     app = QApplication(sys.argv)

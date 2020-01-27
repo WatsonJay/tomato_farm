@@ -9,6 +9,8 @@ import yaml
 
 class logger:
     def __init__(self):
+        if not os.path.exists("log"):
+            os.makedirs("log")
         with open('./config/log.yaml', 'r', encoding='utf-8') as f:
             logConfig = yaml.safe_load(f.read())
             logging.config.dictConfig(logConfig)
