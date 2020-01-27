@@ -20,10 +20,27 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         super(memoWidgetImpl, self).__init__(parent)
         self.setupUi(self)
         log = logger()
+        self.tempNode = []
         self.yearDict = {}
         self.confmemo = log.getlogger('gui')
         self.sqlite = sqlite('./config/tomato.db')
         self.loadTree()
+        self.treeWidget.itemExpanded.connect(self.collapseOther)
+
+    #手风琴效果
+    def collapseOther(self,item):
+        currentTop = item
+        while True:
+            if currentTop.parent() == None:
+                for i in range(self.treeWidget.topLevelItemCount()):
+                    if currentTop != self.treeWidget.topLevelItem(i):
+                        self.treeWidget.collapseItem(self.treeWidget.topLevelItem(i))
+                break
+            else:
+                for i in range(currentTop.parent().childCount()):
+                    if currentTop != currentTop.parent().child(i):
+                        self.treeWidget.collapseItem(currentTop.parent().child(i))
+                currentTop = currentTop.parent()
 
     #加载文件树
     def loadTree(self):
@@ -32,51 +49,77 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             sql = 'select * from t_base_node'
             datas = self.sqlite.executeQuery(sql)
             # for data in datas:
-            #     date = datetime.strptime(data['create_time'], '%Y-%m-%d %H:%M:%S')
+            #     date = datetime.strptime(data['connect_date'], '%Y-%m-%d')
             #     year = str(date.year)
             #     month = str(date.month)
             #     day = str(date.day)
-            self.createNode("2020", "01", "03", {"id": "", "memo_temp": "", "": ""})
-            self.createNode("2020", "02", "03", {"id": "", "memo_temp": "", "": ""})
-            self.createNode("2019", "02", "03", {"id": "", "memo_temp": "", "": ""})
+            self.loadDefaultNode("2020", "01", "03", {"id": "1", "node_name": "1", "is_folder": 1, "parent_id": "0"})
+            self.loadDefaultNode("2020", "01", "03", {"id": "2", "node_name": "2", "is_folder": 0, "parent_id": "1"})
+            self.loadDefaultNode("2020", "02", "03", {"id": "3", "node_name": "3", "is_folder": 1, "parent_id": "0"})
+            self.loadDefaultNode("2019", "02", "03", {"id": "4", "node_name": "4", "is_folder": 0, "parent_id": "0"})
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.confmemo.error(e)
 
-    #创建节点
-    def createNode(self,year,month,day,data):
+    #加载节点
+    def loadDefaultNode(self, year, month, day,data):
+        dayNode = self.buildDateNode(year, month, day)
+        self.tempNode.clear()
+        if data['parent_id'] != "0":
+            self.loadNode(dayNode.nodeDict[data['parent_id']], data)
+        else:
+            self.loadNode(dayNode, data)
+
+    #日期节点检查
+    def buildDateNode(self, year, month, day):
         if year not in self.yearDict.keys():
             yearNode = QTreeWidgetItem(self.treeWidget)
-            icon = self.searchicon("folder")
+            icon = self.searchicon(1)
             yearNode.setIcon(0, icon)
             yearNode.setText(0, year + "年")
             yearNode.monthDict = {}
             self.yearDict[year] = yearNode
+            self.tempNode.append(yearNode)
         else:
             yearNode = self.yearDict[year]
         if month not in yearNode.monthDict.keys():
             monthNode = QTreeWidgetItem(yearNode)
-            icon = self.searchicon("folder")
+            icon = self.searchicon(1)
             monthNode.setIcon(0, icon)
             monthNode.setText(0, month + "月")
             monthNode.dayDict = {}
             yearNode.monthDict[month] = monthNode
+            self.tempNode.append(monthNode)
         else:
             monthNode = yearNode.monthDict[month]
         if day not in monthNode.dayDict.keys():
             dayNode = QTreeWidgetItem(monthNode)
-            icon = self.searchicon("folder")
+            icon = self.searchicon(1)
             dayNode.setIcon(0, icon)
-            dayNode.setText(0, month + "日")
+            dayNode.setText(0, day + "日")
             dayNode.nodeDict = {}
             monthNode.dayDict[day] = dayNode
+            self.tempNode.append(dayNode)
         else:
             dayNode = monthNode.dayDict[day]
+        return dayNode
+
+    # 加载节点
+    def loadNode(self,parent,data):
+        if data['id'] not in parent.nodeDict.keys():
+            node = QTreeWidgetItem(parent)
+            icon = self.searchicon(data['is_folder'])
+            node.data = data
+            node.setIcon(0, icon)
+            node.setText(0, data['node_name'])
+            node.nodeDict = {}
+            parent.nodeDict[data['id']] = node
+        return
 
     #图标类型
     def searchicon(self, type):
         icon = QIcon()
-        if type == "folder":
+        if type == 1:
             icon.addPixmap(QPixmap(":/icon/folder.png"), QIcon.Normal, QIcon.Off)
         else:
             icon.addPixmap(QPixmap(":/icon/file.png"), QIcon.Normal, QIcon.Off)
