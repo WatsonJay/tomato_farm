@@ -157,6 +157,17 @@ QWidget&gt;QPushButton:hover{
 QWidget&gt;QPushButton:pressed{
 	background-color: #ababab;
 	background:#c0d5d6;
+}
+QWidget&gt;QToolButton{
+	background-color: #d1d1d1;
+	border-radius:3px;
+}
+QWidget&gt;QToolButton:hover{
+	background-color: #ababab;
+}
+QWidget&gt;QToolButton:pressed{
+	background-color: #ababab;
+	background:#c0d5d6;
 }</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -216,7 +227,7 @@ QWidget&gt;QPushButton:pressed{
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="showMenuButton">
+            <widget class="QToolButton" name="showMenuButton">
              <property name="minimumSize">
               <size>
                <width>25</width>
@@ -232,18 +243,23 @@ QWidget&gt;QPushButton:pressed{
              <property name="toolTip">
               <string>菜单</string>
              </property>
+             <property name="styleSheet">
+              <string notr="true">QToolButton::menu-indicator { image: None; }</string>
+             </property>
              <property name="text">
               <string/>
              </property>
-             <property name="icon">
-              <iconset resource="../icon/icons.qrc">
-               <normaloff>:/icon/down.png</normaloff>:/icon/down.png</iconset>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
              </property>
-             <property name="iconSize">
-              <size>
-               <width>8</width>
-               <height>8</height>
-              </size>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonFollowStyle</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+             <property name="arrowType">
+              <enum>Qt::DownArrow</enum>
              </property>
             </widget>
            </item>
@@ -267,7 +283,7 @@ QWidget&gt;QPushButton:pressed{
            <number>8</number>
           </property>
           <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
+           <set>QAbstractItemView::DoubleClicked</set>
           </property>
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectItems</enum>

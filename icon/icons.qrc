@@ -1,5 +1,9 @@
 <RCC>
   <qresource prefix="icon">
+    <file>add_dir.png</file>
+    <file>add_file.png</file>
+    <file>del_dir.png</file>
+    <file>del_file.png</file>
     <file>file.png</file>
     <file>folder.png</file>
     <file>level.png</file>

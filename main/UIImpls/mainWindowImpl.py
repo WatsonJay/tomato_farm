@@ -164,6 +164,9 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.mSysTrayIcon.setToolTip("番茄农场")
         self.mSysTrayIcon.activated.connect(self.iconActivated)
         tpMenu = QMenu()
+        tpMenu.setStyleSheet('''
+            
+        ''')
         restoreAction = QAction('还原', self, triggered=self.showCheck)  # 添加一级菜单动作选项(还原主窗口)
         quitAction = QAction('退出', self, triggered=self.closeWithout)  # 添加一级菜单动作选项(退出程序)
         tpMenu.addAction(restoreAction)

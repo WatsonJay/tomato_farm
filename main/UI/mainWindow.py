@@ -12,9 +12,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
-        MainWindow.resize(989, 633)
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
+        MainWindow.resize(989, 633)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
