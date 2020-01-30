@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icon">
+    <file>edit_black.png</file>
     <file>add_dir.png</file>
     <file>add_file.png</file>
     <file>del_dir.png</file>
