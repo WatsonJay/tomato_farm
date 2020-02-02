@@ -15,4 +15,22 @@ class memoViewImpl(QWidget, Ui_memoView, tipImpl):
     def __init__(self, parent=None):
         super(memoViewImpl, self).__init__(parent)
         self.setupUi(self)
+        self.lineEdit.setVisible(False)
+        self.data = {}
+        self.title = ""
+        self.titleLabel.doubleClicked.connect(self.editTitle)
+        self.lineEdit.returnPressed.connect(self.titleSave)
 
+    # 编辑标题
+    def editTitle(self):
+        self.titleLabel.setVisible(False)
+        self.lineEdit.setText(self.titleLabel.text())
+        self.lineEdit.setVisible(True)
+
+    # 保存标题
+    def titleSave(self):
+        self.lineEdit.setVisible(False)
+        self.title = self.lineEdit.text()
+        self.titleLabel.setText(self.title)
+        self.setWindowTitle(self.title)
+        self.titleLabel.setVisible(True)

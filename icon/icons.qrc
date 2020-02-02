@@ -1,5 +1,10 @@
 <RCC>
   <qresource prefix="icon">
+    <file>copy.png</file>
+    <file>cut.png</file>
+    <file>paste.png</file>
+    <file>resume.png</file>
+    <file>revoke.png</file>
     <file>edit_black.png</file>
     <file>add_dir.png</file>
     <file>add_file.png</file>

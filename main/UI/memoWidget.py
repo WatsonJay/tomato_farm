@@ -179,7 +179,7 @@ class Ui_memoWidget(object):
 "    background-color: rgba(209, 209, 209, 0);\n"
 "}")
         self.treeWidget.setAutoScrollMargin(8)
-        self.treeWidget.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked)
+        self.treeWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.treeWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
         self.treeWidget.setWordWrap(True)
         self.treeWidget.setExpandsOnDoubleClick(False)

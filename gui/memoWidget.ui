@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>886</width>
+    <width>955</width>
     <height>541</height>
    </rect>
   </property>
@@ -283,7 +283,7 @@ QWidget&gt;QToolButton:pressed{
            <number>8</number>
           </property>
           <property name="editTriggers">
-           <set>QAbstractItemView::DoubleClicked</set>
+           <set>QAbstractItemView::NoEditTriggers</set>
           </property>
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectItems</enum>
@@ -522,26 +522,136 @@ QWidget&gt;QPushButton:pressed{
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_2">
+           <widget class="Line" name="line">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" stdset="0">
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="copyButton">
+            <property name="minimumSize">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>25</width>
+              <height>25</height>
              </size>
             </property>
-           </spacer>
+            <property name="maximumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon/icons.qrc">
+              <normaloff>:/icon/copy.png</normaloff>:/icon/copy.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="cutButton">
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon/icons.qrc">
+              <normaloff>:/icon/cut.png</normaloff>:/icon/cut.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pasteButton">
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon/icons.qrc">
+              <normaloff>:/icon/paste.png</normaloff>:/icon/paste.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="revokeButton">
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon/icons.qrc">
+              <normaloff>:/icon/revoke.png</normaloff>:/icon/revoke.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="resumeButton">
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon/icons.qrc">
+              <normaloff>:/icon/resume.png</normaloff>:/icon/resume.png</iconset>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QFontComboBox" name="fontComboBox">
-            <property name="minimumSize">
-             <size>
-              <width>150</width>
-              <height>0</height>
-             </size>
-            </property>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
@@ -549,41 +659,6 @@ QWidget&gt;QPushButton:pressed{
              </size>
             </property>
            </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="sizeComboBox">
-            <property name="minimumSize">
-             <size>
-              <width>60</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>60</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>字体大小</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_7">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
           <item>
            <widget class="QPushButton" name="bordButton">
@@ -664,17 +739,11 @@ QWidget&gt;QPushButton:pressed{
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_3">
+           <widget class="Line" name="line_3">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
+           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="leftJustButton">
@@ -755,17 +824,11 @@ QWidget&gt;QPushButton:pressed{
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_4">
+           <widget class="Line" name="line_4">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
+           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="fontColorButton">
@@ -820,17 +883,11 @@ QWidget&gt;QPushButton:pressed{
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_6">
+           <widget class="Line" name="line_5">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
+           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="searchChangeButton">
