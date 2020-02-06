@@ -120,6 +120,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.toolWidget = QtWidgets.QWidget(self.mainWidget)
+        self.toolWidget.setMinimumSize(QtCore.QSize(99, 0))
         font = QtGui.QFont()
         font.setFamily("微软雅黑 Light")
         font.setPointSize(10)

@@ -224,6 +224,12 @@ border-bottom-right-radius:7px;
          </property>
          <item>
           <widget class="QWidget" name="toolWidget" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>99</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>微软雅黑 Light</family>
