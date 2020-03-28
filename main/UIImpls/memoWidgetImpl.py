@@ -43,6 +43,7 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         self.fileTableWidget.setColumnHidden(0, True)
         self.fileTableWidget.doubleClicked.connect(self.tableOpenMemo)
         # 文件编辑功能
+        self.fontColorButton.clicked.connect(self.fileColorBox)
 
     # 加载文件树
     def loadTree(self):
@@ -237,8 +238,9 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             if type == "child":
                 self.createNodeByDict(node, data)
             memoView = memoViewImpl()
-            memoView.nodeData = data
+            memoView.data = data
             self.mdiArea.addSubWindow(memoView)
+            memoView.show()
             self.stackedWidget.setCurrentIndex(1)
         else:
             self.Tips("未选择节点")
@@ -320,13 +322,18 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
     # 改变显示窗口
     def changeShow(self,node):
         if "file" in node.sign:
-            sql = "select memo_context from t_memo_detail where id = ?"
-            datas = self.sqlite.executeQuery(sql, node.nodeData["memo_id"])
-            memoView = memoViewImpl()
-            if len(datas) == 1:
-                memoView.context = datas[0]["memo_context"]
-            memoView.nodeData = node.nodeData
-            self.mdiArea.addSubWindow(memoView)
+            memo = self.checkMemoOpen(node.nodeData["memo_id"])
+            if memo is None:
+                sql = "select memo_context from t_memo_detail where id = ?"
+                datas = self.sqlite.executeQuery(sql, node.nodeData["memo_id"])
+                memoView = memoViewImpl()
+                if len(datas) == 1:
+                    memoView.context = datas[0]["memo_context"]
+                memoView.data = node.nodeData
+                self.mdiArea.addSubWindow(memoView)
+                memoView.show()
+            else :
+                self.mdiArea.setActiveSubWindow(memo)
             self.stackedWidget.setCurrentIndex(1)
         elif "folder" in node.sign:
             sql = "select memo_id,node_name,memo_temp from v_memo_list where parent_id = ?"
@@ -344,6 +351,15 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             self.stackedWidget.setCurrentIndex(0)
         else:
             return
+
+    # 检查是否已开启备忘
+    def checkMemoOpen(self,id):
+        if len(self.mdiArea.subWindowList()) > 0:
+            for window in self.mdiArea.subWindowList() :
+                if window.widget().data["memo_id"] == id :
+                    return window
+        return None
+
 
     # 表格填充数据
     def tableShow(self,datas):
@@ -370,8 +386,31 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         self.mdiArea.addSubWindow(memoView)
         self.stackedWidget.setCurrentIndex(1)
 
+    #检查是否有窗体
+    def windowCheck(self):
+        window = self.mdiArea.activeSubWindow()
+        if window is None :
+            return False
+        else:
+            return True
+
     #文件字体颜色
     def fileColorBox(self):
-        col = QColorDialog.getColor()
-        if col.isValid():
-            self.mdiArea.activeSubWindow().widget().setTextColor(col)
+        if self.windowCheck():
+            col = QColorDialog.getColor()
+            if col.isValid():
+                self.mdiArea.activeSubWindow().widget().textEdit.setTextColor(col)
+
+    #字体局左
+    def alignLeft(self):
+        if self.windowCheck():
+            self.mdiArea.activeSubWindow().widget().textEdit.setAlignment(Qt.AlignLeft)
+
+    # 字体局中
+    def alignCenter(self):
+        if self.windowCheck():
+            self.mdiArea.activeSubWindow().widget().textEdit.setAlignment(Qt.AlignCenter)
+
+    # 字体局左
+    def alignRight(self):
+        self.mdiArea.activeSubWindow().widget().textEdit.setAlignment(Qt.AlignLeft)

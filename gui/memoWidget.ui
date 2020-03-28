@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>928</width>
+    <width>970</width>
     <height>541</height>
    </rect>
   </property>
@@ -312,7 +312,7 @@ QWidget&gt;QToolButton:pressed{
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -661,6 +661,19 @@ QWidget&gt;QPushButton:pressed{
              <font>
               <family>Microsoft YaHei UI</family>
              </font>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="fontSizeBox">
+            <property name="minimumSize">
+             <size>
+              <width>40</width>
+              <height>23</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>字体大小</string>
             </property>
            </widget>
           </item>
