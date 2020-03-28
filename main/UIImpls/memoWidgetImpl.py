@@ -26,8 +26,8 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         super(memoWidgetImpl, self).__init__(parent)
         self.setupUi(self)
         log = logger()
-        self.tempNodes = []
-        self.yearDict = {}
+        self.tempNodes = [] #日历创建临时节点存储
+        self.yearDict = {} #年节点存储
         self.confmemo = log.getlogger('gui')
         self.sqlite = sqlite('./config/tomato.db')
         self.loadTree()
@@ -40,7 +40,7 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         self.treeWidget.customContextMenuRequested.connect(self.createRightMenu)
         self.treeWidget.itemDoubleClicked.connect(self.changeShow)
         # 文件列表功能
-        self.fileTableWidget.setColumnHidden(0,True)
+        self.fileTableWidget.setColumnHidden(0, True)
         self.fileTableWidget.doubleClicked.connect(self.tableOpenMemo)
         # 文件编辑功能
 
@@ -51,15 +51,6 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             self.yearDict.clear()
             sql = 'select * from t_base_node order by parent_id ASC'
             datas = self.sqlite.executeQuery(sql)
-            # datas = [
-            #     {"id": "1", "node_name": "1", "connect_date":"2020-01-03", "is_folder": 1, "parent_id": "0"},
-            #     {"id": "2", "node_name": "2", "connect_date":"2020-01-03", "is_folder": 0, "parent_id": "1"},
-            #     {"id": "5", "node_name": "5", "connect_date":"2020-01-03", "is_folder": 1, "parent_id": "1"},
-            #     {"id": "6", "node_name": "6", "connect_date":"2020-01-03", "is_folder": 0, "parent_id": "5"},
-            #     {"id": "7", "node_name": "7", "connect_date":"2020-01-03", "is_folder": 0, "parent_id": "5"},
-            #     {"id": "3", "node_name": "3", "connect_date":"2020-02-03", "is_folder": 1, "parent_id": "0"},
-            #     {"id": "4", "node_name": "4", "connect_date":"2019-02-03", "is_folder": 0, "parent_id": "0"}
-            # ]
             for data in datas:
                 date = datetime.strptime(data['connect_date'], '%Y-%m-%d')
                 year = str(date.year)
@@ -75,111 +66,21 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
                 else:
                     node = self.createNodeByDict(dayNode, data)
                 dayNode.dict[data['id']] = node
-            self.tempNodes.clear()
+                self.tempNodes.clear()
         except Exception as e:
             self.Tips("系统异常，请查看日志")
             self.confmemo.error(e)
-
-    # 文件夹检查
-    def nodeCheck(self, node, type):
-        if "folder" in node.sign and type == "child":
-            parent_id = node.id
-        elif "folder" in node.sign and type == "same" and "date" not in node.parent().sign:
-            parent_id = node.parent().id
-        elif "file" not in node.sign and (("unAddAble" not in node.parent().sign and type == "same") or (
-                "unaddable" not in node.sign and type == "child")):
-            parent_id = "0"
-        else:
-            parent_id = None
-        if hasattr(node, "date"):
-            date = node.date
-        elif hasattr(node, "data"):
-            date = node.data["connect_date"]
-        else:
-            date = None
-        return parent_id, date
-
-    # 添加文件夹
-    def createDir(self, node, type):
-        try:
-            if node != None:
-                parent_id, date = self.nodeCheck(node, type)
-                if parent_id == None or date == None:
-                    self.Tips("该节点无法添加")
-                    return
-                sql = "Insert Into t_base_node (id,node_name,is_folder,parent_id,connect_date) values (?,?,?,?,?)"
-                inputDialog = inputDialogImpl()
-                if inputDialog.exec() == inputDialog.Accepted:
-                    name = inputDialog.inputLineEdit.text()
-                self.sqlite.execute(sql, [str(uuid.uuid1()), name, 1, parent_id, date])
-                data = {"id": str(uuid.uuid1()), "node_name": name, "connect_date": date, "is_folder": 1,
-                        "parent_id": parent_id, "memo_id": ""}
-                if type == "same":
-                    self.createNodeByDict(node.parent(), data)
-                if type == "child":
-                    self.createNodeByDict(node, data)
-            else:
-                self.Tips("未选择节点")
-        except Exception as e:
-            self.Tips("系统异常，请查看日志")
-            self.confmemo.error(e)
-
-    # 编辑文件夹
-    def editDir(self, node):
-        try:
-            if node != None:
-                inputDialog = inputDialogImpl()
-                if inputDialog.exec() == inputDialog.Accepted:
-                    name = inputDialog.inputLineEdit.text()
-                    id = node.data["id"]
-                    sql = "Update t_base_node set node_name = ? where id = ?"
-                    self.sqlite.execute(sql, [name, id])
-                    node.setText(0, name)
-            else:
-                self.Tips("未选择节点")
-        except Exception as e:
-            self.Tips("系统异常，请查看日志")
-            self.confmemo.error(e)
-
-    # 删除节点
-    def deleteNode(self, node):
-        while node.childCount()>0:
-            self.deleteNode(node.child(0))
-        parent = node.parent()
-        parent.removeChild(node)
-        sql = "Delete from t_base_node where id = ?"
-        self.sqlite.execute(sql, node.data[""])
-        if node.data["memo_id"] != "":
-            sql = "Delete from t_memo_detail where id = ?"
-            self.sqlite.execute(sql, node.data["memo_id"])
-
-    # 添加备忘
-    def creatememo(self, node, type):
-        if node != None:
-            parent_id, date = self.nodeCheck(node, type)
-            if parent_id == None or date == None:
-                self.Tips("该节点无法添加")
-                return
-            data = {"id": str(uuid.uuid1()), "node_name": "(无标题)", "connect_date": date, "is_folder": 0,
-                    "parent_id": parent_id, "memo_id": str(uuid.uuid1())}
-            self.createNodeByDict(node, data)
-            memoView = memoViewImpl()
-            memoView.nodeData = data
-            self.mdiArea.addSubWindow(memoView)
-            self.stackedWidget.setCurrentIndex(1)
-        else:
-            self.Tips("未选择节点")
 
     # 创建时间节点
     def createDateNode(self, year, month, day):
         if year not in self.yearDict.keys():
-            yearNode = self.createNodeByString(self.treeWidget, year, year + "年", ["date", "unAddAble"])
+            yearNode = self.createNodeByString(self.treeWidget, year, year + "年", ["date", "unAddable"])
             self.yearDict[year] = yearNode
             self.tempNodes.append(yearNode)
         else:
             yearNode = self.yearDict[year]
         if month not in yearNode.dict.keys():
-            monthNode = self.createNodeByString(yearNode, month, month + "月", ["date", "unAddAble"])
+            monthNode = self.createNodeByString(yearNode, month, month + "月", ["date", "unAddable"])
             yearNode.dict[month] = monthNode
             self.tempNodes.append(monthNode)
         else:
@@ -193,6 +94,21 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             dayNode = monthNode.dict[day]
         return dayNode
 
+    # 字典创建节点
+    def createNodeByDict(self, parent, data):
+        node = QTreeWidgetItem(parent)
+        if data['is_folder'] == 0:
+            type = "file"
+        else:
+            type = "folder"
+        icon = self.buildicon(type)
+        node.nodeData = data
+        node.sign = [type]
+        node.setIcon(0, icon)
+        node.id = data['id']
+        node.setText(0, data['node_name'])
+        return node
+
     # 字符串创建节点
     def createNodeByString(self, parent, id="", text="", sign=[]):
         node = QTreeWidgetItem(parent)
@@ -203,46 +119,6 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         node.setText(0, text)
         node.dict = {}
         return node
-
-    # 字典创建节点
-    def createNodeByDict(self, parent, data):
-        node = QTreeWidgetItem(parent)
-        if data['is_folder'] == 0:
-            type = "file"
-        else:
-            type = "folder"
-        icon = self.buildicon(type)
-        node.data = data
-        node.sign = [type]
-        node.setIcon(0, icon)
-        node.id = data['id']
-        node.setText(0, data['node_name'])
-        return node
-
-    # 临时节点清理
-    def clearTempNode(self):
-        while len(self.tempNodes) > 0:
-            node = self.tempNodes[-1]
-            if node.parent() == None:
-                rootIndex = self.treeWidget.indexOfTopLevelItem(node)
-                self.yearDict.pop(node.id)
-                self.treeWidget.takeTopLevelItem(rootIndex)
-            else:
-                parent = node.parent()
-                parent.dict.pop(node.id)
-                parent.removeChild(node)
-            self.tempNodes.pop()
-
-    # 日期自动创建文件夹
-    def dayDirCreate(self):
-        try:
-            self.clearTempNode()
-            date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd").split("-")
-            dayNode = self.createDateNode(date[0], date[1], date[2])
-            self.treeWidget.setCurrentItem(dayNode)
-        except Exception as e:
-            self.Tips("系统异常，请查看日志")
-            self.confmemo.error(e)
 
     # 图标类型
     def buildicon(self, type):
@@ -265,11 +141,34 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             if currentTop != self.treeWidget.topLevelItem(i):
                 self.treeWidget.collapseItem(self.treeWidget.topLevelItem(i))
 
+    # 创建按键菜单
+    def createBtnMenu(self):
+        btnMenu = QMenu()
+        icon = QIcon()
+        icon.addPixmap(QPixmap(":/icon/add_file.png"), QIcon.Normal, QIcon.Off)
+        addNodeMemoAction = QAction(icon, '新增子备忘', self)
+        addNodeMemoAction.triggered.connect(lambda: self.creatememo(self.treeWidget.currentItem(), "child"))
+        icon.addPixmap(QPixmap(":/icon/add_file.png"), QIcon.Normal, QIcon.Off)
+        addMemoAction = QAction(icon, '新增平级备忘', self)
+        addMemoAction.triggered.connect(lambda: self.creatememo(self.treeWidget.currentItem(), "same"))
+        icon.addPixmap(QPixmap(":/icon/add_dir.png"), QIcon.Normal, QIcon.Off)
+        addNodeDirAction = QAction(icon, '新增子文件夹', self)
+        addNodeDirAction.triggered.connect(lambda: self.createDir(self.treeWidget.currentItem(), "child"))
+        icon.addPixmap(QPixmap(":/icon/add_dir.png"), QIcon.Normal, QIcon.Off)
+        addDirAction = QAction(icon, '新增平级文件夹', self)
+        addDirAction.triggered.connect(lambda: self.createDir(self.treeWidget.currentItem(), "same"))
+        btnMenu.addAction(addNodeMemoAction)
+        btnMenu.addAction(addMemoAction)
+        btnMenu.addSeparator()  # 分割行
+        btnMenu.addAction(addNodeDirAction)
+        btnMenu.addAction(addDirAction)
+        self.showMenuButton.setMenu(btnMenu)
+
     # 创建右键菜单
     def createRightMenu(self, pos):
         itemSelect = self.treeWidget.itemAt(pos)
         if itemSelect != None:
-            if "unAddAble" not in itemSelect.sign:
+            if "unAddable" not in itemSelect.sign:
                 rightMenu = QMenu()
                 icon = QIcon()
                 if "file" in itemSelect.sign:
@@ -298,46 +197,140 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
                             rightMenu.addAction(editNodeDirAction)
                             rightMenu.addAction(delNodeAction)
                 rightMenu.exec_(self.treeWidget.mapToGlobal(pos))
-            else:
-                return
 
-    # 创建按键菜单
-    def createBtnMenu(self):
-        btnMenu = QMenu()
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icon/add_file.png"), QIcon.Normal, QIcon.Off)
-        addNodeMemoAction = QAction(icon, '新增子备忘', self)
-        addNodeMemoAction.triggered.connect(lambda: self.creatememo(self.treeWidget.currentItem(), "child"))
-        icon.addPixmap(QPixmap(":/icon/add_file.png"), QIcon.Normal, QIcon.Off)
-        addMemoAction = QAction(icon, '新增平级备忘', self)
-        addMemoAction.triggered.connect(lambda: self.creatememo(self.treeWidget.currentItem(), "same"))
-        icon.addPixmap(QPixmap(":/icon/add_dir.png"), QIcon.Normal, QIcon.Off)
-        addNodeDirAction = QAction(icon, '新增子文件夹', self)
-        addNodeDirAction.triggered.connect(lambda: self.createDir(self.treeWidget.currentItem(), "child"))
-        icon.addPixmap(QPixmap(":/icon/add_dir.png"), QIcon.Normal, QIcon.Off)
-        addDirAction = QAction(icon, '新增平级文件夹', self)
-        addDirAction.triggered.connect(lambda: self.createDir(self.treeWidget.currentItem(), "same"))
-        btnMenu.addAction(addNodeMemoAction)
-        btnMenu.addAction(addMemoAction)
-        btnMenu.addSeparator()  # 分割行
-        btnMenu.addAction(addNodeDirAction)
-        btnMenu.addAction(addDirAction)
-        self.showMenuButton.setMenu(btnMenu)
+    # 添加文件夹
+    def createDir(self, node, type):
+        try:
+            if node != None:
+                parent_id, date = self.nodeInfo(node, type)
+                if parent_id == "" or date == "":
+                    self.Tips("该节点无法添加")
+                    return
+                sql = "Insert Into t_base_node (id,node_name,is_folder,parent_id,connect_date) values (?,?,?,?,?)"
+                inputDialog = inputDialogImpl()
+                if inputDialog.exec() == inputDialog.Accepted:
+                    name = inputDialog.inputLineEdit.text()
+                    self.sqlite.execute(sql, [str(uuid.uuid1()), name, 1, parent_id, date])
+                    data = {"id": str(uuid.uuid1()), "node_name": name, "connect_date": date, "is_folder": 1,
+                        "parent_id": parent_id, "memo_id": ""}
+                    if type == "same":
+                        self.createNodeByDict(node.parent(), data)
+                    if type == "child":
+                        self.createNodeByDict(node, data)
+            else:
+                self.Tips("未选择节点")
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.confmemo.error(e)
+
+    # 添加备忘
+    def creatememo(self, node, type):
+        if node != None:
+            parent_id, date = self.nodeInfo(node, type)
+            if parent_id == None or date == None:
+                self.Tips("该节点无法添加")
+                return
+            data = {"id": str(uuid.uuid1()), "node_name": "(无标题)", "connect_date": date, "is_folder": 0,
+                    "parent_id": parent_id, "memo_id": str(uuid.uuid1())}
+            if type == "same":
+                self.createNodeByDict(node.parent(), data)
+            if type == "child":
+                self.createNodeByDict(node, data)
+            memoView = memoViewImpl()
+            memoView.nodeData = data
+            self.mdiArea.addSubWindow(memoView)
+            self.stackedWidget.setCurrentIndex(1)
+        else:
+            self.Tips("未选择节点")
+
+     # 编辑文件夹
+    def editDir(self, node):
+        try:
+            if node != None:
+                inputDialog = inputDialogImpl()
+                if inputDialog.exec() == inputDialog.Accepted:
+                    name = inputDialog.inputLineEdit.text()
+                    id = node.data["id"]
+                    sql = "Update t_base_node set node_name = ? where id = ?"
+                    self.sqlite.execute(sql, [name, id])
+                    node.setText(0, name)
+            else:
+                self.Tips("未选择节点")
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.confmemo.error(e)
+
+    # 删除节点
+    def deleteNode(self, node):
+        while node.childCount() > 0:
+            self.deleteNode(node.child(0))
+        parent = node.parent()
+        parent.removeChild(node)
+        sql = "Delete from t_base_node where id = ?"
+        self.sqlite.execute(sql, node.nodeData[""])
+        if node.nodeData["memo_id"] != "":
+            sql = "Delete from t_memo_detail where id = ?"
+            self.sqlite.execute(sql, node.nodeData["memo_id"])
+
+    # 节点信息检查
+    def nodeInfo(self, node, type):
+        parent_id, date = "",""
+        if "unAddable"  not in node.sign:
+            if type == "child":
+                if "folder" in node.sign:
+                    parent_id = node.id
+                elif "date" in node.sign:
+                    parent_id = "0"
+            elif type == "same":
+                if "folder" in node.parent().sign:
+                    parent_id = node.parent().id
+                elif "date" in node.parent().sign and "folder" in node.sign:
+                    parent_id = "0"
+            if hasattr(node, "date"):
+                date = node.date
+            elif hasattr(node, "data"):
+                date = node.nodeData["connect_date"]
+        return parent_id, date
+
+    # 临时节点清理
+    def clearTempNode(self):
+        while len(self.tempNodes) > 0:
+            node = self.tempNodes[-1]
+            if node.parent() == None:
+                rootIndex = self.treeWidget.indexOfTopLevelItem(node)
+                self.yearDict.pop(node.id)
+                self.treeWidget.takeTopLevelItem(rootIndex)
+            else:
+                parent = node.parent()
+                parent.dict.pop(node.id)
+                parent.removeChild(node)
+            self.tempNodes.pop()
+
+    # 日期自动创建文件夹
+    def dayDirCreate(self):
+        try:
+            self.clearTempNode()
+            date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd").split("-")
+            dayNode = self.createDateNode(date[0], date[1], date[2])
+            self.treeWidget.setCurrentItem(dayNode)
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.confmemo.error(e)
 
     # 改变显示窗口
     def changeShow(self,node):
         if "file" in node.sign:
             sql = "select memo_context from t_memo_detail where id = ?"
-            datas = self.sqlite.executeQuery(sql, node.data["memo_id"])
+            datas = self.sqlite.executeQuery(sql, node.nodeData["memo_id"])
             memoView = memoViewImpl()
             if len(datas) == 1:
                 memoView.context = datas[0]["memo_context"]
-            memoView.nodeData = node.data
+            memoView.nodeData = node.nodeData
             self.mdiArea.addSubWindow(memoView)
             self.stackedWidget.setCurrentIndex(1)
         elif "folder" in node.sign:
             sql = "select memo_id,node_name,memo_temp from v_memo_list where parent_id = ?"
-            datas = self.sqlite.executeQuery(sql, node.data["id"])
+            datas = self.sqlite.executeQuery(sql, node.nodeData["id"])
             self.tableShow(datas)
             self.dirLabel.setText(node.text(0))
             self.countLabel.setText(str(len(datas)))
@@ -377,6 +370,7 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         self.mdiArea.addSubWindow(memoView)
         self.stackedWidget.setCurrentIndex(1)
 
+    #文件字体颜色
     def fileColorBox(self):
         col = QColorDialog.getColor()
         if col.isValid():
