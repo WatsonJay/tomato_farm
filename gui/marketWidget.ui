@@ -297,7 +297,7 @@ QPushButton:pressed{
               </property>
               <property name="styleSheet">
                <string notr="true">QPushButton{
-	background:#FEE66E;
+	background:#f5de6a;
 }
 QPushButton:hover{
 	background:#c5b355;

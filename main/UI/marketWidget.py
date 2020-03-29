@@ -180,7 +180,7 @@ class Ui_marketWidget(object):
         font.setPointSize(9)
         self.modifButton.setFont(font)
         self.modifButton.setStyleSheet("QPushButton{\n"
-"    background:#FEE66E;\n"
+"    background:#f5de6a;\n"
 "}\n"
 "QPushButton:hover{\n"
 "    background:#c5b355;\n"
