@@ -60,6 +60,9 @@ class Ui_memoView(object):
         self.horizontalLayout.addWidget(self.dateLabel)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
         self.textEdit = QtWidgets.QTextEdit(self.titleWidget)
+        font = QtGui.QFont()
+        font.setFamily("宋体")
+        self.textEdit.setFont(font)
         self.textEdit.setObjectName("textEdit")
         self.verticalLayout_2.addWidget(self.textEdit)
         self.verticalLayout.addWidget(self.titleWidget)
@@ -69,9 +72,9 @@ class Ui_memoView(object):
 
     def retranslateUi(self, memoView):
         _translate = QtCore.QCoreApplication.translate
-        memoView.setWindowTitle(_translate("memoView", "Untitled"))
+        memoView.setWindowTitle(_translate("memoView", "无标题"))
         self.label_4.setText(_translate("memoView", "标题："))
-        self.titleLabel.setText(_translate("memoView", "Untitled"))
+        self.titleLabel.setText(_translate("memoView", "无标题"))
         self.label_2.setText(_translate("memoView", "日期："))
         self.dateLabel.setText(_translate("memoView", "TextLabel"))
 from UI.dclabel import DCLabel

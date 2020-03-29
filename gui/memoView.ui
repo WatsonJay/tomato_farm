@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Untitled</string>
+   <string>无标题</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -75,7 +75,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Untitled</string>
+           <string>无标题</string>
           </property>
          </widget>
         </item>
@@ -119,7 +119,13 @@
        </layout>
       </item>
       <item>
-       <widget class="QTextEdit" name="textEdit"/>
+       <widget class="QTextEdit" name="textEdit">
+        <property name="font">
+         <font>
+          <family>宋体</family>
+         </font>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

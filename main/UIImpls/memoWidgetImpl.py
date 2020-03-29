@@ -6,9 +6,9 @@
 import uuid
 from datetime import datetime
 
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtGui import QIcon, QPixmap, QTextCursor, QPalette
 from PyQt5.QtWidgets import QWidget, QTreeWidgetItem, QMenu, QAction, QTableWidgetItem, QColorDialog
 
 from UI.memoWidget import Ui_memoWidget
@@ -26,14 +26,16 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         super(memoWidgetImpl, self).__init__(parent)
         self.setupUi(self)
         log = logger()
-        self.tempNodes = [] #日历创建临时节点存储
-        self.yearDict = {} #年节点存储
+        self.tempNodes = []  # 日历创建临时节点存储
+        self.memoList = []
+        self.yearDict = {}  # 年节点存储
         self.confmemo = log.getlogger('gui')
         self.sqlite = sqlite('./config/tomato.db')
         self.loadTree()
         self.createBtnMenu()
         # 日历功能
         self.calendarWidget.clicked.connect(self.dayDirCreate)
+        self.addTodayButton.clicked.connect(self.todayMemo)
         # 文件树功能
         self.treeWidget.itemExpanded.connect(self.collapseOther)
         self.treeWidget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -43,7 +45,26 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         self.fileTableWidget.setColumnHidden(0, True)
         self.fileTableWidget.doubleClicked.connect(self.tableOpenMemo)
         # 文件编辑功能
+        self.searchWidget.setVisible(False)
+        self.copyButton.clicked.connect(self.fileCopy)
+        self.cutButton.clicked.connect(self.fileCut)
+        self.pasteButton.clicked.connect(self.filePaste)
+        self.revokeButton.clicked.connect(self.fileUndo)
+        self.resumeButton.clicked.connect(self.fileRedo)
+        self.fontComboBox.currentFontChanged.connect(self.fileChangeFont)
+        self.fontSizeBox.valueChanged.connect(self.fileChangeSize)
+        self.leftJustButton.clicked.connect(self.alignLeft)
+        self.centerButton.clicked.connect(self.alignCenter)
+        self.rightJustButton.clicked.connect(self.alignRight)
+        self.bordButton.clicked.connect(self.fileBold)
+        self.ItalicButton.clicked.connect(self.fileItalic)
+        self.underlineButton.clicked.connect(self.fileUnderline)
         self.fontColorButton.clicked.connect(self.fileColorBox)
+        self.signlePenButton.clicked.connect(self.fileColorBackBox)
+        self.searchChangeButton.clicked.connect(self.serchBarChange)
+        self.searchButton.clicked.connect(self.fileSearch)
+        self.searchLineEdit.returnPressed.connect(self.fileSearch)
+        self.saveButton.clicked.connect(self.fileSave)
 
     # 加载文件树
     def loadTree(self):
@@ -213,7 +234,7 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
                     name = inputDialog.inputLineEdit.text()
                     self.sqlite.execute(sql, [str(uuid.uuid1()), name, 1, parent_id, date])
                     data = {"id": str(uuid.uuid1()), "node_name": name, "connect_date": date, "is_folder": 1,
-                        "parent_id": parent_id, "memo_id": ""}
+                            "parent_id": parent_id, "memo_id": ""}
                     if type == "same":
                         self.createNodeByDict(node.parent(), data)
                     if type == "child":
@@ -234,18 +255,23 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             data = {"id": str(uuid.uuid1()), "node_name": "(无标题)", "connect_date": date, "is_folder": 0,
                     "parent_id": parent_id, "memo_id": str(uuid.uuid1())}
             if type == "same":
-                self.createNodeByDict(node.parent(), data)
+                memoNode = self.createNodeByDict(node.parent(), data)
             if type == "child":
-                self.createNodeByDict(node, data)
+                memoNode = self.createNodeByDict(node, data)
+            self.memoList.append(memoNode)
+            self.treeWidget.setCurrentItem(memoNode)
             memoView = memoViewImpl()
             memoView.data = data
+            memoView.dateLabel.setText(data['connect_date'])
             self.mdiArea.addSubWindow(memoView)
             memoView.show()
+            memoView.titleChangeSignal.connect(self.changeTitle)
+            memoView.closeSignal.connect(self.fileSave)
             self.stackedWidget.setCurrentIndex(1)
         else:
             self.Tips("未选择节点")
 
-     # 编辑文件夹
+    # 编辑文件夹
     def editDir(self, node):
         try:
             if node != None:
@@ -276,8 +302,8 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
 
     # 节点信息检查
     def nodeInfo(self, node, type):
-        parent_id, date = "",""
-        if "unAddable"  not in node.sign:
+        parent_id, date = "", ""
+        if "unAddable" not in node.sign:
             if type == "child":
                 if "folder" in node.sign:
                     parent_id = node.id
@@ -319,8 +345,20 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             self.Tips("系统异常，请查看日志")
             self.confmemo.error(e)
 
+    # 创建当天目录
+    def todayMemo(self):
+        try:
+            self.clearTempNode()
+            date = datetime.now().strftime('%Y-%m-%d').split("-")
+            dayNode = self.createDateNode(date[0], date[1], date[2])
+            self.creatememo(dayNode, "child")
+            self.tempNodes.clear()
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.confmemo.error(e)
+
     # 改变显示窗口
-    def changeShow(self,node):
+    def changeShow(self, node):
         if "file" in node.sign:
             memo = self.checkMemoOpen(node.nodeData["memo_id"])
             if memo is None:
@@ -330,9 +368,16 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
                 if len(datas) == 1:
                     memoView.context = datas[0]["memo_context"]
                 memoView.data = node.nodeData
+                memoView.setWindowTitle(node.nodeData['node_name'])
+                memoView.title = node.nodeData['node_name']
+                memoView.titleLabel.setText(node.nodeData['node_name'])
+                memoView.dateLabel.setText(memoView.data['connect_date'])
+                memoView.textEdit.setHtml(datas[0]['memo_context'])
                 self.mdiArea.addSubWindow(memoView)
+                self.memoList.append(node)
                 memoView.show()
-            else :
+                memoView.titleChangeSignal.connect(self.changeTitle)
+            else:
                 self.mdiArea.setActiveSubWindow(memo)
             self.stackedWidget.setCurrentIndex(1)
         elif "folder" in node.sign:
@@ -352,17 +397,23 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         else:
             return
 
+    # 修改标题
+    def changeTitle(self, id, title):
+        for memo in self.memoList:
+            if memo.nodeData['id'] == id:
+                memo.setText(0, title)
+                memo.nodeData['node_name'] = title
+
     # 检查是否已开启备忘
-    def checkMemoOpen(self,id):
+    def checkMemoOpen(self, id):
         if len(self.mdiArea.subWindowList()) > 0:
-            for window in self.mdiArea.subWindowList() :
-                if window.widget().data["memo_id"] == id :
+            for window in self.mdiArea.subWindowList():
+                if window.widget().data["memo_id"] == id:
                     return window
         return None
 
-
     # 表格填充数据
-    def tableShow(self,datas):
+    def tableShow(self, datas):
         for data in datas:
             rowPosition = self.fileTableWidget.rowCount()
             self.fileTableWidget.insertRow(rowPosition)
@@ -386,22 +437,50 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         self.mdiArea.addSubWindow(memoView)
         self.stackedWidget.setCurrentIndex(1)
 
-    #检查是否有窗体
+    # 检查是否有窗体
     def windowCheck(self):
         window = self.mdiArea.activeSubWindow()
-        if window is None :
+        if window is None:
             return False
         else:
             return True
 
-    #文件字体颜色
-    def fileColorBox(self):
+    # 复制
+    def fileCopy(self):
         if self.windowCheck():
-            col = QColorDialog.getColor()
-            if col.isValid():
-                self.mdiArea.activeSubWindow().widget().textEdit.setTextColor(col)
+            self.mdiArea.activeSubWindow().widget().textEdit.copy()
 
-    #字体局左
+    # 剪切
+    def fileCut(self):
+        if self.windowCheck():
+            self.mdiArea.activeSubWindow().widget().textEdit.cut()
+
+    # 粘贴
+    def filePaste(self):
+        if self.windowCheck():
+            self.mdiArea.activeSubWindow().widget().textEdit.paste()
+
+    # 回退
+    def fileUndo(self):
+        if self.windowCheck():
+            self.mdiArea.activeSubWindow().widget().textEdit.undo()
+
+    # 撤销
+    def fileRedo(self):
+        if self.windowCheck():
+            self.mdiArea.activeSubWindow().widget().textEdit.redo()
+
+    # 字体变更
+    def fileChangeFont(self, font):
+        if self.windowCheck():
+            self.mdiArea.activeSubWindow().widget().textEdit.setCurrentFont(font)
+
+    # 字体大小变更
+    def fileChangeSize(self, size):
+        if self.windowCheck():
+            self.mdiArea.activeSubWindow().widget().textEdit.setFontPointSize(size)
+
+    # 字体局左
     def alignLeft(self):
         if self.windowCheck():
             self.mdiArea.activeSubWindow().widget().textEdit.setAlignment(Qt.AlignLeft)
@@ -413,4 +492,75 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
 
     # 字体局左
     def alignRight(self):
-        self.mdiArea.activeSubWindow().widget().textEdit.setAlignment(Qt.AlignLeft)
+        if self.windowCheck():
+            self.mdiArea.activeSubWindow().widget().textEdit.setAlignment(Qt.AlignRight)
+
+    # 字体加粗
+    def fileBold(self):
+        if self.windowCheck():
+            sub = self.mdiArea.activeSubWindow().widget().textEdit
+            tmpFormat = sub.currentCharFormat()
+            if tmpFormat.fontWeight() == QtGui.QFont.Bold:
+                tmpFormat.setFontWeight(QtGui.QFont.Normal)
+            else:
+                tmpFormat.setFontWeight(QtGui.QFont.Bold)
+            sub.mergeCurrentCharFormat(tmpFormat)
+
+    # 字体斜体
+    def fileItalic(self):
+        if self.windowCheck():
+            tmpTextBox = self.mdiArea.activeSubWindow().widget().textEdit
+            tmpTextBox.setFontItalic(not tmpTextBox.fontItalic())
+
+    # 字体下划线
+    def fileUnderline(self):
+        if self.windowCheck():
+            tmpTextBox = self.mdiArea.activeSubWindow().widget().textEdit
+            tmpTextBox.setFontUnderline(not tmpTextBox.fontUnderline())
+
+    # 文件字体颜色
+    def fileColorBox(self):
+        if self.windowCheck():
+            col = QColorDialog.getColor()
+            if col.isValid():
+                self.mdiArea.activeSubWindow().widget().textEdit.setTextColor(col)
+
+    # 文件背景颜色
+    def fileColorBackBox(self):
+        if self.windowCheck():
+            col = QColorDialog.getColor()
+            if col.isValid():
+                self.mdiArea.activeSubWindow().widget().textEdit.setTextBackgroundColor(col)
+
+    # 搜索栏显示/隐藏
+    def serchBarChange(self):
+        visiable = self.searchWidget.isVisible()
+        self.searchWidget.setVisible(not visiable)
+
+    # 搜索
+    def fileSearch(self):
+        if self.windowCheck():
+            keyWord = self.searchLineEdit.text()
+            sub = self.mdiArea.activeSubWindow().widget()
+            if sub.tempKeyWord != keyWord:
+                sub.tempKeyWord = keyWord
+                sub.textEdit.moveCursor(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
+            if sub.textEdit.find(keyWord):
+                palette = sub.textEdit.palette()
+                palette.setColor(QPalette.Highlight, palette.color(QPalette.Active, QPalette.Highlight))
+                sub.textEdit.setPalette(palette)
+            else:
+                sub.textEdit.moveCursor(QTextCursor.StartOfLine, QTextCursor.MoveAnchor)
+
+    def fileSave(self):
+        if self.windowCheck():
+            sub = self.mdiArea.activeSubWindow().widget()
+            data = sub.data
+            if data['node_name'] != '(无标题)' or data['node_name'] != '':
+                sql = "replace into t_base_node (id,node_name,is_folder,parent_id,connect_date,memo_id) values (?,?,?,?,?,?)"
+                self.sqlite.execute(sql, [data['id'], data['node_name'], data['is_folder'], data['parent_id'], data['connect_date'],data['memo_id']])
+                sql = "replace into t_memo_detail (id, memo_context, memo_temp) values (?,?,?)"
+                self.sqlite.execute(sql,[data['memo_id'],sub.textEdit.toHtml(),sub.textEdit.toPlainText()[:50]])
+            else:
+                self.Tips("请输入标题")
+
