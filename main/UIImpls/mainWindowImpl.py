@@ -12,6 +12,7 @@ from PyQt5.QtCore import pyqtSignal, QTimer
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QCheckBox, QSystemTrayIcon, QMenu, QAction, QDialog
 from UI.mainWindow import Ui_MainWindow
 from UIImpls.firstWidgetImpl import firstWidgetImpl
+from UIImpls.infoDialogImpl import infoDialogImpl
 from UIImpls.marketWidgetImpl import marketWidgetImpl
 from UIImpls.memoWidgetImpl import memoWidgetImpl
 from UIImpls.messageWidgetImpl import messageWidgetImpl
@@ -99,6 +100,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.memoButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(3))
         self.marketButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(4))
         self.settingButton.clicked.connect(self.setting)
+        self.introButton.clicked.connect(self.infoDialog)
         self.redoTimerButton.clicked.connect(self.redoTask)
         self.startTimerButton.clicked.connect(self.startTask)
         self.pauseTimerButton.clicked.connect(self.pauseTask)
@@ -154,6 +156,11 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     def setting(self):
         if self.settingDialog.exec() == QDialog.Accepted:
             self.reloadConf()
+
+    # 介绍
+    def infoDialog(self):
+        infoDialog = infoDialogImpl()
+        infoDialog.exec()
 
     #托盘事件
     def trayIcon(self):

@@ -188,7 +188,7 @@ QPushButton:pressed{
                   <string notr="true">QPushButton{
 	border:none;
 	border-radius:12px;
-	background:#FEE66E;
+	background:#f5de6a;
 }
 QPushButton:hover{
 	background:#c5b355;
@@ -733,7 +733,7 @@ QPushButton:pressed{
         </size>
        </property>
        <property name="toolTip">
-        <string>添加到当日</string>
+        <string>添加到当日任务</string>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton{

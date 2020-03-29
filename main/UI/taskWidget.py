@@ -104,7 +104,7 @@ class Ui_taskWidget(object):
         self.modifTaskButton.setStyleSheet("QPushButton{\n"
 "    border:none;\n"
 "    border-radius:12px;\n"
-"    background:#FEE66E;\n"
+"    background:#f5de6a;\n"
 "}\n"
 "QPushButton:hover{\n"
 "    background:#c5b355;\n"
@@ -566,7 +566,7 @@ class Ui_taskWidget(object):
         self.cancleButton.setText(_translate("taskWidget", "取消"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("taskWidget", "任务箱"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("taskWidget", "历史任务"))
-        self.linkDayButton.setToolTip(_translate("taskWidget", "添加到当日"))
+        self.linkDayButton.setToolTip(_translate("taskWidget", "添加到当日任务"))
         self.undoLinkButton.setToolTip(_translate("taskWidget", "移除选中任务"))
         self.label_2.setText(_translate("taskWidget", "当日任务"))
 import UI.icons_rc
