@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_memoWidget(object):
     def setupUi(self, memoWidget):
         memoWidget.setObjectName("memoWidget")
-        memoWidget.resize(886, 541)
+        memoWidget.resize(970, 541)
         self.horizontalLayout = QtWidgets.QHBoxLayout(memoWidget)
         self.horizontalLayout.setSpacing(2)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -522,7 +522,7 @@ class Ui_memoWidget(object):
         self.horizontalLayout.setStretch(1, 9)
 
         self.retranslateUi(memoWidget)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(memoWidget)
 
     def retranslateUi(self, memoWidget):
@@ -555,4 +555,4 @@ class Ui_memoWidget(object):
         self.searchChangeButton.setToolTip(_translate("memoWidget", "搜索"))
         self.searchLineEdit.setPlaceholderText(_translate("memoWidget", "关键词"))
         self.searchButton.setToolTip(_translate("memoWidget", "搜索"))
-import UI.icons_rc
+import icons_rc

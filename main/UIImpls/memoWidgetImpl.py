@@ -359,43 +359,47 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
 
     # 改变显示窗口
     def changeShow(self, node):
-        if "file" in node.sign:
-            memo = self.checkMemoOpen(node.nodeData["memo_id"])
-            if memo is None:
-                sql = "select memo_context from t_memo_detail where id = ?"
-                datas = self.sqlite.executeQuery(sql, node.nodeData["memo_id"])
-                memoView = memoViewImpl()
-                if len(datas) == 1:
-                    memoView.context = datas[0]["memo_context"]
-                memoView.data = node.nodeData
-                memoView.setWindowTitle(node.nodeData['node_name'])
-                memoView.title = node.nodeData['node_name']
-                memoView.titleLabel.setText(node.nodeData['node_name'])
-                memoView.dateLabel.setText(memoView.data['connect_date'])
-                memoView.textEdit.setHtml(datas[0]['memo_context'])
-                self.mdiArea.addSubWindow(memoView)
-                self.memoList.append(node)
-                memoView.show()
-                memoView.titleChangeSignal.connect(self.changeTitle)
+        try:
+            if "file" in node.sign:
+                memo = self.checkMemoOpen(node.nodeData["memo_id"])
+                if memo is None:
+                    sql = "select memo_context from t_memo_detail where id = ?"
+                    datas = self.sqlite.executeQuery(sql, node.nodeData["memo_id"])
+                    memoView = memoViewImpl()
+                    memoView.data = node.nodeData
+                    memoView.setWindowTitle(node.nodeData['node_name'])
+                    memoView.title = node.nodeData['node_name']
+                    memoView.titleLabel.setText(node.nodeData['node_name'])
+                    memoView.dateLabel.setText(memoView.data['connect_date'])
+                    if datas != None and len(datas) > 0:
+                        memoView.textEdit.setHtml(datas[0]['memo_context'])
+                    self.mdiArea.addSubWindow(memoView)
+                    self.memoList.append(node)
+                    memoView.show()
+                    memoView.titleChangeSignal.connect(self.changeTitle)
+                    memoView.closeSignal.connect(self.fileSave)
+                else:
+                    self.mdiArea.setActiveSubWindow(memo)
+                self.stackedWidget.setCurrentIndex(1)
+            elif "folder" in node.sign:
+                sql = "select memo_id,node_name,connect_date,memo_temp from v_memo_list where parent_id = ?"
+                datas = self.sqlite.executeQuery(sql, node.nodeData["id"])
+                self.tableShow(datas)
+                self.dirLabel.setText(node.text(0))
+                self.countLabel.setText(str(len(datas)))
+                self.stackedWidget.setCurrentIndex(0)
+            elif "date" in node.sign and hasattr(node, "date"):
+                sql = "select memo_id,node_name,connect_date,memo_temp from v_memo_list where connect_date = ?"
+                datas = self.sqlite.executeQuery(sql, node.date)
+                self.dirLabel.setText(node.date)
+                self.countLabel.setText(str(len(datas)))
+                self.tableShow(datas)
+                self.stackedWidget.setCurrentIndex(0)
             else:
-                self.mdiArea.setActiveSubWindow(memo)
-            self.stackedWidget.setCurrentIndex(1)
-        elif "folder" in node.sign:
-            sql = "select memo_id,node_name,memo_temp from v_memo_list where parent_id = ?"
-            datas = self.sqlite.executeQuery(sql, node.nodeData["id"])
-            self.tableShow(datas)
-            self.dirLabel.setText(node.text(0))
-            self.countLabel.setText(str(len(datas)))
-            self.stackedWidget.setCurrentIndex(0)
-        elif "date" in node.sign and hasattr(node, "date"):
-            sql = "select memo_id,node_name,memo_temp from v_memo_list where connect_date = ?"
-            datas = self.sqlite.executeQuery(sql, node.date)
-            self.dirLabel.setText(node.date)
-            self.countLabel.setText(str(len(datas)))
-            self.tableShow(datas)
-            self.stackedWidget.setCurrentIndex(0)
-        else:
-            return
+                return
+        except Exception as e:
+            self.Tips("系统异常，请查看日志")
+            self.confmemo.error(e)
 
     # 修改标题
     def changeTitle(self, id, title):
@@ -414,27 +418,45 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
 
     # 表格填充数据
     def tableShow(self, datas):
+        self.fileTableWidget.setRowCount(0)
+        self.fileTableWidget.clearContents()
         for data in datas:
             rowPosition = self.fileTableWidget.rowCount()
             self.fileTableWidget.insertRow(rowPosition)
             i = 0
             for value in data:
-                self.fileTableWidget.setItem(rowPosition, i, QTableWidgetItem(value))
+                self.fileTableWidget.setItem(rowPosition, i, QTableWidgetItem(data[value]))
                 i += 1
 
     # 表格打开日志
     def tableOpenMemo(self):
-        if self.tableWidget.currentIndex().row() == -1:
+        if self.fileTableWidget.currentIndex().row() == -1:
             return
         else:
-            index = self.tableWidget.currentIndex().row()
-        id = self.tableWidget.item(index, 0).text()
-        sql = "select memo_context from t_memo_detail"
-        datas = self.sqlite.executeQuery(sql, id)
-        memoView = memoViewImpl()
-        if len(datas) == 1:
-            memoView.context = datas[0]["memo_context"]
-        self.mdiArea.addSubWindow(memoView)
+            index = self.fileTableWidget.currentIndex().row()
+        id = self.fileTableWidget.item(index, 0).text()
+        memo = self.checkMemoOpen(id)
+        if memo is None:
+            memoView = memoViewImpl()
+            sql = "select memo_context from t_memo_detail where id = ?"
+            datas = self.sqlite.executeQuery(sql, id)
+            if datas != None and len(datas) > 0:
+                memoView.textEdit.setHtml(datas[0]['memo_context'])
+            sql = "select * from t_base_node where memo_id = ?"
+            node = self.sqlite.executeQuery(sql,id)
+            if node != None and len(node) > 0:
+                memoView.data = node[0]
+                memoView.setWindowTitle(memoView.data['node_name'])
+                memoView.title = memoView.data['node_name']
+                memoView.titleLabel.setText(memoView.data['node_name'])
+                memoView.dateLabel.setText(memoView.data['connect_date'])
+            self.mdiArea.addSubWindow(memoView)
+            self.memoList.append(node)
+            memoView.show()
+            memoView.titleChangeSignal.connect(self.changeTitle)
+            memoView.closeSignal.connect(self.fileSave)
+        else:
+            self.mdiArea.setActiveSubWindow(memo)
         self.stackedWidget.setCurrentIndex(1)
 
     # 检查是否有窗体
