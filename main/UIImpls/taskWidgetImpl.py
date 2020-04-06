@@ -25,7 +25,7 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
         self.setupUi(self)
         log = logger()
         self.conftask = log.getlogger('gui')
-        self.sqlite = sqlite('./config/tomato.db')
+        self.sqlite = sqlite('/config/tomato.db')
         self.id=''
         self.taskDeadLineEdit.setMinimumDate(QDate.currentDate())
         #功能绑定

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>415</width>
-    <height>288</height>
+    <height>298</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -485,7 +485,7 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
           <item row="4" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <item>
-             <widget class="QRadioButton" name="autoOnbutton">
+             <widget class="QRadioButton" name="autoOnButton">
               <property name="font">
                <font>
                 <family>Microsoft YaHei UI</family>
@@ -727,7 +727,7 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>

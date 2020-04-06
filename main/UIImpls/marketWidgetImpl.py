@@ -28,7 +28,7 @@ class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
         self.conf = config()
         log = logger()
         self.confmarket = log.getlogger('gui')
-        self.sqlite = sqlite('./config/tomato.db')
+        self.sqlite = sqlite('/config/tomato.db')
         self.id = ''
         self.coinSum = 0
         self.tomatoRate = 0
@@ -88,7 +88,7 @@ class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
             self.descLabel.setText(selectedItem.commodity['comm_desc'])
             buyTime = datetime.datetime.strptime(selectedItem.commodity['buy_time'], "%Y-%m-%d").date()
             now = datetime.date.today()
-            if buyTime < now:
+            if buyTime < now and selectedItem.commodity['is_sale'] != 1:
                 self.deleteWidget.setVisible(True)
             else:
                 self.deleteWidget.setVisible(False)

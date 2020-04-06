@@ -30,7 +30,7 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         self.memoList = []
         self.yearDict = {}  # 年节点存储
         self.confmemo = log.getlogger('gui')
-        self.sqlite = sqlite('./config/tomato.db')
+        self.sqlite = sqlite('/config/tomato.db')
         self.loadTree()
         self.createBtnMenu()
         # 日历功能

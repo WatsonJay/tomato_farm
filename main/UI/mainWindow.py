@@ -15,6 +15,7 @@ class Ui_MainWindow(object):
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
         MainWindow.resize(989, 633)
+        MainWindow.setMinimumSize(QtCore.QSize(989, 633))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
@@ -32,7 +33,7 @@ class Ui_MainWindow(object):
 "border-top-right-radius:7px;\n"
 "}\n"
 "#windowBar>QPushButton{\n"
-"border-radius:10px\n"
+"border-radius:8px\n"
 "}")
         self.windowBar.setObjectName("windowBar")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.windowBar)
@@ -42,8 +43,8 @@ class Ui_MainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(715, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.miniPushButton = QtWidgets.QPushButton(self.windowBar)
-        self.miniPushButton.setMinimumSize(QtCore.QSize(20, 20))
-        self.miniPushButton.setMaximumSize(QtCore.QSize(20, 20))
+        self.miniPushButton.setMinimumSize(QtCore.QSize(16, 16))
+        self.miniPushButton.setMaximumSize(QtCore.QSize(16, 16))
         font = QtGui.QFont()
         font.setFamily("Microsoft YaHei UI")
         font.setPointSize(16)
@@ -72,8 +73,8 @@ class Ui_MainWindow(object):
         self.miniPushButton.setObjectName("miniPushButton")
         self.horizontalLayout.addWidget(self.miniPushButton)
         self.closePushButton = QtWidgets.QPushButton(self.windowBar)
-        self.closePushButton.setMinimumSize(QtCore.QSize(20, 20))
-        self.closePushButton.setMaximumSize(QtCore.QSize(20, 20))
+        self.closePushButton.setMinimumSize(QtCore.QSize(16, 16))
+        self.closePushButton.setMaximumSize(QtCore.QSize(16, 16))
         font = QtGui.QFont()
         font.setFamily("Microsoft YaHei UI")
         font.setPointSize(9)
@@ -519,7 +520,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.firstPageButton.setText(_translate("MainWindow", "首页"))
+        self.firstPageButton.setText(_translate("MainWindow", "首页       "))
         self.statisButton.setText(_translate("MainWindow", "农场统计"))
         self.taskButton.setText(_translate("MainWindow", "任务展板"))
         self.memoButton.setText(_translate("MainWindow", "日志备忘"))

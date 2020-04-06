@@ -45,7 +45,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.conf = config()
         self.closeNow = True
         self.task = {}
-        self.sqlite = sqlite('./config/tomato.db')
+        self.sqlite = sqlite('/config/tomato.db')
         log = logger()
         self.confmain = log.getlogger('gui')
         self.trayIcon()
@@ -185,7 +185,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     # 触发托盘icon
     def iconActivated(self, reason):
         if reason == QSystemTrayIcon.DoubleClick:
-            self.showCheck()
+            self.showCheck('')
 
     #检查任务逾期
     def checkOverdue(self):
@@ -387,12 +387,14 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         return self
 
     # 密码方式打开
-    def showCheck(self):
+    def showCheck(self,type):
         if self.conf.decrypt(self.conf.getOption('system', 'isLock')) == "True":
             if self.unlockDialog.exec() == QDialog.Accepted:
                 self.show()
             else:
                 self.close()
+        elif type == 'slient':
+            self.hide()
         else:
             self.show()
 

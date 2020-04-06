@@ -3,17 +3,21 @@
 # @Author  : Jaywatson
 # @File    : loadData.py
 # @Soft    : tomato_farm
+import os
 import sqlite3
+import sys
+
 from util.logger import logger
 
 
 class sqlite:
     def __init__(self,filePath):
         self.file = filePath
+        self.path = os.path.dirname(os.path.realpath(sys.argv[0]))
         log = logger()
         self.confsql = log.getlogger('conf')
         try:
-            self.conn = sqlite3.connect(self.file, timeout=5)
+            self.conn = sqlite3.connect(self.path+self.file, timeout=5)
             if (self.conn is None):
                 raise Exception("dbfile :" + self.file + "is not found or connect error ! ")
             else:

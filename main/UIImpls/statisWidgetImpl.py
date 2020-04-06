@@ -23,7 +23,7 @@ class statisWidgetImpl(QWidget, Ui_statisWidget, tipImpl):
         self.setupUi(self)
         log = logger()
         self.confstatis = log.getlogger('gui')
-        self.sqlite = sqlite('./config/tomato.db')
+        self.sqlite = sqlite('/config/tomato.db')
         self.searchButton.clicked.connect(self.search)
         self.weekRefreshButton.clicked.connect(self.reloadWeek)
         self.monthRefreshButton.clicked.connect(lambda :self.loadMonthChart('', ''))

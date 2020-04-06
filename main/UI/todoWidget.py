@@ -53,21 +53,16 @@ class Ui_todoWidget(object):
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.windowBar = QtWidgets.QWidget(self.mainWidget)
         self.windowBar.setMinimumSize(QtCore.QSize(0, 15))
-        self.windowBar.setStyleSheet("QWidget#windowBar{\n"
+        self.windowBar.setStyleSheet("QWidget{\n"
 "background:rgba(26, 26, 26, 120);\n"
-"border-top:1px solid gray;\n"
-"border-right:1px solid gray;\n"
-"border-left:1px solid gray;\n"
 "}")
         self.windowBar.setObjectName("windowBar")
         self.verticalLayout_4.addWidget(self.windowBar)
         self.toolWidget = QtWidgets.QWidget(self.mainWidget)
         self.toolWidget.setMinimumSize(QtCore.QSize(0, 50))
         self.toolWidget.setMaximumSize(QtCore.QSize(16777215, 50))
-        self.toolWidget.setStyleSheet("QWidget#toolWidget{\n"
+        self.toolWidget.setStyleSheet("#toolWidget{\n"
 "background:rgba(26, 26, 26, 120);\n"
-"border-right:1px solid gray;\n"
-"border-left:1px solid gray;\n"
 "}")
         self.toolWidget.setObjectName("toolWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.toolWidget)
@@ -79,7 +74,7 @@ class Ui_todoWidget(object):
         font.setFamily("Microsoft YaHei UI")
         font.setPointSize(22)
         font.setBold(True)
-        font.setUnderline(True)
+        font.setUnderline(False)
         font.setWeight(75)
         self.currentLabel.setFont(font)
         self.currentLabel.setStyleSheet("#currentLabel{\n"
@@ -91,7 +86,7 @@ class Ui_todoWidget(object):
         font = QtGui.QFont()
         font.setFamily("Microsoft YaHei UI")
         font.setPointSize(16)
-        font.setUnderline(True)
+        font.setUnderline(False)
         self.changeButton.setFont(font)
         self.changeButton.setStyleSheet("#changeButton{\n"
 "    border:none;\n"
@@ -119,10 +114,8 @@ class Ui_todoWidget(object):
         self.stackedWidget = QtWidgets.QStackedWidget(self.mainWidget)
         self.stackedWidget.setStyleSheet("QStackedWidget{\n"
 "    background:rgba(255, 255, 255, 0);\n"
-"    border-right:1px solid gray;\n"
-"    border-left:1px solid gray;\n"
-"    border-bottom:1px solid gray;\n"
 "}\n"
+"\n"
 "QStackedWidget>QWidget{\n"
 "    background:rgba(26, 26, 26, 120);\n"
 "}")

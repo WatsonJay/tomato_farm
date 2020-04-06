@@ -29,7 +29,7 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
         self.taskRan = False
         self.messageView = messageWidgetImpl()
         self.conffirst = log.getlogger('gui')
-        self.sqlite = sqlite('./config/tomato.db')
+        self.sqlite = sqlite('/config/tomato.db')
 
     # 任务刷新
     def refreshAll(self):
@@ -62,7 +62,6 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
     # 加载过期任务
     def loadOverdueTask(self):
         self.overdueListWidget.clear()
-        now = str(datetime.date.today())
         try:
             sql = '''select tbt.id, tbt.task_name, tbt.task_during, ttld.is_doing from t_base_task tbt
                   join t_task_link_date ttld on tbt.id = ttld.task_id

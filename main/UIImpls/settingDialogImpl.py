@@ -9,6 +9,7 @@ from UI.settingDialog import Ui_settingDialog
 from UIImpls.noBorderImpl import noBorderImpl
 from UIImpls.tipImpl import tipImpl
 from util.loadConf import config
+from util.winReg import winReg
 
 
 class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
@@ -18,6 +19,7 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
         super(settingDialogImpl, self).__init__(parent)
         self.setupUi(self)
         self.conf = config()
+        self.reg = winReg()
         self.loadConf()
         self.buttonBox.accepted.connect(self.saveConf)
 
@@ -36,6 +38,10 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
         self.gitNameEdit.setText(self.conf.getOption('github', 'username'))
         self.gitPasswordEdit.setText(self.conf.decrypt(self.conf.getOption('github', 'password')))
         self.gitProgramEdit.setText(self.conf.getOption('github', 'projectname'))
+        if self.conf.getOption('system', 'autoOn') == "True":
+            self.autoOnButton.setChecked(True)
+        else:
+            self.autoOffButton.setChecked(True)
 
     # 保存配置
     def saveConf(self):
@@ -52,4 +58,16 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
         self.conf.addoption('github', 'username', self.gitNameEdit.text())
         self.conf.addoption('github', 'password', self.conf.encrypt(self.gitPasswordEdit.text()))
         self.conf.addoption('github', 'projectname', self.gitProgramEdit.text())
+        try:
+            if self.autoOnButton.isChecked():
+                if self.reg.checkName():
+                    self.reg.deleteReg()
+                self.reg.addReg()
+                self.conf.addoption('system', 'autoOn', "True")
+            else:
+                self.reg.deleteReg()
+                self.conf.addoption('system', 'autoOn', "False")
+        except:
+            self.conf.addoption('system', 'autoOn', "False")
         self.accept()
+

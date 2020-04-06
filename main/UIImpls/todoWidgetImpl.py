@@ -19,7 +19,7 @@ from util.loadData import sqlite
 from util.logger import logger
 
 
-class todoWidgetImpl(QWidget, Ui_todoWidget, noBorderImpl):
+class todoWidgetImpl(QWidget, Ui_todoWidget):
     # 信号槽
     taskStartSignal = pyqtSignal(dict)
     taskRefreshSignal = pyqtSignal()
@@ -29,6 +29,7 @@ class todoWidgetImpl(QWidget, Ui_todoWidget, noBorderImpl):
         super(todoWidgetImpl, self).__init__(parent)
         self.setupUi(self)
         self.flag = False
+        self.unLock = False
         self.mouseflag = False
         self.taskRan = False
         log = logger()
@@ -37,9 +38,9 @@ class todoWidgetImpl(QWidget, Ui_todoWidget, noBorderImpl):
         self.showHideWidget.setVisible(False)
         self.conf = config()
         self.checkLock()
-        self.sqlite = sqlite('./config/tomato.db')
+        self.sqlite = sqlite('/config/tomato.db')
         self.move(int(self.conf.getOption('todoList', 'placeX')), int(self.conf.getOption('todoList', 'placeY')))
-        self.lockButton.clicked.connect(self.lockStatus) #锁定/解锁
+        self.lockButton.clicked.connect(self.checkLock) #锁定/解锁
         self.changeButton.clicked.connect(self.changeCurrentPage) #切换当前页面
 
     #重定义展示
@@ -148,18 +149,7 @@ class todoWidgetImpl(QWidget, Ui_todoWidget, noBorderImpl):
     # 锁定检查
     def checkLock(self):
         icon = QtGui.QIcon()
-        if self.conf.getOption('todoList', 'unlock') == False:
-            self.unLock = False
-            icon.addPixmap(QtGui.QPixmap(":/icon/lock.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        else:
-            self.unLock = True
-            icon.addPixmap(QtGui.QPixmap(":/icon/unlock.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.lockButton.setIcon(icon)
-
-    # 锁定/解锁
-    def lockStatus(self):
-        icon = QtGui.QIcon()
-        if self.unLock == True:
+        if self.conf.getOption('todoList', 'unlock') == False or self.unLock == True:
             self.unLock = False
             icon.addPixmap(QtGui.QPixmap(":/icon/lock.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         else:
@@ -215,3 +205,32 @@ class todoWidgetImpl(QWidget, Ui_todoWidget, noBorderImpl):
         widgetGeom = self.geometry()
         self.conf.addoption('todoList', 'placeX', str(widgetGeom.x()))
         self.conf.addoption('todoList', 'placeY', str(widgetGeom.y()))
+
+    # 无边框移动窗体
+    def mousePressEvent(self, QMouseEvent):
+        try:
+            if QMouseEvent.button() == QtCore.Qt.LeftButton and self.unLock:
+                self.flag = True
+                self.m_Position = QMouseEvent.globalPos() - self.pos()
+                self.setCursor(QtCore.Qt.ClosedHandCursor)
+                QMouseEvent.accept()
+        except Exception as e:
+            self.confnoborder.error(e)
+            pass
+
+    def mouseMoveEvent(self, QMouseEvent):
+        try:
+            if QtCore.Qt.LeftButton and self.flag and self.unLock:
+                self.move(QMouseEvent.globalPos() - self.m_Position)
+                QMouseEvent.accept()
+        except Exception as e:
+            self.confnoborder.error(e)
+            pass
+
+    def mouseReleaseEvent(self, QMouseEvent):
+        try:
+            self.flag = False
+            self.setCursor(QtCore.Qt.ArrowCursor)
+        except Exception as e:
+            self.confnoborder.error(e)
+            pass

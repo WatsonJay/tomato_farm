@@ -6,6 +6,7 @@
 import configparser
 import os
 import re
+import sys
 
 from Crypto.Cipher import AES
 from binascii import b2a_hex, a2b_hex
@@ -14,10 +15,11 @@ from util.logger import logger
 class config:
     def __init__(self, key=')_9-+klo@c4t$k$w'):
         log = logger()
+        self.path = os.path.dirname(os.path.realpath(sys.argv[0]))
         self.conflog = log.getlogger('conf')
         self.key = key.encode('utf-8')
         self.mode = AES.MODE_CBC
-        self.dirs = os.path.abspath('.')+"/config/"
+        self.dirs = self.path+"/config/"
         self.fileName = "config.ini"
 
     def remove_BOM(self,config_path):

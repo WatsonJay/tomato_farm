@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icon">
+    <file>todo.png</file>
     <file>copy.png</file>
     <file>cut.png</file>
     <file>paste.png</file>
