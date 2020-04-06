@@ -245,7 +245,7 @@ QTabWidget::pane{
            <number>15</number>
           </property>
           <item row="0" column="0">
-           <widget class="QLabel" name="label_7">
+           <widget class="QLabel" name="label_6">
             <property name="font">
              <font>
               <family>Microsoft YaHei UI</family>
@@ -253,14 +253,14 @@ QTabWidget::pane{
              </font>
             </property>
             <property name="text">
-             <string>系统锁：</string>
+             <string>桌面任务：</string>
             </property>
            </widget>
           </item>
           <item row="0" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
-             <widget class="QRadioButton" name="sysLockOnButton">
+             <widget class="QRadioButton" name="todoOnButton">
               <property name="font">
                <font>
                 <family>Microsoft YaHei UI</family>
@@ -268,7 +268,7 @@ QTabWidget::pane{
                </font>
               </property>
               <property name="text">
-               <string>开启</string>
+               <string>启用</string>
               </property>
               <attribute name="buttonGroup">
                <string notr="true">buttonGroup</string>
@@ -276,7 +276,7 @@ QTabWidget::pane{
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="sysLockOffButton">
+             <widget class="QRadioButton" name="todoOffButton">
               <property name="font">
                <font>
                 <family>Microsoft YaHei UI</family>
@@ -284,7 +284,7 @@ QTabWidget::pane{
                </font>
               </property>
               <property name="text">
-               <string>关闭</string>
+               <string>禁用</string>
               </property>
               <attribute name="buttonGroup">
                <string notr="true">buttonGroup</string>
@@ -294,7 +294,7 @@ QTabWidget::pane{
            </layout>
           </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="label_2">
+           <widget class="QLabel" name="label_8">
             <property name="font">
              <font>
               <family>Microsoft YaHei UI</family>
@@ -302,18 +302,60 @@ QTabWidget::pane{
              </font>
             </property>
             <property name="text">
-             <string>密码：</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="sysLockPassEdit">
-            <property name="echoMode">
-             <enum>QLineEdit::Password</enum>
+             <string>开机自启动：</string>
             </property>
            </widget>
           </item>
           <item row="2" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>关闭提醒：</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QRadioButton" name="autoOnButton">
+              <property name="font">
+               <font>
+                <family>Microsoft YaHei UI</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>是</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_3</string>
+              </attribute>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="autoOffButton">
+              <property name="font">
+               <font>
+                <family>Microsoft YaHei UI</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>否</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_3</string>
+              </attribute>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="0">
            <widget class="QLabel" name="label_3">
             <property name="font">
              <font>
@@ -327,6 +369,42 @@ QTabWidget::pane{
            </widget>
           </item>
           <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QRadioButton" name="closeTipOnButton">
+              <property name="font">
+               <font>
+                <family>Microsoft YaHei</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>开启</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_4</string>
+              </attribute>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="closeTipOffButton">
+              <property name="font">
+               <font>
+                <family>Microsoft YaHei</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>关闭</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_4</string>
+              </attribute>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
              <widget class="QLabel" name="label_4">
@@ -420,8 +498,34 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
             </item>
            </layout>
           </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_6">
+         </layout>
+        </widget>
+        <widget class="QWidget" name="safeTab">
+         <property name="styleSheet">
+          <string notr="true">QWidget&gt;QLineEdit{
+	border:1px solid gray;
+    border-radius:10px;
+    padding:2px 4px;
+}</string>
+         </property>
+         <attribute name="title">
+          <string>安全设置</string>
+         </attribute>
+         <layout class="QFormLayout" name="formLayout_3">
+          <property name="horizontalSpacing">
+           <number>3</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>15</number>
+          </property>
+          <property name="leftMargin">
+           <number>15</number>
+          </property>
+          <property name="rightMargin">
+           <number>15</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_7">
             <property name="font">
              <font>
               <family>Microsoft YaHei UI</family>
@@ -429,48 +533,12 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
              </font>
             </property>
             <property name="text">
-             <string>桌面任务：</string>
+             <string>系统锁：</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QRadioButton" name="todoOnButton">
-              <property name="font">
-               <font>
-                <family>Microsoft YaHei UI</family>
-                <pointsize>10</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>启用</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">buttonGroup_2</string>
-              </attribute>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="todoOffButton">
-              <property name="font">
-               <font>
-                <family>Microsoft YaHei UI</family>
-                <pointsize>10</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>禁用</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">buttonGroup_2</string>
-              </attribute>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_8">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
             <property name="font">
              <font>
               <family>Microsoft YaHei UI</family>
@@ -478,14 +546,21 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
              </font>
             </property>
             <property name="text">
-             <string>开机自启动</string>
+             <string>密码：</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="sysLockPassEdit">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QRadioButton" name="autoOnButton">
+             <widget class="QRadioButton" name="sysLockOnButton">
               <property name="font">
                <font>
                 <family>Microsoft YaHei UI</family>
@@ -493,12 +568,15 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
                </font>
               </property>
               <property name="text">
-               <string>是</string>
+               <string>开启</string>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_2</string>
+              </attribute>
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="autoOffButton">
+             <widget class="QRadioButton" name="sysLockOffButton">
               <property name="font">
                <font>
                 <family>Microsoft YaHei UI</family>
@@ -506,8 +584,11 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
                </font>
               </property>
               <property name="text">
-               <string>否</string>
+               <string>关闭</string>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_2</string>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -729,5 +810,7 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
  <buttongroups>
   <buttongroup name="buttonGroup_2"/>
   <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_3"/>
+  <buttongroup name="buttonGroup_4"/>
  </buttongroups>
 </ui>

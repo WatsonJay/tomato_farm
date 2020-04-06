@@ -35,9 +35,18 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
             self.todoOnButton.setChecked(True)
         else:
             self.todoOffButton.setChecked(True)
+        if self.conf.getOption('system', 'closeTip') == "True":
+            self.closeTipOnButton.setChecked(True)
+        else:
+            self.closeTipOffButton.setChecked(True)
         self.gitNameEdit.setText(self.conf.getOption('github', 'username'))
         self.gitPasswordEdit.setText(self.conf.decrypt(self.conf.getOption('github', 'password')))
         self.gitProgramEdit.setText(self.conf.getOption('github', 'projectname'))
+        try:
+            if not self.autoOnButton.isChecked():
+                self.conf.addoption('system', 'autoOn', "False")
+        except:
+            pass
         if self.conf.getOption('system', 'autoOn') == "True":
             self.autoOnButton.setChecked(True)
         else:
@@ -55,6 +64,10 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
             self.conf.addoption('system', 'todoshow', "True")
         else:
             self.conf.addoption('system', 'todoshow', "False")
+        if self.closeTipOnButton.isChecked():
+            self.conf.addoption('system', 'closetip', "True")
+        else:
+            self.conf.addoption('system', 'closetip', "False")
         self.conf.addoption('github', 'username', self.gitNameEdit.text())
         self.conf.addoption('github', 'password', self.conf.encrypt(self.gitPasswordEdit.text()))
         self.conf.addoption('github', 'projectname', self.gitProgramEdit.text())
@@ -63,11 +76,11 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
                 if self.reg.checkName():
                     self.reg.deleteReg()
                 self.reg.addReg()
-                self.conf.addoption('system', 'autoOn', "True")
+                self.conf.addoption('system', 'autoon', "True")
             else:
                 self.reg.deleteReg()
-                self.conf.addoption('system', 'autoOn', "False")
+                self.conf.addoption('system', 'autoon', "False")
         except:
-            self.conf.addoption('system', 'autoOn', "False")
+            self.conf.addoption('system', 'autoon', "False")
         self.accept()
 

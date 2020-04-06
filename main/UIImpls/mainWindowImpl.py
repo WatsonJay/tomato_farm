@@ -408,7 +408,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
 
     #重写关闭事件
     def closeEvent(self, event):
-        if self.closeNow:
+        if self.closeNow and self.conf.getOption('system', 'closetip') == 'True':
             msgBox = QMessageBox()
             msgBox.setWindowTitle('番茄农场')
             msgBox.setIcon(QMessageBox.Question)
@@ -423,8 +423,23 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             if reply == 0:
                 event.ignore()
                 self.hide()
+                self.conf.addoption('system', 'closeioperate', "tray")
             else:
                 self.todolist.close()
                 event.accept()
                 self.mSysTrayIcon.hide()
+                self.conf.addoption('system', 'closeioperate', "close")
+            if cb.checkState() == 2:
+                self.conf.addoption('system', 'closetip', 'False')
+        elif self.closeNow and self.conf.getOption('system', 'closetip') == 'False':
+            if self.conf.getOption('system', 'closeioperate') == 'tray':
+                event.ignore()
+                self.hide()
+            else:
+                self.todolist.close()
+                event.accept()
+                self.mSysTrayIcon.hide()
+
+
+
 

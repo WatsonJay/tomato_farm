@@ -6,14 +6,14 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_settingDialog(object):
     def setupUi(self, settingDialog):
         settingDialog.setObjectName("settingDialog")
-        settingDialog.resize(415, 288)
-        self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
+        settingDialog.resize(415, 298)
         self.verticalLayout = QtWidgets.QVBoxLayout(settingDialog)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(0)
@@ -419,8 +419,6 @@ class Ui_settingDialog(object):
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
         self.buttonBox.setCenterButtons(True)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText("取消")
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Save).setText("保存")
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout_2.addWidget(self.buttonBox)
         self.verticalLayout.addWidget(self.mainWidget)
@@ -428,6 +426,7 @@ class Ui_settingDialog(object):
 
         self.retranslateUi(settingDialog)
         self.tabWidget.setCurrentIndex(0)
+        self.buttonBox.accepted.connect(settingDialog.accept)
         self.buttonBox.rejected.connect(settingDialog.reject)
         self.closePushButton.clicked.connect(settingDialog.reject)
         QtCore.QMetaObject.connectSlotsByName(settingDialog)
@@ -459,5 +458,4 @@ class Ui_settingDialog(object):
         self.gitProgramLabel.setText(_translate("settingDialog", "创建项目名："))
         self.linkLabel.setText(_translate("settingDialog", "生成的链接串："))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.gitTab), _translate("settingDialog", "github信息"))
-
-import UI.icons_rc
+import icons_rc

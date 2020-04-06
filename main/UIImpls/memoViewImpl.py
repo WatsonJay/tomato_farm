@@ -53,7 +53,7 @@ class memoViewImpl(QWidget, Ui_memoView, tipImpl):
             msgBox = QMessageBox()
             msgBox.setWindowTitle('保存')
             msgBox.setIcon(QMessageBox.Question)
-            msgBox.setInformativeText("是否保存对'{0}'的修改?".format(self.title))
+            msgBox.setText("是否保存对'{0}'的修改?".format(self.title))
             yes = msgBox.addButton('是', QMessageBox.YesRole)
             no = msgBox.addButton('否', QMessageBox.NoRole)
             cancle = msgBox.addButton('取消', QMessageBox.RejectRole)

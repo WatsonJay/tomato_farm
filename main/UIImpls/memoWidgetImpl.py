@@ -196,6 +196,8 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
                 if "file" in itemSelect.sign:
                     icon.addPixmap(QPixmap(":/icon/del_file.png"), QIcon.Normal, QIcon.Off)
                     delNodeAction = QAction(icon, '删除备忘', self)
+                    delNodeAction.triggered.connect(
+                        lambda: self.deleteNode(self.treeWidget.currentItem()))
                     rightMenu.addAction(delNodeAction)
                 else:
                     icon.addPixmap(QPixmap(":/icon/add_file.png"), QIcon.Normal, QIcon.Off)
@@ -295,10 +297,13 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         parent = node.parent()
         parent.removeChild(node)
         sql = "Delete from t_base_node where id = ?"
-        self.sqlite.execute(sql, node.nodeData[""])
+        self.sqlite.execute(sql, node.nodeData["id"])
         if node.nodeData["memo_id"] != "":
             sql = "Delete from t_memo_detail where id = ?"
             self.sqlite.execute(sql, node.nodeData["memo_id"])
+            memo = self.checkMemoOpen(node.nodeData["memo_id"])
+            memo.close()
+
 
     # 节点信息检查
     def nodeInfo(self, node, type):
