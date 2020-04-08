@@ -39,9 +39,9 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
             self.closeTipOnButton.setChecked(True)
         else:
             self.closeTipOffButton.setChecked(True)
-        self.gitNameEdit.setText(self.conf.getOption('github', 'username'))
-        self.gitPasswordEdit.setText(self.conf.decrypt(self.conf.getOption('github', 'password')))
-        self.gitProgramEdit.setText(self.conf.getOption('github', 'projectname'))
+        self.gitNameEdit.setText(self.conf.getOption('webDav', 'username'))
+        self.gitPasswordEdit.setText(self.conf.decrypt(self.conf.getOption('webDav', 'password')))
+        self.gitProgramEdit.setText(self.conf.getOption('webDav', 'url'))
         try:
             if not self.autoOnButton.isChecked():
                 self.conf.addoption('system', 'autoOn', "False")
@@ -68,9 +68,9 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
             self.conf.addoption('system', 'closetip', "True")
         else:
             self.conf.addoption('system', 'closetip', "False")
-        self.conf.addoption('github', 'username', self.gitNameEdit.text())
-        self.conf.addoption('github', 'password', self.conf.encrypt(self.gitPasswordEdit.text()))
-        self.conf.addoption('github', 'projectname', self.gitProgramEdit.text())
+        self.conf.addoption('webDav', 'username', self.gitNameEdit.text())
+        self.conf.addoption('webDav', 'password', self.conf.encrypt(self.gitPasswordEdit.text()))
+        self.conf.addoption('webDav', 'url', self.gitProgramEdit.text())
         try:
             if self.autoOnButton.isChecked():
                 if self.reg.checkName():
