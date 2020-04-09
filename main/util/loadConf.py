@@ -117,6 +117,7 @@ class config:
             cryptor = AES.new(self.key,self.mode,self.key)
             length = 16
             count = len(text)
+            add = 0
             if count < length:
                 add = (length - count)
             elif count > length:

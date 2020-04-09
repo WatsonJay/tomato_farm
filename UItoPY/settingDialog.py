@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'settingDialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.2
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,9 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_settingDialog(object):
     def setupUi(self, settingDialog):
         settingDialog.setObjectName("settingDialog")
-        settingDialog.resize(415, 288)
-        self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
+        settingDialog.resize(424, 308)
         self.verticalLayout = QtWidgets.QVBoxLayout(settingDialog)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(0)
@@ -428,15 +426,14 @@ class Ui_settingDialog(object):
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
         self.buttonBox.setCenterButtons(True)
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Cancel).setText("取消")
-        self.buttonBox.button(QtWidgets.QDialogButtonBox.Save).setText("保存")
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout_2.addWidget(self.buttonBox)
         self.verticalLayout.addWidget(self.mainWidget)
         self.verticalLayout.setStretch(1, 9)
 
         self.retranslateUi(settingDialog)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
+        self.buttonBox.accepted.connect(settingDialog.accept)
         self.buttonBox.rejected.connect(settingDialog.reject)
         self.closePushButton.clicked.connect(settingDialog.reject)
         QtCore.QMetaObject.connectSlotsByName(settingDialog)
@@ -469,7 +466,7 @@ class Ui_settingDialog(object):
         self.label_10.setText(_translate("settingDialog", "启用备份："))
         self.davOnButton.setText(_translate("settingDialog", "启用"))
         self.davOffButton.setText(_translate("settingDialog", "禁用"))
-        self.label_11.setText(_translate("settingDialog", "如果是坚果云，似乎/dav/这个文件夹不能访问，在下面再建一个文件夹，比如backup。坚果云密码为应用密码"))
+        self.label_11.setText(_translate("settingDialog", "如果是坚果云，似乎这个文件夹不能访问，在下面再建一个文件夹，比如backup。坚果云密码为应用密码"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.gitTab), _translate("settingDialog", "webDav同步"))
 
-import UI.icons_rc
+import icons_rc

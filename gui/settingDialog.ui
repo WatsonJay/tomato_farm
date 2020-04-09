@@ -216,7 +216,7 @@ QTabWidget::pane{
 </string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="sysTab">
          <property name="styleSheet">
@@ -639,7 +639,7 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QLineEdit" name="gitNameEdit"/>
+           <widget class="QLineEdit" name="davNameEdit"/>
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="gitPasswordLabel">
@@ -655,7 +655,7 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QLineEdit" name="gitPasswordEdit">
+           <widget class="QLineEdit" name="davPasswordEdit">
             <property name="echoMode">
              <enum>QLineEdit::Password</enum>
             </property>
@@ -675,7 +675,7 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="gitProgramEdit"/>
+           <widget class="QLineEdit" name="davUrlEdit"/>
           </item>
           <item row="0" column="0">
            <widget class="QLabel" name="label_10">
@@ -693,7 +693,7 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
           <item row="0" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_7">
             <item>
-             <widget class="QRadioButton" name="radioButton_2">
+             <widget class="QRadioButton" name="davOnButton">
               <property name="font">
                <font>
                 <family>Microsoft YaHei UI</family>
@@ -705,7 +705,7 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radioButton">
+             <widget class="QRadioButton" name="davOffButton">
               <property name="font">
                <font>
                 <family>Microsoft YaHei UI</family>
@@ -816,8 +816,8 @@ QDoubleSpinBox::down-button:pressed,QSpinBox::down-button:pressed{
  </connections>
  <buttongroups>
   <buttongroup name="buttonGroup_3"/>
-  <buttongroup name="buttonGroup_4"/>
   <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup_4"/>
   <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>

@@ -23,7 +23,7 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
         self.loadConf()
         self.buttonBox.accepted.connect(self.saveConf)
 
-    #加载配置i
+    #加载配置
     def loadConf(self):
         if self.conf.decrypt(self.conf.getOption('system', 'islock')) == "True":
             self.sysLockOnButton.setChecked(True)
@@ -39,9 +39,6 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
             self.closeTipOnButton.setChecked(True)
         else:
             self.closeTipOffButton.setChecked(True)
-        self.gitNameEdit.setText(self.conf.getOption('webDav', 'username'))
-        self.gitPasswordEdit.setText(self.conf.decrypt(self.conf.getOption('webDav', 'password')))
-        self.gitProgramEdit.setText(self.conf.getOption('webDav', 'url'))
         try:
             if not self.autoOnButton.isChecked():
                 self.conf.addoption('system', 'autoOn', "False")
@@ -51,6 +48,13 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
             self.autoOnButton.setChecked(True)
         else:
             self.autoOffButton.setChecked(True)
+        if self.conf.getOption('webDav', 'enable') == "True":
+            self.davOnButton.setChecked(True)
+        else:
+            self.davOffButton.setChecked(True)
+        self.davNameEdit.setText(self.conf.decrypt(self.conf.getOption('webDav', 'username')))
+        self.davPasswordEdit.setText(self.conf.decrypt(self.conf.getOption('webDav', 'password')))
+        self.davUrlEdit.setText(self.conf.decrypt(self.conf.getOption('webDav', 'url')))
 
     # 保存配置
     def saveConf(self):
@@ -68,9 +72,6 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
             self.conf.addoption('system', 'closetip', "True")
         else:
             self.conf.addoption('system', 'closetip', "False")
-        self.conf.addoption('webDav', 'username', self.gitNameEdit.text())
-        self.conf.addoption('webDav', 'password', self.conf.encrypt(self.gitPasswordEdit.text()))
-        self.conf.addoption('webDav', 'url', self.gitProgramEdit.text())
         try:
             if self.autoOnButton.isChecked():
                 if self.reg.checkName():
@@ -82,5 +83,12 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
                 self.conf.addoption('system', 'autoon', "False")
         except:
             self.conf.addoption('system', 'autoon', "False")
+        if self.davOnButton.isChecked():
+            self.conf.addoption('webDav', 'enable', "True")
+        else:
+            self.conf.addoption('webDav', 'enable', "False")
+        self.conf.addoption('webDav', 'username', self.conf.encrypt(self.davNameEdit.text()))
+        self.conf.addoption('webDav', 'password', self.conf.encrypt(self.davPasswordEdit.text()))
+        self.conf.addoption('webDav', 'url', self.conf.encrypt(self.davUrlEdit.text()))
         self.accept()
 
