@@ -49,7 +49,7 @@ class memoViewImpl(QWidget, Ui_memoView, tipImpl):
         self.titleChangeSignal.emit(self.data['id'],self.title)
 
     def closeEvent(self, event):
-        if self.isModified():
+        if self.textEdit.document().isModified():
             msgBox = QMessageBox()
             msgBox.setWindowTitle('保存')
             msgBox.setIcon(QMessageBox.Question)
@@ -60,8 +60,9 @@ class memoViewImpl(QWidget, Ui_memoView, tipImpl):
             msgBox.setDefaultButton(yes)
             reply = msgBox.exec()
             if reply == 0:
+                event.accept()
                 self.closeSignal.emit()
-            if reply == 1:
-                self.close()
+            elif reply == 1:
+                event.accept()
             else:
                 event.ignore()

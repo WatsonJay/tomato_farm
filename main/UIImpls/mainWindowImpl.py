@@ -28,6 +28,7 @@ from util.loadConf import config
 from util.loadData import sqlite
 import UI.icons_rc
 from util.logger import logger
+from util.webDavService import webDavService
 
 
 class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
@@ -37,6 +38,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     taskCheckSignal = pyqtSignal(bool)
     coinRefreshSignal = pyqtSignal()
     rateRefreshSignal = pyqtSignal()
+    allRefreshSignal = pyqtSignal()
 
     # 初始化
     def __init__(self, parent=None):
@@ -45,16 +47,20 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.conf = config()
         self.closeNow = True
         self.task = {}
+        self.webDav = webDavService()
+        if self.conf.getOption('webDav', 'enable') == "True":
+            self.webDav.download('/config/tomato.db')
         self.sqlite = sqlite('/config/tomato.db')
         log = logger()
         self.confmain = log.getlogger('gui')
         self.trayIcon()
         self.checkOverdue()
+        self.timer = QTimer()
+
 
         #界面初始化
         self.unlockDialog = unlockDialogImpl()
         self.settingDialog = settingDialogImpl()
-        self.timer = QTimer()
         self.miniBar = miniBarImpl()
         self.todolist = todoWidgetImpl()
         self.messageView = messageWidgetImpl()
@@ -76,6 +82,11 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.reloadConf()
 
         #信号绑定
+        self.allRefreshSignal.connect(self.firstWidget.refreshAll)
+        self.allRefreshSignal.connect(statisWidget.refreshAll)
+        self.allRefreshSignal.connect(self.taskWidget.refreshAll)
+        self.allRefreshSignal.connect(memoWidget.loadTree)
+        self.allRefreshSignal.connect(marketWidget.refreshAll)
         self.taskRefreshSignal.connect(self.firstWidget.refreshAll)
         self.taskRefreshSignal.connect(statisWidget.refreshAll)
         self.taskRefreshSignal.connect(self.taskWidget.refreshAll)
@@ -91,8 +102,8 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.firstWidget.taskRefreshSignal.connect(self.taskWidget.refreshAll)
         self.taskWidget.taskRefreshSignal.connect(self.firstWidget.refreshAll)
         self.firstWidget.taskStartSignal.connect(self.taskStart)
-
         self.coinRefreshSignal.emit()
+
         #功能绑定
         self.firstPageButton.clicked.connect(lambda:self.stackedWidget.setCurrentIndex(0))
         self.statisButton.clicked.connect(lambda: self.stackedWidget.setCurrentIndex(1))
@@ -156,6 +167,8 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     def setting(self):
         if self.settingDialog.exec() == QDialog.Accepted:
             self.reloadConf()
+            if self.conf.getOption('webDav', 'enable') == "True":
+                self.allRefreshSignal.emit()
 
     # 介绍
     def infoDialog(self):

@@ -7,7 +7,9 @@ import os
 import sqlite3
 import sys
 
+from util.loadConf import config
 from util.logger import logger
+from util.webDavService import webDavService
 
 
 class sqlite:
@@ -15,7 +17,9 @@ class sqlite:
         self.file = filePath
         self.path = os.path.dirname(os.path.realpath(sys.argv[0]))
         log = logger()
+        self.conf = config()
         self.confsql = log.getlogger('conf')
+        self.webDav = webDavService()
         try:
             self.conn = sqlite3.connect(self.path+self.file, timeout=5)
             if (self.conn is None):
@@ -50,6 +54,9 @@ class sqlite:
             cursor = self.conn.cursor()
             res = cursor.execute(sql, args).fetchall()
             self.conn.commit()
+            # 备份被修改的文件
+            if self.conf.getOption('webDav', 'enable') == "True":
+                self.webDav.upload(self.file)
             return res
         except Exception as e:
             self.confsql.error(e)

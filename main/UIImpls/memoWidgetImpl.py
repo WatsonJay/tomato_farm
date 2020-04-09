@@ -590,4 +590,5 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
                 self.sqlite.execute(sql,[data['memo_id'],sub.textEdit.toHtml(),sub.textEdit.toPlainText()[:50]])
             else:
                 self.Tips("请输入标题")
+            sub.textEdit.document().setModified(False)
 

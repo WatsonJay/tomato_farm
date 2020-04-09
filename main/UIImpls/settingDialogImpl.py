@@ -9,6 +9,7 @@ from UI.settingDialog import Ui_settingDialog
 from UIImpls.noBorderImpl import noBorderImpl
 from UIImpls.tipImpl import tipImpl
 from util.loadConf import config
+from util.webDavService import webDavService
 from util.winReg import winReg
 
 
@@ -85,6 +86,8 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
             self.conf.addoption('system', 'autoon', "False")
         if self.davOnButton.isChecked():
             self.conf.addoption('webDav', 'enable', "True")
+            webDav = webDavService()
+            webDav.download('/config/tomato.db')
         else:
             self.conf.addoption('webDav', 'enable', "False")
         self.conf.addoption('webDav', 'username', self.conf.encrypt(self.davNameEdit.text()))

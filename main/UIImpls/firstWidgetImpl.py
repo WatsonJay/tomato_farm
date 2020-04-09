@@ -36,6 +36,7 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
         self.loadTodayTask()
         self.loadOverdueTask()
         self.loadTaskCount()
+        self.refreshAllCoin()
 
     # 番茄币刷新
     def refreshAllCoin(self):

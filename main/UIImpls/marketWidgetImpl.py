@@ -44,6 +44,11 @@ class marketWidgetImpl(QWidget, Ui_marketWidget, tipImpl):
         self.listWidget.clicked.connect(self.showCommodity)
         self.buyButton.clicked.connect(self.buyCommodity)
 
+    def refreshAll(self):
+        self.getRate()
+        self.loadMarket()
+        self.sumCoin()
+
     #获得换算率
     def getRate(self):
         self.tomatoRate = float(self.conf.getOption('system', 'tomatoRate'))
