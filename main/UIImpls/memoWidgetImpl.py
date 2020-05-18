@@ -46,6 +46,8 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         self.fileTableWidget.doubleClicked.connect(self.tableOpenMemo)
         # 文件编辑功能
         self.searchWidget.setVisible(False)
+        self.seachCountWidget.setVisible(False)
+        self.mdiArea.subWindowActivated.connect(self.articleCountFun)
         self.copyButton.clicked.connect(self.fileCopy)
         self.cutButton.clicked.connect(self.fileCut)
         self.pasteButton.clicked.connect(self.filePaste)
@@ -269,6 +271,7 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             memoView.show()
             memoView.titleChangeSignal.connect(self.changeTitle)
             memoView.closeSignal.connect(self.fileSave)
+            memoView.countSignal.connect(self.articleCountFun)
             self.stackedWidget.setCurrentIndex(1)
         else:
             self.Tips("未选择节点")
@@ -383,8 +386,10 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
                     memoView.show()
                     memoView.titleChangeSignal.connect(self.changeTitle)
                     memoView.closeSignal.connect(self.fileSave)
+                    memoView.countSignal.connect(self.articleCountFun)
                 else:
                     self.mdiArea.setActiveSubWindow(memo)
+                self.windowCountLabel.setText(str(len(self.mdiArea.subWindowList())))
                 self.stackedWidget.setCurrentIndex(1)
             elif "folder" in node.sign:
                 sql = "select memo_id,node_name,connect_date,memo_temp from v_memo_list where parent_id = ?"
@@ -460,6 +465,7 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             memoView.show()
             memoView.titleChangeSignal.connect(self.changeTitle)
             memoView.closeSignal.connect(self.fileSave)
+            memoView.countSignal.connect(self.articleCountFun)
         else:
             self.mdiArea.setActiveSubWindow(memo)
         self.stackedWidget.setCurrentIndex(1)
@@ -563,6 +569,8 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
     def serchBarChange(self):
         visiable = self.searchWidget.isVisible()
         self.searchWidget.setVisible(not visiable)
+        self.seachCountWidget.setVisible(not visiable)
+
 
     # 搜索
     def fileSearch(self):
@@ -592,3 +600,11 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
                 self.Tips("请输入标题")
             sub.textEdit.document().setModified(False)
 
+    #统计当前文章字数
+    def articleCountFun(self):
+        try:
+            sub = self.mdiArea.activeSubWindow().widget()
+            count = len(sub.textEdit.toPlainText())
+            self.articleCountLabel.setText(str(count))
+        except:
+            pass

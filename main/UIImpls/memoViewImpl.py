@@ -13,6 +13,7 @@ from UIImpls.tipImpl import tipImpl
 class memoViewImpl(QWidget, Ui_memoView, tipImpl):
     # 信号槽
     closeSignal = pyqtSignal()
+    countSignal = pyqtSignal()
     titleChangeSignal = pyqtSignal(str,str)
 
     # 初始化
@@ -27,6 +28,7 @@ class memoViewImpl(QWidget, Ui_memoView, tipImpl):
         self.tempKeyWord = ""
         self.titleLabel.doubleClicked.connect(self.editTitle)
         self.lineEdit.returnPressed.connect(self.titleSave)
+        self.textEdit.textChanged.connect(self.articleCount)
 
     # 编辑标题
     def editTitle(self):
@@ -66,3 +68,6 @@ class memoViewImpl(QWidget, Ui_memoView, tipImpl):
                 event.accept()
             else:
                 event.ignore()
+
+    def articleCount(self):
+        self.countSignal.emit()
