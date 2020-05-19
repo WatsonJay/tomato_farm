@@ -71,6 +71,7 @@ class sqlite:
             res = 0
             if (resString):
                 res = int(resString)
+            return res
         except Exception as e:
             self.confsql.error(e)
             raise e

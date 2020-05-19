@@ -46,7 +46,6 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         self.fileTableWidget.doubleClicked.connect(self.tableOpenMemo)
         # 文件编辑功能
         self.searchWidget.setVisible(False)
-        self.seachCountWidget.setVisible(False)
         self.mdiArea.subWindowActivated.connect(self.articleCountFun)
         self.copyButton.clicked.connect(self.fileCopy)
         self.cutButton.clicked.connect(self.fileCut)
@@ -569,7 +568,6 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
     def serchBarChange(self):
         visiable = self.searchWidget.isVisible()
         self.searchWidget.setVisible(not visiable)
-        self.seachCountWidget.setVisible(not visiable)
 
 
     # 搜索

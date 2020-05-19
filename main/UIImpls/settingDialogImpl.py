@@ -3,12 +3,13 @@
 # @Author  : Jaywatson
 # @File    : settingDialogImpl.py
 # @Soft    : tomato_farm
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QDialog, QMessageBox
 
 from UI.settingDialog import Ui_settingDialog
 from UIImpls.noBorderImpl import noBorderImpl
 from UIImpls.tipImpl import tipImpl
 from util.loadConf import config
+from util.loadData import sqlite
 from util.webDavService import webDavService
 from util.winReg import winReg
 
@@ -23,6 +24,8 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
         self.reg = winReg()
         self.loadConf()
         self.buttonBox.accepted.connect(self.saveConf)
+        self.sqlite = sqlite('/config/tomato.db')
+
 
     #加载配置
     def loadConf(self):
@@ -85,13 +88,43 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
         except:
             self.conf.addoption('system', 'autoon', "False")
         if self.davOnButton.isChecked():
-            self.conf.addoption('webDav', 'enable', "True")
             webDav = webDavService()
-            webDav.download('/config/tomato.db')
+            if self.chekDbUsed():
+                webDav.download('/config/tomato.db')
+            else:
+                msgBox = QMessageBox()
+                msgBox.setWindowTitle('文件存在差异')
+                msgBox.setIcon(QMessageBox.Question)
+                msgBox.setText("本地文件已被修改，与云端数据可能不符，可能数据丢失")
+                msgBox.setInformativeText("你需要哪个操作？")
+                yes = msgBox.addButton('覆盖本地', QMessageBox.YesRole)
+                no = msgBox.addButton('覆盖云端', QMessageBox.NoRole)
+                cancle = msgBox.addButton('取消', QMessageBox.RejectRole)
+                msgBox.setDefaultButton(yes)
+                reply = msgBox.exec()
+                if reply == 0:
+                    webDav.download('/config/tomato.db')
+                    self.conf.addoption('webDav', 'enable', "True")
+                elif reply == 1:
+                    webDav.upload('/config/tomato.db')
+                    self.conf.addoption('webDav', 'enable', "True")
+                else:
+                    self.conf.addoption('webDav', 'enable', "False")
+                    self.davOffButton.isChecked()
         else:
             self.conf.addoption('webDav', 'enable', "False")
         self.conf.addoption('webDav', 'username', self.conf.encrypt(self.davNameEdit.text()))
         self.conf.addoption('webDav', 'password', self.conf.encrypt(self.davPasswordEdit.text()))
         self.conf.addoption('webDav', 'url', self.conf.encrypt(self.davUrlEdit.text()))
         self.accept()
+
+    def chekDbUsed(self):
+        sql = "select * from t_base_task"
+        taskCount = self.sqlite.getCount(sql)
+        sql = "select * from t_base_node"
+        nodeCount = self.sqlite.getCount(sql)
+        if taskCount!= 0 or nodeCount!= 0:
+            return False
+        else:
+            return True
 
