@@ -152,6 +152,7 @@ class Ui_taskWidget(object):
 "    background-color: rgba(209, 209, 209, 90);\n"
 "}")
         self.taskListWidget.setObjectName("taskListWidget")
+        self.taskListWidget.verticalScrollBar().setStyleSheet("QScrollBar{width:3px;}")
         self.verticalLayout_4.addWidget(self.taskListWidget)
         self.stackedWidget.addWidget(self.page)
         self.page_2 = QtWidgets.QWidget()
@@ -542,6 +543,7 @@ class Ui_taskWidget(object):
 "    background-color: rgba(209, 209, 209, 90);\n"
 "}")
         self.dayTaskListWidget.setObjectName("dayTaskListWidget")
+        self.dayTaskListWidget.verticalScrollBar().setStyleSheet("QScrollBar{width:3px;}")
         self.verticalLayout.addWidget(self.dayTaskListWidget)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
 

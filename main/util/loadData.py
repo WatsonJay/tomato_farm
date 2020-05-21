@@ -13,7 +13,7 @@ from util.webDavService import webDavService
 
 
 class sqlite:
-    def __init__(self,filePath):
+    def __init__(self, filePath):
         self.file = filePath
         self.path = os.path.dirname(os.path.realpath(sys.argv[0]))
         log = logger()
@@ -21,7 +21,7 @@ class sqlite:
         self.confsql = log.getlogger('conf')
         self.webDav = webDavService()
         try:
-            self.conn = sqlite3.connect(self.path+self.file, timeout=5)
+            self.conn = sqlite3.connect(self.path + self.file, timeout=5)
             if (self.conn is None):
                 raise Exception("dbfile :" + self.file + "is not found or connect error ! ")
             else:
@@ -31,7 +31,7 @@ class sqlite:
             self.confsql.error(e)
             raise e
 
-    #以字典方式返回结果（可考虑替换为高度优化的sqlite3.Row类型）
+    # 以字典方式返回结果（可考虑替换为高度优化的sqlite3.Row类型）
     def dict_factory(self, cursor, row):
         d = {}
         for idx, col in enumerate(cursor.description):
@@ -43,11 +43,11 @@ class sqlite:
         args = self.turnArray(args)
         self.out(sql, args)
         cursor = self.conn.cursor()
-        res = cursor.execute(sql, args).fetchall()#大数据量时改造，确保内存
+        res = cursor.execute(sql, args).fetchall()  # 大数据量时改造，确保内存
         return res
 
-    #执行sql
-    def execute(self,sql,*args):
+    # 执行sql
+    def execute(self, sql, *args):
         try:
             args = self.turnArray(args)
             self.out(sql, args)
@@ -77,7 +77,7 @@ class sqlite:
             raise e
 
     # 查询结果为单str
-    def resToString(self,sql,*args):
+    def resToString(self, sql, *args):
         try:
             args = self.turnArray(args)
             self.out(sql, args)
@@ -92,21 +92,21 @@ class sqlite:
             self.confsql.error(e)
             raise e
 
-        #关闭连接
+        # 关闭连接
 
-    #关闭连接
-    def close(self,conn=None):
+    # 关闭连接
+    def close(self, conn=None):
         try:
             if (not conn is None):
                 conn.close()
-                self.conn=None
+                self.conn = None
             self.confsql.info("database is closed")
         except Exception as e:
             self.confsql.error(e)
             self.conn = None
 
-    #格式化参数
-    def turnArray(self,args):
+    # 格式化参数
+    def turnArray(self, args):
         try:
             # args ([1, 2, 3], ) list传入型 exe("select x x",[ 1, 2, 3]) len(args)=1 && type(args[0])=list
             # return [1, 2, 3]
@@ -125,5 +125,5 @@ class sqlite:
     def out(self, outStr, *args):
         for var in args:
             if (var):
-                outStr = outStr + ','  + str(var)
-            self.confsql.debug('runed sql:'+outStr)
+                outStr = outStr + ',' + str(var)
+            self.confsql.debug('runed sql:' + outStr)

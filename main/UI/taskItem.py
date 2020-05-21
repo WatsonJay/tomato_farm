@@ -13,7 +13,7 @@ class Ui_taskItem(object):
         taskItem.setObjectName("taskItem")
         taskItem.resize(381, 50)
         taskItem.setMinimumSize(QtCore.QSize(381, 50))
-        taskItem.setMaximumSize(QtCore.QSize(381, 50))
+        taskItem.setMaximumSize(QtCore.QSize(16777215, 50))
         taskItem.setSizeIncrement(QtCore.QSize(0, 0))
         taskItem.setBaseSize(QtCore.QSize(0, 0))
         taskItem.setStyleSheet("#taskItem{\n"

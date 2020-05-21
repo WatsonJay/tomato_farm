@@ -66,6 +66,7 @@ class Ui_marketWidget(object):
 "    background-color: rgba(209, 209, 209, 90);\n"
 "}")
         self.listWidget.setObjectName("listWidget")
+        self.listWidget.verticalScrollBar().setStyleSheet("QScrollBar{width:3px;}")
         self.verticalLayout.addWidget(self.listWidget)
         self.horizontalLayout_3.addLayout(self.verticalLayout)
         self.stackedWidget = QtWidgets.QStackedWidget(marketWidget)

@@ -7,6 +7,7 @@ import datetime
 import sys
 import uuid
 
+from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSignal, QTimer
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QCheckBox, QSystemTrayIcon, QMenu, QAction, QDialog
@@ -44,6 +45,10 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
     def __init__(self, parent=None):
         super(mainWindowImpl, self).__init__(parent)
         self.setupUi(self)
+        self.centralwidget.setMouseTracking(True)
+        self.setMouseTracking(True)
+        self.mainWidget.setMouseTracking(True)
+        self.windowBar.setMouseTracking(True)
         self.conf = config()
         self.closeNow = True
         self.task = {}
@@ -117,6 +122,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.pauseTimerButton.clicked.connect(self.pauseTask)
         self.stopTimerButton.clicked.connect(self.stopTask)
         self.miniSizeButton.clicked.connect(self.miniSize)
+        self.sizePushButton.clicked.connect(self.windowSizeChange)
         self.timer.timeout.connect(self.taskStageShow)
 
     #刷新配置文件信息
@@ -161,7 +167,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             if self.task['pause'] == 0:
                 self.timer.start(1000)
         self.miniBar.hide()
-        self.show()
+        self.show(True)
 
     #设置
     def setting(self):
@@ -227,6 +233,7 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
                 if reply == QMessageBox.No:
                     sql = "Update t_task_link_date set is_doing = 0 where task_id = ?"
                     self.sqlite.execute(sql, data[0]['id'])
+                    self.firstWidget.refreshAll()
                     return
                 else:
                     self.taskStart(data[0])
@@ -301,14 +308,17 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         else:
             self.task['current_time_left'] -= 1
             if self.task['task_stage'] == '工作中':
-                if self.timeBar.value() < self.timeBar.maximum() * 3/4 and self.timeBar.value() > self.timeBar.maximum() * 1/2:
+                if self.timeBar.value() < self.timeBar.maximum() * 4/5 and self.timeBar.value() > self.timeBar.maximum() * 3/5:
                     jpg = QPixmap(":/icon/tomato-2.png").scaled(self.tomatoPicLabel.width(),self.tomatoPicLabel.height())
                     self.tomatoPicLabel.setPixmap(jpg)
-                if self.timeBar.value() < self.timeBar.maximum() * 1/2 and self.timeBar.value() > self.timeBar.maximum() * 1/4:
+                if self.timeBar.value() < self.timeBar.maximum() * 3/5 and self.timeBar.value() > self.timeBar.maximum() * 2/4:
                     jpg = QPixmap(":/icon/tomato-3.png").scaled(self.tomatoPicLabel.width(),self.tomatoPicLabel.height())
                     self.tomatoPicLabel.setPixmap(jpg)
-                if self.timeBar.value() < self.timeBar.maximum() * 1/4 :
+                if self.timeBar.value() < self.timeBar.maximum() * 2/5 and self.timeBar.value() > self.timeBar.maximum() * 1/5:
                     jpg = QPixmap(":/icon/tomato-4.png").scaled(self.tomatoPicLabel.width(),self.tomatoPicLabel.height())
+                    self.tomatoPicLabel.setPixmap(jpg)
+                if self.timeBar.value() < self.timeBar.maximum() * 1/5 :
+                    jpg = QPixmap(":/icon/tomato.png").scaled(self.tomatoPicLabel.width(),self.tomatoPicLabel.height())
                     self.tomatoPicLabel.setPixmap(jpg)
         self.timeLcd.display("%d:%02d" % (self.task['current_time_left']/60,self.task['current_time_left'] % 60))
         self.timeBar.setValue(self.task['current_time_left'])
@@ -393,10 +403,11 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
             self.confmain.error(e)
 
     # 重写打开事件
-    def show(self):
+    def show(self,mini=False):
         super(mainWindowImpl, self).show()
         self.checkOverdue()
-        self.checkExceptTask()
+        if not mini:
+            self.checkExceptTask()
         return self
 
     # 密码方式打开
@@ -453,6 +464,18 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
                 event.accept()
                 self.mSysTrayIcon.hide()
 
+    def windowSizeChange(self):
+        icon = QIcon()
+        if self.isMaximized():
+            self.showNormal()
+            icon.addPixmap(QPixmap(":/icon/maxSize.png"), QIcon.Normal, QIcon.Off)
+            self.sizePushButton.setIcon(icon)
+            self.sizePushButton.setIconSize(QtCore.QSize(10, 10))
+        else:
+            self.showMaximized()
+            icon.addPixmap(QPixmap(":/icon/norSize.png"), QIcon.Normal, QIcon.Off)
+            self.sizePushButton.setIcon(icon)
+            self.sizePushButton.setIconSize(QtCore.QSize(10, 10))
 
 
 

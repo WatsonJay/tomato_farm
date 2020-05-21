@@ -25,6 +25,7 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
     def __init__(self, parent=None):
         super(memoWidgetImpl, self).__init__(parent)
         self.setupUi(self)
+        self.setMouseTracking(True)
         log = logger()
         self.tempNodes = []  # 日历创建临时节点存储
         self.memoList = []
@@ -306,7 +307,6 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             memo = self.checkMemoOpen(node.nodeData["memo_id"])
             memo.close()
 
-
     # 节点信息检查
     def nodeInfo(self, node, type):
         parent_id, date = "", ""
@@ -452,7 +452,7 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             if datas != None and len(datas) > 0:
                 memoView.textEdit.setHtml(datas[0]['memo_context'])
             sql = "select * from t_base_node where memo_id = ?"
-            node = self.sqlite.executeQuery(sql,id)
+            node = self.sqlite.executeQuery(sql, id)
             if node != None and len(node) > 0:
                 memoView.data = node[0]
                 memoView.setWindowTitle(memoView.data['node_name'])
@@ -569,7 +569,6 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
         visiable = self.searchWidget.isVisible()
         self.searchWidget.setVisible(not visiable)
 
-
     # 搜索
     def fileSearch(self):
         if self.windowCheck():
@@ -591,14 +590,15 @@ class memoWidgetImpl(QWidget, Ui_memoWidget, tipImpl):
             data = sub.data
             if data['node_name'] != '(无标题)' or data['node_name'] != '':
                 sql = "replace into t_base_node (id,node_name,is_folder,parent_id,connect_date,memo_id) values (?,?,?,?,?,?)"
-                self.sqlite.execute(sql, [data['id'], data['node_name'], data['is_folder'], data['parent_id'], data['connect_date'],data['memo_id']])
+                self.sqlite.execute(sql, [data['id'], data['node_name'], data['is_folder'], data['parent_id'],
+                                          data['connect_date'], data['memo_id']])
                 sql = "replace into t_memo_detail (id, memo_context, memo_temp) values (?,?,?)"
-                self.sqlite.execute(sql,[data['memo_id'],sub.textEdit.toHtml(),sub.textEdit.toPlainText()[:50]])
+                self.sqlite.execute(sql, [data['memo_id'], sub.textEdit.toHtml(), sub.textEdit.toPlainText()[:50]])
             else:
                 self.Tips("请输入标题")
             sub.textEdit.document().setModified(False)
 
-    #统计当前文章字数
+    # 统计当前文章字数
     def articleCountFun(self):
         try:
             sub = self.mdiArea.activeSubWindow().widget()

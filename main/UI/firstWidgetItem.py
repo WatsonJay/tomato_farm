@@ -14,6 +14,7 @@ class Ui_firstWidgetItem(object):
         firstWidgetItem.setObjectName("firstWidgetItem")
         firstWidgetItem.resize(381, 50)
         firstWidgetItem.setMinimumSize(QtCore.QSize(381, 50))
+        firstWidgetItem.setMaximumSize(QtCore.QSize(16777215, 50))
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(firstWidgetItem)
         self.horizontalLayout_2.setContentsMargins(-1, 3, -1, 3)
         self.horizontalLayout_2.setSpacing(0)

@@ -25,6 +25,7 @@ class firstWidgetImpl(QWidget, Ui_homeWidget, tipImpl):
     def __init__(self, parent=None):
         super(firstWidgetImpl, self).__init__(parent)
         self.setupUi(self)
+        self.setMouseTracking(True)
         log = logger()
         self.taskRan = False
         self.messageView = messageWidgetImpl()

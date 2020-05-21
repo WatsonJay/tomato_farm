@@ -23,6 +23,7 @@ class taskWidgetImpl(QWidget, Ui_taskWidget, tipImpl):
     def __init__(self, parent=None):
         super(taskWidgetImpl, self).__init__(parent)
         self.setupUi(self)
+        self.setMouseTracking(True)
         log = logger()
         self.conftask = log.getlogger('gui')
         self.sqlite = sqlite('/config/tomato.db')

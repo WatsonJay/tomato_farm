@@ -14,7 +14,7 @@ class memoViewImpl(QWidget, Ui_memoView, tipImpl):
     # 信号槽
     closeSignal = pyqtSignal()
     countSignal = pyqtSignal()
-    titleChangeSignal = pyqtSignal(str,str)
+    titleChangeSignal = pyqtSignal(str, str)
 
     # 初始化
     def __init__(self, parent=None):
@@ -48,7 +48,7 @@ class memoViewImpl(QWidget, Ui_memoView, tipImpl):
         self.setWindowTitle(self.title)
         self.data['node_name'] = self.title
         self.titleLabel.setVisible(True)
-        self.titleChangeSignal.emit(self.data['id'],self.title)
+        self.titleChangeSignal.emit(self.data['id'], self.title)
 
     def closeEvent(self, event):
         if self.textEdit.document().isModified():

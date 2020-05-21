@@ -12,6 +12,7 @@ from Crypto.Cipher import AES
 from binascii import b2a_hex, a2b_hex
 from util.logger import logger
 
+
 class config:
     def __init__(self, key=')_9-+klo@c4t$k$w'):
         log = logger()
@@ -19,10 +20,10 @@ class config:
         self.conflog = log.getlogger('conf')
         self.key = key.encode('utf-8')
         self.mode = AES.MODE_CBC
-        self.dirs = self.path+"/config/"
+        self.dirs = self.path + "/config/"
         self.fileName = "config.ini"
 
-    def remove_BOM(self,config_path):
+    def remove_BOM(self, config_path):
         content = open(config_path).read()
         content = re.sub(r"\xfe\xff", "", content)
         content = re.sub(r"\xff\xfe", "", content)
@@ -34,11 +35,11 @@ class config:
         config = configparser.ConfigParser()
         if not os.path.exists(self.dirs):
             os.makedirs(self.dirs)
-        if not os.path.exists(self.dirs+self.fileName):
-            f = open(self.dirs+self.fileName, 'w')
+        if not os.path.exists(self.dirs + self.fileName):
+            f = open(self.dirs + self.fileName, 'w')
             f.close()
         try:
-            config_path = self.dirs+self.fileName
+            config_path = self.dirs + self.fileName
             self.remove_BOM(config_path)
             config.read(config_path, encoding="utf-8")
             self.conflog.debug("配置文件已读取")
@@ -48,9 +49,9 @@ class config:
             return config
 
     # 写入配置文件
-    def writeConfig(self,config):
+    def writeConfig(self, config):
         try:
-            config.write(open(self.dirs+self.fileName, "w", encoding='utf-8'))
+            config.write(open(self.dirs + self.fileName, "w", encoding='utf-8'))
             self.conflog.debug("配置文件已写入")
         except Exception as e:
             self.conflog.error(e)
@@ -60,7 +61,7 @@ class config:
         config = self.readConfig()
         if not config.has_section(section):  # 检查是否存在section
             config.add_section(section)
-            self.conflog.debug("追加配置组："+section)
+            self.conflog.debug("追加配置组：" + section)
         self.writeConfig(config)
 
     # 新增option
@@ -78,13 +79,13 @@ class config:
             self.conflog.debug("删除配置组：" + section)
         self.writeConfig(config)
 
-    #获得配置
+    # 获得配置
     def getOption(self, section, option):
         config = self.readConfig()
         if config.has_section(section):
             word = config.get(section, option)
             self.conflog.debug("获取配置组：" + section + "下" + option + "的配置")
-        else :
+        else:
             word = ''
         return word
 
@@ -94,9 +95,8 @@ class config:
         word = config.sections()
         return word
 
-
     # 字符串切割成数组
-    def splitword(self,word):
+    def splitword(self, word):
         if word != '':
             list = word.split(',')
         else:
@@ -111,10 +111,10 @@ class config:
             word = ''
         return word
 
-    #aes加密
-    def encrypt(self,text):
+    # aes加密
+    def encrypt(self, text):
         try:
-            cryptor = AES.new(self.key,self.mode,self.key)
+            cryptor = AES.new(self.key, self.mode, self.key)
             length = 16
             count = len(text)
             add = 0
@@ -130,7 +130,7 @@ class config:
             return ''
 
     # aes解密
-    def decrypt(self,text):
+    def decrypt(self, text):
         try:
             cryptor = AES.new(self.key, self.mode, self.key)
             plain_text = bytes.decode(cryptor.decrypt(a2b_hex(bytes(text, encoding='utf8'))), encoding='utf8')

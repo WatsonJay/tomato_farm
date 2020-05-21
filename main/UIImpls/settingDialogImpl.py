@@ -26,8 +26,7 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
         self.buttonBox.accepted.connect(self.saveConf)
         self.sqlite = sqlite('/config/tomato.db')
 
-
-    #加载配置
+    # 加载配置
     def loadConf(self):
         if self.conf.decrypt(self.conf.getOption('system', 'islock')) == "True":
             self.sysLockOnButton.setChecked(True)
@@ -123,8 +122,7 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
         taskCount = self.sqlite.getCount(sql)
         sql = "select * from t_base_node"
         nodeCount = self.sqlite.getCount(sql)
-        if taskCount!= 0 or nodeCount!= 0:
+        if taskCount != 0 or nodeCount != 0:
             return False
         else:
             return True
-

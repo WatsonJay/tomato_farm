@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icon">
+    <file>maxSize.png</file>
+    <file>norSize.png</file>
     <file>todo.png</file>
     <file>copy.png</file>
     <file>cut.png</file>
@@ -60,7 +62,7 @@
     <file>info.png</file>
     <file>setting.png</file>
     <file>user.png</file>
-    <file>close_16.png</file>
-    <file>miniShow_16.png</file>
+    <file>close.png</file>
+    <file>miniShow.png</file>
   </qresource>
 </RCC>

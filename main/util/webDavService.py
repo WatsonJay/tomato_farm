@@ -26,9 +26,9 @@ class webDavService:
 
         self.options = {
             'webdav_hostname': self.conf.decrypt(self.conf.getOption('webDav', 'url')),
-            'webdav_login':    self.conf.decrypt(self.conf.getOption('webDav', 'username')),
+            'webdav_login': self.conf.decrypt(self.conf.getOption('webDav', 'username')),
             'webdav_password': self.conf.decrypt(self.conf.getOption('webDav', 'password')),
-            #'webdav_root': '/dav/',
+            # 'webdav_root': '/dav/',
             'disable_check': True,
         }
         self.client = Client(self.options)
@@ -47,20 +47,22 @@ class webDavService:
             self.confwebdav.error(e)
             pass
 
-    def upload(self,file):
+    def upload(self, file):
         try:
             self.loadBaseInfo()
             self.creatDir()
             self.clean()
-            self.client.upload(remote_path= "tomato_db/tomato.db", local_path=os.path.dirname(os.path.realpath(sys.argv[0])) + file)
+            self.client.upload(remote_path="tomato_db/tomato.db",
+                               local_path=os.path.dirname(os.path.realpath(sys.argv[0])) + file)
         except Exception as e:
             self.confwebdav.error(e)
             pass
 
-    def download(self,file):
+    def download(self, file):
         try:
             self.loadBaseInfo()
-            self.client.download(remote_path= "tomato_db/tomato.db", local_path=os.path.dirname(os.path.realpath(sys.argv[0])) + file)
+            self.client.download(remote_path="tomato_db/tomato.db",
+                                 local_path=os.path.dirname(os.path.realpath(sys.argv[0])) + file)
         except Exception as e:
             self.confwebdav.error(e)
             pass

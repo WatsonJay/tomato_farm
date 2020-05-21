@@ -21,6 +21,7 @@ class statisWidgetImpl(QWidget, Ui_statisWidget, tipImpl):
     def __init__(self, parent=None):
         super(statisWidgetImpl, self).__init__(parent)
         self.setupUi(self)
+        self.setMouseTracking(True)
         log = logger()
         self.confstatis = log.getlogger('gui')
         self.sqlite = sqlite('/config/tomato.db')

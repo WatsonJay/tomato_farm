@@ -129,7 +129,48 @@ QPushButton::pressed{
          </property>
          <property name="icon">
           <iconset resource="../icon/icons.qrc">
-           <normaloff>:/icon/miniShow_16.png</normaloff>:/icon/miniShow_16.png</iconset>
+           <normaloff>:/icon/miniShow.png</normaloff>:/icon/miniShow.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>10</width>
+           <height>10</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sizePushButton">
+         <property name="minimumSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+	background:#6CE872;
+}
+QPushButton::hover{
+	background:#53b357;
+}
+QPushButton::pressed{
+	background:#53b357;
+}
+</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../icon/icons.qrc">
+           <normaloff>:/icon/maxSize.png</normaloff>:/icon/maxSize.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -182,7 +223,7 @@ QPushButton::pressed{
          </property>
          <property name="icon">
           <iconset resource="../icon/icons.qrc">
-           <normaloff>:/icon/close_16.png</normaloff>:/icon/close_16.png</iconset>
+           <normaloff>:/icon/close.png</normaloff>:/icon/close.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -236,6 +277,12 @@ border-bottom-right-radius:7px;
              <height>0</height>
             </size>
            </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>微软雅黑 Light</family>
@@ -249,6 +296,8 @@ border-bottom-right-radius:7px;
 }
 #toolWidget&gt;QPushButton{
 	border:none;
+	text-align: left;
+	padding-left: 10px;
 }
 #toolWidget&gt;QPushButton:hover{
 	background:#c0d5d6;
@@ -289,9 +338,9 @@ border-bottom-right-radius:7px;
                <font>
                 <family>Microsoft YaHei UI</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>75</weight>
                 <italic>false</italic>
-                <bold>false</bold>
+                <bold>true</bold>
                 <underline>false</underline>
                 <strikeout>false</strikeout>
                </font>
@@ -326,9 +375,9 @@ border-bottom-right-radius:7px;
                <font>
                 <family>Microsoft YaHei UI</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>75</weight>
                 <italic>false</italic>
-                <bold>false</bold>
+                <bold>true</bold>
                 <underline>false</underline>
                 <strikeout>false</strikeout>
                </font>
@@ -360,9 +409,9 @@ border-bottom-right-radius:7px;
                <font>
                 <family>Microsoft YaHei UI</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>75</weight>
                 <italic>false</italic>
-                <bold>false</bold>
+                <bold>true</bold>
                 <underline>false</underline>
                 <strikeout>false</strikeout>
                </font>
@@ -394,6 +443,10 @@ border-bottom-right-radius:7px;
                <font>
                 <family>Microsoft YaHei UI</family>
                 <pointsize>10</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
                </font>
               </property>
               <property name="text">
@@ -426,9 +479,9 @@ border-bottom-right-radius:7px;
                <font>
                 <family>Microsoft YaHei UI</family>
                 <pointsize>10</pointsize>
-                <weight>50</weight>
+                <weight>75</weight>
                 <italic>false</italic>
-                <bold>false</bold>
+                <bold>true</bold>
                 <underline>false</underline>
                 <strikeout>false</strikeout>
                </font>
@@ -574,6 +627,18 @@ QPushButton:pressed{
        </item>
        <item>
         <widget class="QWidget" name="DoingWidget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>70</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true">#DoingWidget{
 	border-top:1px solid #6d6d6d;
@@ -587,7 +652,7 @@ QPushButton:pressed{
            <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>8</number>
+           <number>18</number>
           </property>
           <property name="bottomMargin">
            <number>0</number>
@@ -1060,7 +1125,7 @@ QPushButton::pressed{
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>30</width>
+              <width>20</width>
               <height>20</height>
              </size>
             </property>

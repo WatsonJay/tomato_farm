@@ -15,7 +15,7 @@ class Ui_marketItem(object):
         marketItem.setObjectName("marketItem")
         marketItem.resize(408, 60)
         marketItem.setMinimumSize(QtCore.QSize(408, 60))
-        marketItem.setMaximumSize(QtCore.QSize(408, 60))
+        marketItem.setMaximumSize(QtCore.QSize(16777215, 60))
         self.verticalLayout = QtWidgets.QVBoxLayout(marketItem)
         self.verticalLayout.setContentsMargins(7, 4, 7, 4)
         self.verticalLayout.setSpacing(4)

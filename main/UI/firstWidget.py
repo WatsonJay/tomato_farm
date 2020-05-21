@@ -36,7 +36,7 @@ class Ui_homeWidget(object):
 "    border:none;\n"
 "    background-color: rgba(209, 209, 209, 90);\n"
 "}")
-        self.todayListWidget.verticalScrollBar().setStyleSheet("QScrollBar{width:0px;}")
+        self.todayListWidget.verticalScrollBar().setStyleSheet("QScrollBar{width:3px;}")
         self.todayListWidget.setObjectName("todayListWidget")
         self.verticalLayout.addWidget(self.todayListWidget)
         self.horizontalLayout.addLayout(self.verticalLayout)
@@ -55,7 +55,7 @@ class Ui_homeWidget(object):
 "    border:none;\n"
 "    background-color: rgba(209, 209, 209, 90);\n"
 "}")
-        self.overdueListWidget.verticalScrollBar().setStyleSheet("QScrollBar{width:0px;}")
+        self.overdueListWidget.verticalScrollBar().setStyleSheet("QScrollBar{width:3px;}")
         self.overdueListWidget.setObjectName("overdueListWidget")
         self.verticalLayout_2.addWidget(self.overdueListWidget)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
