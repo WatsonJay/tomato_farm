@@ -62,7 +62,6 @@ class mainWindowImpl(QMainWindow, Ui_MainWindow, noBorderImpl, tipImpl):
         self.checkOverdue()
         self.timer = QTimer()
 
-
         #界面初始化
         self.unlockDialog = unlockDialogImpl()
         self.settingDialog = settingDialogImpl()

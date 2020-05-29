@@ -20,6 +20,9 @@ class sqlite:
         self.conf = config()
         self.confsql = log.getlogger('conf')
         self.webDav = webDavService()
+        self.connect()
+
+    def connect(self):
         try:
             self.conn = sqlite3.connect(self.path + self.file, timeout=5)
             if (self.conn is None):
@@ -27,6 +30,13 @@ class sqlite:
             else:
                 self.conn.row_factory = self.dict_factory
                 self.confsql.info("connect successed")
+        except Exception as e:
+            self.confsql.error(e)
+            raise e
+
+    def disconnect(self):
+        try:
+            self.conn.close()
         except Exception as e:
             self.confsql.error(e)
             raise e

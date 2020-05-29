@@ -90,6 +90,7 @@ class settingDialogImpl(QDialog, Ui_settingDialog, noBorderImpl, tipImpl):
             webDav = webDavService()
             if self.chekDbUsed():
                 webDav.download('/config/tomato.db')
+                self.conf.addoption('webDav', 'enable', "True")
             else:
                 msgBox = QMessageBox()
                 msgBox.setWindowTitle('文件存在差异')

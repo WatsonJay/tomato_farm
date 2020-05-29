@@ -24,9 +24,11 @@ class webDavService:
         self.client = None
 
     def loadBaseInfo(self):
-
+        url = self.conf.decrypt(self.conf.getOption('webDav', 'url'))
+        if url.endswith("/"):
+            url = url[0:-1]
         self.options = {
-            'webdav_hostname': self.conf.decrypt(self.conf.getOption('webDav', 'url')),
+            'webdav_hostname': url,
             'webdav_login': self.conf.decrypt(self.conf.getOption('webDav', 'username')),
             'webdav_password': self.conf.decrypt(self.conf.getOption('webDav', 'password')),
             # 'webdav_root': '/dav/',
