@@ -154,7 +154,6 @@ class Ui_MainWindow(object):
 "#toolWidget>QPushButton{\n"
 "    border:none;\n"
 "    text-align: left;\n"
-"    padding-left: 10px;\n"
 "}\n"
 "#toolWidget>QPushButton:hover{\n"
 "    background:#c0d5d6;\n"
@@ -180,6 +179,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         font.setStrikeOut(False)
         self.firstPageButton.setFont(font)
+        self.firstPageButton.setStyleSheet("padding-left: 10px;")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/icon/home_16.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.firstPageButton.setIcon(icon3)
@@ -199,6 +199,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         font.setStrikeOut(False)
         self.statisButton.setFont(font)
+        self.statisButton.setStyleSheet("padding-left: 10px;")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/icon/stati.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.statisButton.setIcon(icon4)
@@ -217,6 +218,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         font.setStrikeOut(False)
         self.taskButton.setFont(font)
+        self.taskButton.setStyleSheet("padding-left: 10px;")
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap(":/icon/task.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.taskButton.setIcon(icon5)
@@ -234,6 +236,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         font.setStrikeOut(False)
         self.memoButton.setFont(font)
+        self.memoButton.setStyleSheet("padding-left: 10px;")
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/icon/dialog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.memoButton.setIcon(icon6)
@@ -253,6 +256,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         font.setStrikeOut(False)
         self.marketButton.setFont(font)
+        self.marketButton.setStyleSheet("padding-left: 10px;")
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap(":/icon/market.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.marketButton.setIcon(icon7)
@@ -270,6 +274,7 @@ class Ui_MainWindow(object):
         self.settingButton.setMaximumSize(QtCore.QSize(25, 25))
         self.settingButton.setStyleSheet("QPushButton{\n"
 "    border:none;\n"
+"    text-align: center;\n"
 "}\n"
 "QPushButton:pressed{\n"
 "    border:1px solid white;\n"
@@ -286,6 +291,7 @@ class Ui_MainWindow(object):
         self.introButton.setMaximumSize(QtCore.QSize(25, 25))
         self.introButton.setStyleSheet("QPushButton{\n"
 "    border:none;\n"
+"    text-align: center;\n"
 "}\n"
 "QPushButton:pressed{\n"
 "    border:1px solid white;\n"
@@ -307,7 +313,6 @@ class Ui_MainWindow(object):
         self.stackedWidget.setFrameShadow(QtWidgets.QFrame.Plain)
         self.stackedWidget.setObjectName("stackedWidget")
         self.horizontalLayout_3.addWidget(self.stackedWidget)
-        self.horizontalLayout_3.setStretch(0, 1)
         self.horizontalLayout_3.setStretch(1, 9)
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
         self.DoingWidget = QtWidgets.QWidget(self.mainWidget)

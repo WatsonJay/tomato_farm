@@ -31,7 +31,7 @@ class Ui_InfoDialog(object):
 "border-top-right-radius:7px;\n"
 "}\n"
 "#windowBar>QPushButton{\n"
-"border-radius:10px\n"
+"border-radius:8px\n"
 "}")
         self.windowBar.setObjectName("windowBar")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.windowBar)
@@ -50,14 +50,21 @@ class Ui_InfoDialog(object):
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
         self.closePushButton = QtWidgets.QPushButton(self.windowBar)
-        self.closePushButton.setMinimumSize(QtCore.QSize(20, 20))
-        self.closePushButton.setMaximumSize(QtCore.QSize(20, 20))
-        self.closePushButton.setStyleSheet("#closePushButton{\n"
+        self.closePushButton.setMinimumSize(QtCore.QSize(16, 16))
+        self.closePushButton.setMaximumSize(QtCore.QSize(16, 16))
+        self.closePushButton.setStyleSheet("QPushButton{\n"
 "    background:#F95D5C;\n"
-"}")
+"}\n"
+"QPushButton::hover{\n"
+"    background:#aa3e3e;\n"
+"}\n"
+"QPushButton::pressed{\n"
+"    background:#aa3e3e;\n"
+"}\n"
+"")
         self.closePushButton.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icon/close_16.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icon/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.closePushButton.setIcon(icon)
         self.closePushButton.setIconSize(QtCore.QSize(10, 10))
         self.closePushButton.setObjectName("closePushButton")

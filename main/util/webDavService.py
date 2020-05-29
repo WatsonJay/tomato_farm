@@ -18,6 +18,7 @@ class webDavService:
     def __init__(self):
         self.conf = config()
         log = logger()
+        self.path = os.path.dirname(os.path.realpath(sys.argv[0]))
         self.confwebdav = log.getlogger('webdav')
         self.options = {}
         self.client = None
@@ -53,7 +54,7 @@ class webDavService:
             self.creatDir()
             self.clean()
             self.client.upload(remote_path="tomato_db/tomato.db",
-                               local_path=os.path.dirname(os.path.realpath(sys.argv[0])) + file)
+                               local_path=self.path + file)
         except Exception as e:
             self.confwebdav.error(e)
             pass
@@ -62,7 +63,8 @@ class webDavService:
         try:
             self.loadBaseInfo()
             self.client.download(remote_path="tomato_db/tomato.db",
-                                 local_path=os.path.dirname(os.path.realpath(sys.argv[0])) + file)
+                                 local_path=self.path + file)
         except Exception as e:
             self.confwebdav.error(e)
             pass
+

@@ -297,7 +297,6 @@ border-bottom-right-radius:7px;
 #toolWidget&gt;QPushButton{
 	border:none;
 	text-align: left;
-	padding-left: 10px;
 }
 #toolWidget&gt;QPushButton:hover{
 	background:#c0d5d6;
@@ -345,6 +344,9 @@ border-bottom-right-radius:7px;
                 <strikeout>false</strikeout>
                </font>
               </property>
+              <property name="styleSheet">
+               <string notr="true">padding-left: 10px;</string>
+              </property>
               <property name="text">
                <string>首页       </string>
               </property>
@@ -382,6 +384,9 @@ border-bottom-right-radius:7px;
                 <strikeout>false</strikeout>
                </font>
               </property>
+              <property name="styleSheet">
+               <string notr="true">padding-left: 10px;</string>
+              </property>
               <property name="text">
                <string>农场统计</string>
               </property>
@@ -416,6 +421,9 @@ border-bottom-right-radius:7px;
                 <strikeout>false</strikeout>
                </font>
               </property>
+              <property name="styleSheet">
+               <string notr="true">padding-left: 10px;</string>
+              </property>
               <property name="text">
                <string>任务展板</string>
               </property>
@@ -448,6 +456,9 @@ border-bottom-right-radius:7px;
                 <underline>false</underline>
                 <strikeout>false</strikeout>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">padding-left: 10px;</string>
               </property>
               <property name="text">
                <string>日志备忘</string>
@@ -485,6 +496,9 @@ border-bottom-right-radius:7px;
                 <underline>false</underline>
                 <strikeout>false</strikeout>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">padding-left: 10px;</string>
               </property>
               <property name="text">
                <string>番茄市场</string>
@@ -539,6 +553,7 @@ border-bottom-right-radius:7px;
                 <property name="styleSheet">
                  <string notr="true">QPushButton{
 	border:none;
+	text-align: center;
 }
 QPushButton:pressed{
 	border:1px solid white;
@@ -574,6 +589,7 @@ QPushButton:pressed{
                 <property name="styleSheet">
                  <string notr="true">QPushButton{
 	border:none;
+	text-align: center;
 }
 QPushButton:pressed{
 	border:1px solid white;

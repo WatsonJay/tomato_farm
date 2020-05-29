@@ -16,6 +16,7 @@ if __name__ == '__main__':
         systemPid.write_pid()
         #界面初始化
         app = QApplication(sys.argv)
+        app.setStyle('Fusion')
         mainWindow = mainWindowImpl()
         type = ''
         if len(sys.argv)>1:

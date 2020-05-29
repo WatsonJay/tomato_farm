@@ -20,11 +20,10 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
-InfoBeforeFile=软件为测试版本，欢迎提BUG,项目地址：https://github.com/WatsonJay/tomato_farm
+InfoBeforeFile=G:\technology\python\tomato_farm\dist\info.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputBaseFilename=番茄农场
-Password=123456
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -36,8 +35,8 @@ Name: "chinesesimplified"; MessagesFile: "compiler:Languages\ChineseSimplified.i
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "F:\python\tomato_farm\dist\tomato.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\python\tomato_farm\dist\config\*"; DestDir: "{app}\./config"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "G:\technology\python\tomato_farm\dist\tomato.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "G:\technology\python\tomato_farm\dist\config\*"; DestDir: "{app}\./config"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
